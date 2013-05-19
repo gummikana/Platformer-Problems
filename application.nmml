@@ -14,9 +14,9 @@
 	
 	<!-- classpath, haxe libs -->
 	<source path="src" />
+	<source path="lib" />
 	<haxelib name="nme" />
 	<haxelib name="actuate" />
-	<haxelib name="box2d" />
 	
 	<!-- assets -->
 	<icon path="assets/nme.svg" />
