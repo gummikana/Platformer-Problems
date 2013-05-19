@@ -10,6 +10,8 @@ import box2D.dynamics.B2FixtureDef;
 import box2D.dynamics.B2World;
 import nme.events.Event;
 import nme.display.Sprite;
+import nme.events.KeyboardEvent;
+import nme.ui.Keyboard;
 
 /**
  * ...
@@ -38,10 +40,13 @@ class Game extends Sprite {
 		debugDraw.setSprite(physicsDebug);
 		debugDraw.setDrawScale(1 / Settings.PHYSICS_SCALE);
 		debugDraw.setFlags(B2DebugDraw.e_shapeBit | B2DebugDraw.e_jointBit);
+		debugDraw.setFillAlpha(0);
+		debugDraw.setLineThickness(2);
 		
 		world.setDebugDraw(debugDraw);
 		
 		addEventListener(Event.ENTER_FRAME, handleEnterFrame);
+		stage.addEventListener(KeyboardEvent.KEY_DOWN, handleKeyDown);
 		
 		reset();
 	}
@@ -67,12 +72,23 @@ class Game extends Sprite {
 		createBox(-50, Settings.STAGE_H / 2, 100, Settings.STAGE_H, false); // right
 		createBox(Settings.STAGE_W + 50, Settings.STAGE_H / 2, 100, Settings.STAGE_H, false); // left
 		
-		var body:B2Body = createBox(Settings.STAGE_W / 2, Settings.STAGE_H / 4, 50, 100, true, 1);
-		body.getFixtureList().setRestitution(1);
-		body.applyTorque(100);
+		//var body:B2Body = createBox(Settings.STAGE_W / 2, Settings.STAGE_H / 4, 50, 100, true, 1);
+		//body.getFixtureList().setRestitution(1);
+		//body.getFixtureList().setFriction(1);
+		//body.applyTorque(100);
 		
-		var pill = createPill(Settings.STAGE_W / 2, Settings.STAGE_H / 2, 50, 200, 0.1);
-		pill.applyTorque(100);
+		for ( i in 0 ... 10){
+			var pill = createPill(
+				Settings.STAGE_W / 2 + (Math.random() * 2 - 1) * 200,
+				Settings.STAGE_H / 2 + (Math.random() * 2 - 1) * 200,
+				20,
+				100,
+				0.1
+			);
+			pill.getFixtureList().setFriction(0);
+			//pill.applyTorque(100);
+			pill.setAngle(Math.random() * Math.PI * 2);
+		}
 		
 	}
 	
@@ -157,6 +173,10 @@ class Game extends Sprite {
 		body.createFixture(fixtureDefinition);
 		
 		return body;
+	}
+	
+	private function handleKeyDown(e:KeyboardEvent):Void {
+		if (e.keyCode == Keyboard.SPACE) reset();
 	}
 	
 }

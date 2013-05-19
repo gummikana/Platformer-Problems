@@ -24,8 +24,8 @@ class Main extends Sprite {
 		inited = true;
 
 		var g = new Game();
-		g.init();
 		addChild(g);
+		g.init();
 	}
 
 	/* SETUP */
