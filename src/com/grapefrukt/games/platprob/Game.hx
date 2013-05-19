@@ -26,7 +26,7 @@ class Game extends Sprite {
 	
 	public function init() {
 		
-		world = new B2World(new B2Vec2(0, 0.0), false);
+		world = new B2World(new B2Vec2(0, 9.8), false);
 		//contacts = new ContactListener();
 		//world.setContactListener(contacts);
 		//world.setContactFilter(new ContactFilter());
