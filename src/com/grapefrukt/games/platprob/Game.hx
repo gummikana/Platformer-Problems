@@ -65,7 +65,14 @@ class Game extends Sprite {
 		createBox(Settings.STAGE_W / 2, Settings.STAGE_H + 50, Settings.STAGE_W, 100, false); // bottom
 		createBox(Settings.STAGE_W / 2, -50, Settings.STAGE_W, 100, false); // top
 		createBox(-50, Settings.STAGE_H / 2, 100, Settings.STAGE_H, false); // right
-		createBox(Settings.STAGE_W+50, Settings.STAGE_H / 2, 100, Settings.STAGE_H, false); // left
+		createBox(Settings.STAGE_W + 50, Settings.STAGE_H / 2, 100, Settings.STAGE_H, false); // left
+		
+		var body:B2Body = createBox(Settings.STAGE_W / 2, Settings.STAGE_H / 4, 50, 100, true, 1);
+		body.getFixtureList().setRestitution(1);
+		body.applyTorque(100);
+		
+		var pill = createPill(Settings.STAGE_W / 2, Settings.STAGE_H / 2, 50, 200, 0.1);
+		pill.applyTorque(100);
 		
 	}
 	
