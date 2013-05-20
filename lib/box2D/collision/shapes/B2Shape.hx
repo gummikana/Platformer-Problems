@@ -146,12 +146,15 @@ class B2Shape
 	{
 		m_type = e_unknownShape;
 		m_radius = B2Settings.b2_linearSlop;
+		m_color = -1;
 	}
 	
 	//virtual ~b2Shape();
 	
 	public var m_type:Int;
 	public var m_radius:Float;
+	
+	public var m_color:Int;
 	
 	/**
 	* The various collision shape types supported by Box2D.

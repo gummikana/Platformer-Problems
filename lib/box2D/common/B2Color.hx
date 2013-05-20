@@ -44,7 +44,7 @@ class B2Color
 	public var r (null, setR):Float;
 	public var g (null, setG):Float;
 	public var b (null, setB):Float;
-	public var color (getColor, null):Int;
+	public var color (getColor, setColor):Int;
 	
 	// R
 	private function setR(rr:Float) : Float{
@@ -60,8 +60,16 @@ class B2Color
 	}
 	
 	// Color
-	private function getColor() : Int{
+	private function getColor():Int{
 		return (_r << 16) | (_g << 8) | (_b);
+	}
+	
+	private function setColor(value:Int):Int {
+		_r = ((value >> 16) & 255);
+        _g = ((value >> 8) & 255);
+        _b = (value & 255);
+		
+		return getColor();
 	}
 	
 	private var _r:Int;

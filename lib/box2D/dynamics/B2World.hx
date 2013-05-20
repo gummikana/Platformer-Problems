@@ -943,7 +943,7 @@ class B2World
 	 * Get the world contact list. With the returned contact, use b2Contact::GetNext to get
 	 * the next contact in the world list. A NULL contact indicates the end of the list.
 	 * @return the head of the world contact list.
-	 * @warning contacts are 
+	 * @warning contacts are
 	 */
 	public function getContactList():B2Contact
 	{
@@ -1594,6 +1594,8 @@ class B2World
 	}
 	
 	public function drawShape(shape:B2Shape, xf:B2Transform, color:B2Color) : Void{
+	
+		if (shape.m_color != -1) color.color = shape.m_color;
 		
 		switch (shape.m_type)
 		{
