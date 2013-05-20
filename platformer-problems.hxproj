@@ -17,7 +17,7 @@
   <classpaths>
     <class path="src" />
     <class path="lib" />
-    <class path="C:\Motion-Twin\haxe/lib\nme/3,5,5/" />
+    <class path="D:\files\tools\sdks\haxe-nme\haxe/lib\nme/3,5,5/" />
     <class path="bin/flash/haxe" />
   </classpaths>
   <!-- Build options -->

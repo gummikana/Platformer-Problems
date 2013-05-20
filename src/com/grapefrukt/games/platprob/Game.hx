@@ -77,6 +77,8 @@ class Game extends Sprite {
 		// create screen bounds
 		PhysUtils.createBounds(world, Settings.BOUNDS_FRICTION, Settings.BOUNDS_RESTITUTION);
 		
+		Level.load(world, "level");
+		
 		player = new Player(world);
 		
 	}
