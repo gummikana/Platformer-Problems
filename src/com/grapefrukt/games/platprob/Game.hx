@@ -11,6 +11,7 @@ import com.grapefrukt.utils.KeyInputUtil;
 import nme.display.Sprite;
 import nme.events.Event;
 import nme.events.KeyboardEvent;
+import nme.Lib;
 import nme.ui.Keyboard;
 
 /**
@@ -74,13 +75,9 @@ class Game extends Sprite {
 		}
 		
 		// create screen bounds
-		PhysUtils.createBox(world, Settings.STAGE_W / 2, Settings.STAGE_H + 50, Settings.STAGE_W, 100, false); // bottom
-		PhysUtils.createBox(world, Settings.STAGE_W / 2, -50, Settings.STAGE_W, 100, false); // top
-		PhysUtils.createBox(world, -50, Settings.STAGE_H / 2, 100, Settings.STAGE_H, false); // right
-		PhysUtils.createBox(world, Settings.STAGE_W + 50, Settings.STAGE_H / 2, 100, Settings.STAGE_H, false); // left
+		PhysUtils.createBounds(world, Settings.BOUNDS_FRICTION, Settings.BOUNDS_RESTITUTION);
 		
 		player = new Player(world);
-
 		
 	}
 	
