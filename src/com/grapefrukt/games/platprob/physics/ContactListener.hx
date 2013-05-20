@@ -29,7 +29,8 @@ class ContactListener extends B2ContactListener {
 			return;
 		}
 		
-		player.touchGround();
+		if( player != null )
+			player.touchGround();
 	}
 	
 	override public function postSolve(contact:B2Contact, impulse:B2ContactImpulse):Void {

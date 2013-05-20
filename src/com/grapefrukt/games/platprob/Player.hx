@@ -12,7 +12,9 @@ import nme.Lib;
 class Player {
 	
 	public var body(default, null):B2Body;
+	public var wheel(default, null):B2Body;
 	public var isOnGround(default, null):Bool;
+	public var keyPressed:Bool;
 	
 	// stats
 	public var jumpTime:Int;
@@ -22,9 +24,16 @@ class Player {
 	public var jumpHeightStart:Float;
 	
 	public function new(world:B2World) {
-		body = PhysUtils.createBoxInMeters(world, 10, 10, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT, true, Settings.PLAYER_FRICTION, Settings.PLAYER_RESTITUTION, Settings.PLAYER_DENSITY);
+		// body = PhysUtils.createBoxInMeters(world, 10, 10, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT, true, Settings.PLAYER_FRICTION, Settings.PLAYER_RESTITUTION, Settings.PLAYER_DENSITY);
+		var body_t = PhysUtils.createBoxInMeters(world, 8.5, 10, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT , true );
+		var body_parts = PhysUtils.createPlayerInMeters(world, 10, 10, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT, true, Settings.PLAYER_FRICTION, Settings.PLAYER_RESTITUTION, Settings.PLAYER_DENSITY);
+		
+		body = body_parts[ 0 ];
 		body.setFixedRotation( Settings.PLAYER_FIXED_ROTATION );
-		body.setUserData(this);
+		// body.setUserData(this);
+		
+		wheel = body_parts[ 1 ];
+		wheel.setUserData( this );
 		
 		isOnGround = false;
 		jumpTimeStart = 0;
@@ -45,6 +54,10 @@ class Player {
 				body.setAngularVelocity( ang_vel );
 			}
 		}
+		
+		if ( keyPressed == false && Settings.PLAYER_WHEEL_STOP ) { wheel.setFixedRotation( true ); wheel.setAngularVelocity( 0 ); }
+
+		if ( keyPressed ) keyPressed = false;
 	}
 	
 	public function jump() {
@@ -62,9 +75,13 @@ class Player {
 		body.setLinearVelocity(v);
 	}
 	
+	
+	
 	public function applyHorizontalMove( direction:Float )
 	{
 		body.applyForce( new B2Vec2( direction * Settings.PLATFORMING_HORIZONTAL_MOVE_VELOCITY), body.getWorldCenter() );
+		wheel.setFixedRotation( false );
+		keyPressed = true;
 	}
 	
 	public function touchGround() {
