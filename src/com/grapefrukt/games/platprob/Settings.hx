@@ -20,7 +20,7 @@ class Settings{
 	static public inline var PLATFORMING_AIR_COUNTER_MAX		:Int = 10;
 
 	static public inline var PLATFORMING_HORIZONTAL_VELOCITY_ON_GROUND:Float = 250;
-	static public inline var PLATFORMING_HORIZONTAL_VELOCITY_IN_AIR:Float = 250;
+	static public inline var PLATFORMING_HORIZONTAL_VELOCITY_IN_AIR:Float = 0.75 * 250;
 
 	static public inline var PLAYER_WHEEL_STOP			:Bool = true;
 	static public inline var PLAYER_GROUND_SLOWDOWN		:Bool = true;
