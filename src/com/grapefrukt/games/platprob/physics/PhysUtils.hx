@@ -80,7 +80,7 @@ class PhysUtils {
 		
 		var body = createPill( world, x / Settings.PHYSICS_SCALE, y / Settings.PHYSICS_SCALE, ( width_m * 0.5 ) / Settings.PHYSICS_SCALE, height_m /  Settings.PHYSICS_SCALE, density, 0, restitution );
 		
-		// wheel 
+		// wheel
 		var wheel_radius = ( width_m * 0.5 ) - 0.05;
 		var wheelDefinition = new B2BodyDef();
 		wheelDefinition.position.set(x, y + ( height_m * 0.5 - wheel_radius ) + 0.10 );
@@ -93,6 +93,7 @@ class PhysUtils {
 		}
 		
 		var circle = new B2CircleShape( wheel_radius );
+		circle.m_color = 0xff00ff;
 		
 		var fixtureDefinition = new B2FixtureDef();
 		fixtureDefinition.shape = circle;

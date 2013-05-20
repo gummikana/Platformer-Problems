@@ -43,8 +43,8 @@ class Game extends Sprite {
 		debugDraw.setSprite(physicsDebug);
 		debugDraw.setDrawScale(1 / Settings.PHYSICS_SCALE);
 		debugDraw.setFlags(B2DebugDraw.e_shapeBit | B2DebugDraw.e_jointBit);
-		debugDraw.setFillAlpha(0);
-		debugDraw.setLineThickness(2);
+		debugDraw.setFillAlpha(1);
+		debugDraw.setLineThickness(0);
 		
 		world.setDebugDraw(debugDraw);
 		
