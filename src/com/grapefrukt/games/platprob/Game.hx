@@ -30,7 +30,7 @@ class Game extends Sprite {
 	
 	public function init() {
 		
-		world = new B2World(new B2Vec2(0, 10 * 9.8), false);
+		world = new B2World(new B2Vec2(0, Settings.PHYSICS_GRAVITY ), false);
 		var contacts = new ContactListener();
 		world.setContactListener(contacts);
 		world.setContactFilter(new ContactFilter());
