@@ -19,6 +19,7 @@ class Game extends Sprite {
 
 	private var world:B2World;
 	private var physicsDebug:Sprite;
+	private var playerBody:B2Body;
 	
 	public function new() {
 		super();
@@ -26,7 +27,7 @@ class Game extends Sprite {
 	
 	public function init() {
 		
-		world = new B2World(new B2Vec2(0, 9.8), false);
+		world = new B2World(new B2Vec2(0, 10 * 9.8), false);
 		//contacts = new ContactListener();
 		//world.setContactListener(contacts);
 		//world.setContactFilter(new ContactFilter());
@@ -68,18 +69,24 @@ class Game extends Sprite {
 		createBox(Settings.STAGE_W + 50, Settings.STAGE_H / 2, 100, Settings.STAGE_H, false); // left
 		
 		var body:B2Body = createBox(Settings.STAGE_W / 2, Settings.STAGE_H / 4, 50, 100, true, 1);
-		body.getFixtureList().setRestitution(1);
-		body.applyTorque(100);
+		// body.getFixtureList().setRestitution(1);
+		body.setFixedRotation( true );
+		playerBody = body;
+		// body.applyTorque(100);
 		
-		var pill = createPill(Settings.STAGE_W / 2, Settings.STAGE_H / 2, 50, 200, 0.1);
-		pill.applyTorque(100);
+		// var pill = createPill(Settings.STAGE_W / 2, Settings.STAGE_H / 2, 50, 200, 0.1);
+		// pill.applyTorque(100);
 		
 	}
+	
 	
 	public function handleEnterFrame(e:Event) {
 		world.step(Settings.PHYSICS_STEP_DURATION, 10, 10);
 		world.clearForces();
 		world.drawDebugData();
+		
+		// playerBody.applyForce( new B2Vec2( 0, -100 ), new B2Vec2() );
+		if ( Math.random() < 0.01 ) applyJump( playerBody );
 	}
 	
 	private function createBox(x:Float, y:Float, width:Float, height:Float, dynamicBody:Bool = true, density:Float = 0):B2Body {
