@@ -80,11 +80,7 @@ class Game extends Sprite {
 		player = new Player(world);
 		
 	}
-	
-	public function applyHorizontalMove( body:B2Body, direction:Float )
-	{
-		body.applyForce( new B2Vec2( direction * Settings.PLATFORMING_HORIZONTAL_MOVE_VELOCITY), new B2Vec2() );
-	}
+
 	
 	public function handleEnterFrame(e:Event) {
 		world.step(Settings.PHYSICS_STEP_DURATION, 10, 10);
@@ -93,8 +89,8 @@ class Game extends Sprite {
 		
 		// playerBody.applyForce( new B2Vec2( 0, -100 ), new B2Vec2() );
 		if ( player.isOnGround && input.isDown(Input.JUMP, true) ) player.jump();
-		if ( input.isDown(Input.LEFT, false) ) applyHorizontalMove( player.body, -1.0 );
-		if ( input.isDown(Input.RIGHT, false) ) applyHorizontalMove( player.body, 1.0 );
+		if ( input.isDown(Input.LEFT, false) ) player.applyHorizontalMove(  -1.0 );
+		if ( input.isDown(Input.RIGHT, false) ) player.applyHorizontalMove(  1.0 );
 		
 		player.update();
 	}

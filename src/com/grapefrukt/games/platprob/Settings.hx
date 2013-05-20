@@ -17,6 +17,7 @@ class Settings{
 	static public inline var PLATFORMING_JUMP_VELOCITY	:Float = -4375;	// for 10x gravity -10000, -2000 for normal gravity
 	static public inline var PLATFORMING_HORIZONTAL_MOVE_VELOCITY:Float = 500;
 
+	static public inline var PLAYER_FIXED_ROTATION		:Bool = true;	
 	static public inline var PLAYER_WIDTH				:Float = 1.0;	// in meters
 	static public inline var PLAYER_HEIGHT				:Float = 1.8;	// in meters
 	

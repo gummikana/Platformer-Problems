@@ -23,7 +23,7 @@ class Player {
 	
 	public function new(world:B2World) {
 		body = PhysUtils.createBoxInMeters(world, 10, 10, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT, true, Settings.PLAYER_FRICTION, Settings.PLAYER_RESTITUTION, Settings.PLAYER_DENSITY);
-		body.setFixedRotation( false );
+		body.setFixedRotation( Settings.PLAYER_FIXED_ROTATION );
 		body.setUserData(this);
 		
 		isOnGround = false;
@@ -42,6 +42,11 @@ class Player {
 		jumpTimeStart = Lib.getTimer();
 		jumpHeightStart = body.getPosition().y;
 		jumpHighest = jumpHeightStart;
+	}
+	
+	public function applyHorizontalMove( direction:Float )
+	{
+		body.applyForce( new B2Vec2( direction * Settings.PLATFORMING_HORIZONTAL_MOVE_VELOCITY), body.getWorldCenter() );
 	}
 	
 	public function touchGround() {
