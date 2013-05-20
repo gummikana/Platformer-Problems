@@ -1,4 +1,4 @@
 Platformer-Problems
 ===================
 
-Platformer problems and hacks
+Platformer problems and more problems
