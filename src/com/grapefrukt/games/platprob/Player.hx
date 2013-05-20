@@ -37,7 +37,7 @@ class Player {
 	}
 	
 	public function jump() {
-		body.applyForce( new B2Vec2( 0, Settings.PLATFORMING_JUMP_VELOCITY ), new B2Vec2( 0, 0 ) );
+		body.applyForce( new B2Vec2( 0, Settings.PLATFORMING_JUMP_VELOCITY ), body.getWorldCenter() );
 		
 		jumpTimeStart = Lib.getTimer();
 		jumpHeightStart = body.getPosition().y;
