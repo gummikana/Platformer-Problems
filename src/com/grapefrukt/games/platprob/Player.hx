@@ -65,7 +65,7 @@ class Player {
 		keyPressed++;
 		if ( Settings.PLAYER_GROUND_SLOWDOWN )
 		{
-			if( keyPressed > 1 && keyPressed < Settings.PLAYER_GROUND_SLOWDOWN_LENGTH )  wheel.setAngularDamping( 0.75 );
+			if ( keyPressed > 1 && keyPressed < Settings.PLAYER_GROUND_SLOWDOWN_LENGTH ) {  wheel.setAngularDamping( 0.75 + keyPressed / Settings.PLAYER_GROUND_SLOWDOWN_LENGTH ); }
 			if( keyPressed == Settings.PLAYER_GROUND_SLOWDOWN_LENGTH ) { wheel.setFixedRotation( true ); wheel.setAngularVelocity( 0 ); }
 		}
 			

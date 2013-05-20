@@ -29,7 +29,7 @@ class Settings{
 	static public inline var PLAYER_EXTRA_DRUNK			:Bool = false;
 	
 	static public inline var PLAYER_GROUND_SLOWDOWN		:Bool = true;
-	static public inline var PLAYER_GROUND_SLOWDOWN_LENGTH:Int = 10;
+	static public inline var PLAYER_GROUND_SLOWDOWN_LENGTH:Int = 5;
 	
 	static public inline var PLAYER_FRICTION			:Float = 10;
 	static public inline var PLAYER_RESTITUTION			:Float = .1;
