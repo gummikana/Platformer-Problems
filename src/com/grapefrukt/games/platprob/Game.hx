@@ -3,8 +3,9 @@ package com.grapefrukt.games.platprob;
 import box2D.common.math.B2Vec2;
 import box2D.dynamics.B2DebugDraw;
 import box2D.dynamics.B2World;
-import nme.events.Event;
+import com.grapefrukt.utils.KeyInputUtil;
 import nme.display.Sprite;
+import nme.events.Event;
 import nme.events.KeyboardEvent;
 import nme.ui.Keyboard;
 
@@ -16,6 +17,7 @@ class Game extends Sprite {
 
 	private var world:B2World;
 	private var physicsDebug:Sprite;
+	private var input:KeyInputUtil;
 	
 	public function new() {
 		super();
@@ -39,6 +41,11 @@ class Game extends Sprite {
 		debugDraw.setLineThickness(2);
 		
 		world.setDebugDraw(debugDraw);
+		
+		input = new KeyInputUtil(stage);
+		input.map(Keyboard.LEFT, Input.LEFT);
+		input.map(Keyboard.RIGHT, Input.RIGHT);
+		input.map(Keyboard.Z, Input.JUMP);
 		
 		addEventListener(Event.ENTER_FRAME, handleEnterFrame);
 		stage.addEventListener(KeyboardEvent.KEY_DOWN, handleKeyDown);
