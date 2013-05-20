@@ -88,7 +88,7 @@ class PhysUtils {
 		wheelDefinition.position.set(x, y + ( height_m * 0.5 - wheel_radius ) + 0.10 );
 		
 		if( Settings.PLAYER_EXTRA_DRUNK )
-			wheelDefinition.position.set(x, y + ( height_m * 0.5 - wheel_radius ) + 0.15 );
+			wheelDefinition.position.set(x, y + ( height_m * 0.5 - wheel_radius ) + 0.20 );
 		
 		if (dynamicBody) {
 			wheelDefinition.type = B2Body.b2_dynamicBody;
