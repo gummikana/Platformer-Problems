@@ -77,7 +77,7 @@ class Game extends Sprite {
 		Utils.createBox(world, Settings.STAGE_W + 50, Settings.STAGE_H / 2, 100, Settings.STAGE_H, false); // left
 		
 		var body:B2Body = Utils.createBox(world, Settings.STAGE_W / 2, Settings.STAGE_H / 4, 50, 100, true, 1);
-		body.setFixedRotation( true );
+		// body.setFixedRotation( true );
 		playerBody = body;
 
 		
@@ -100,6 +100,11 @@ class Game extends Sprite {
 		body.applyForce( new B2Vec2( 0, Settings.PLATFORMING_JUMP_VELOCITY ), new B2Vec2( 0, 0 ) );
 	}
 	
+	public function applyHorizontalMove( body:B2Body, direction:Float )
+	{
+		body.applyForce( new B2Vec2( direction * Settings.PLATFORMING_HORIZONTAL_MOVE_VELOCITY), new B2Vec2() );
+	}
+	
 	public function handleEnterFrame(e:Event) {
 		world.step(Settings.PHYSICS_STEP_DURATION, 10, 10);
 		world.clearForces();
@@ -107,6 +112,8 @@ class Game extends Sprite {
 		
 		// playerBody.applyForce( new B2Vec2( 0, -100 ), new B2Vec2() );
 		if ( input.isDown(Input.JUMP, true) ) applyJump( playerBody );
+		if ( input.isDown(Input.LEFT, false) ) applyHorizontalMove( playerBody, -1.0 );
+		if ( input.isDown(Input.RIGHT, false) ) applyHorizontalMove( playerBody, 1.0 );
 	}
 	
 	private function handleKeyDown(e:KeyboardEvent):Void {
