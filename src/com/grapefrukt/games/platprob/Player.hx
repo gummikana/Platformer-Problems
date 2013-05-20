@@ -14,7 +14,7 @@ class Player {
 	public var body(default, null):B2Body;
 	public var wheel(default, null):B2Body;
 	public var isOnGround(default, null):Bool;
-	public var keyPressed:Bool;
+	public var keyPressed:Int;
 	
 	// stats
 	public var jumpTime:Int;
@@ -38,6 +38,7 @@ class Player {
 		isOnGround = false;
 		jumpTimeStart = 0;
 		jumpHeightStart = 0;
+		keyPressed = 0;
 	}
 	
 	public function update() {
@@ -55,9 +56,19 @@ class Player {
 			}
 		}
 		
+		/*
 		if ( keyPressed == false && Settings.PLAYER_WHEEL_STOP ) { wheel.setFixedRotation( true ); wheel.setAngularVelocity( 0 ); }
 
 		if ( keyPressed ) keyPressed = false;
+		*/
+		
+		keyPressed++;
+		if ( Settings.PLAYER_GROUND_SLOWDOWN )
+		{
+			if( keyPressed > 1 && keyPressed < Settings.PLAYER_GROUND_SLOWDOWN_LENGTH )  wheel.setAngularDamping( 0.75 );
+			if( keyPressed == Settings.PLAYER_GROUND_SLOWDOWN_LENGTH ) { wheel.setFixedRotation( true ); wheel.setAngularVelocity( 0 ); }
+		}
+			
 	}
 	
 	public function jump() {
@@ -81,7 +92,7 @@ class Player {
 	{
 		body.applyForce( new B2Vec2( direction * Settings.PLATFORMING_HORIZONTAL_MOVE_VELOCITY), body.getWorldCenter() );
 		wheel.setFixedRotation( false );
-		keyPressed = true;
+		keyPressed = 0;
 	}
 	
 	public function touchGround() {
