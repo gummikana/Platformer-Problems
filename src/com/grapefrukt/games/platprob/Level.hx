@@ -11,11 +11,25 @@ class Level {
 
 	public static function load(world:B2World, file:String) {
 		var data = Assets.getBitmapData("images/" + file + ".png");
+		
 		for (y in 0 ... data.height) {
 			for (x in 0 ... data.width) {
-				var pixel = data.getPixel(x, y);
-				if (pixel == 0) {
-					PhysUtils.createBox(world, x * (Settings.STAGE_W / data.width), y * (Settings.STAGE_H / data.height), (Settings.STAGE_W / data.width), (Settings.STAGE_H / data.height), false, Settings.BOUNDS_FRICTION, Settings.BOUNDS_RESTITUTION, 0);
+				var pixel = data.getPixel32(x, y);
+				var color = (pixel) & 0xffffff;
+				var alpha = ((pixel >> 24) & 0xff);
+				
+				if (alpha == 255) {
+					PhysUtils.createBox(world,
+						(x - data.width / 2) * Settings.PLAYER_WIDTH / Settings.PHYSICS_SCALE,
+						(y - data.height / 2) * Settings.PLAYER_WIDTH / Settings.PHYSICS_SCALE,
+						Settings.PLAYER_WIDTH / Settings.PHYSICS_SCALE,
+						Settings.PLAYER_WIDTH / Settings.PHYSICS_SCALE,
+						false,
+						Settings.BOUNDS_FRICTION,
+						Settings.BOUNDS_RESTITUTION,
+						0,
+						color
+					);
 				}
 			}
 		}

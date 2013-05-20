@@ -21,7 +21,7 @@ import nme.ui.Keyboard;
 class Game extends Sprite {
 
 	private var world:B2World;
-	private var physicsDebug:Sprite;
+	private var canvas:Sprite;
 	private var input:KeyInputUtil;
 	private var player:Player;
 	
@@ -36,11 +36,11 @@ class Game extends Sprite {
 		world.setContactListener(contacts);
 		world.setContactFilter(new ContactFilter());
 		
-		physicsDebug = new Sprite();
-		addChild(physicsDebug);
+		canvas = new Sprite();
+		addChild(canvas);
 		
 		var debugDraw = new B2DebugDraw();
-		debugDraw.setSprite(physicsDebug);
+		debugDraw.setSprite(canvas);
 		debugDraw.setDrawScale(1 / Settings.PHYSICS_SCALE);
 		debugDraw.setFlags(B2DebugDraw.e_shapeBit | B2DebugDraw.e_jointBit);
 		debugDraw.setFillAlpha(1);
@@ -75,7 +75,7 @@ class Game extends Sprite {
 		}
 		
 		// create screen bounds
-		PhysUtils.createBounds(world, Settings.BOUNDS_FRICTION, Settings.BOUNDS_RESTITUTION);
+		//PhysUtils.createBounds(world, Settings.BOUNDS_FRICTION, Settings.BOUNDS_RESTITUTION);
 		
 		Level.load(world, "level");
 		
@@ -97,6 +97,11 @@ class Game extends Sprite {
 		if ( input.isDown(Input.RIGHT, false) ) player.applyHorizontalMove(  1.0 );
 		
 		player.update();
+		
+		var pos = player.body.getPosition();
+		pos.multiply(1 / Settings.PHYSICS_SCALE);
+		canvas.x = Settings.STAGE_W / 2 - pos.x;
+		canvas.y = Settings.STAGE_H / 2 - pos.y;
 	}
 	
 	private function handleKeyDown(e:KeyboardEvent):Void {

@@ -22,7 +22,7 @@ class PhysUtils {
 		PhysUtils.createBox(world, Settings.STAGE_W + 50, Settings.STAGE_H / 2, 100, Settings.STAGE_H, false, friction, restitution); // left
 	}
 
-	public static function createBox(world:B2World, x:Float, y:Float, width:Float, height:Float, dynamicBody:Bool = true, friction:Float = .5, restitution:Float = .5, density:Float = 0):B2Body {
+	public static function createBox(world:B2World, x:Float, y:Float, width:Float, height:Float, dynamicBody:Bool = true, friction:Float = .5, restitution:Float = .5, density:Float = 0, color:Int = Settings.COLOR_TERRAIN):B2Body {
 		var bodyDefinition = new B2BodyDef();
 		bodyDefinition.position.set(x * Settings.PHYSICS_SCALE, y * Settings.PHYSICS_SCALE);
 		
@@ -31,7 +31,8 @@ class PhysUtils {
 		}
 		
 		var polygon = new B2PolygonShape();
-		polygon.m_color = Settings.COLOR_TERRAIN;
+		polygon.m_color = color;
+		
 		polygon.setAsBox((width / 2) * Settings.PHYSICS_SCALE, (height / 2) * Settings.PHYSICS_SCALE);
 		
 		var fixtureDefinition = new B2FixtureDef();
