@@ -14,6 +14,7 @@ class Player {
 	public var body(default, null):B2Body;
 	public var wheel(default, null):B2Body;
 	public var isOnGround(default, null):Bool;
+	public var inAirCounter:Int;
 	public var keyPressed:Int;
 	
 	// stats
@@ -36,13 +37,22 @@ class Player {
 		wheel.setUserData( this );
 		
 		isOnGround = false;
+		inAirCounter = 0;
 		jumpTimeStart = 0;
 		jumpHeightStart = 0;
 		keyPressed = 0;
 	}
 	
 	public function update() {
-		isOnGround = false;
+		// isOnGround = false;
+		
+		if ( Settings.PLATFORMING_USE_IN_AIR_COUNTER == false ) {
+			isOnGround = false;
+		} else {
+			inAirCounter++;
+			if ( inAirCounter >= Settings.PLATFORMING_AIR_COUNTER_MAX ) isOnGround = false;
+		}
+		
 		if ( jumpHeightStart != 0 && body.getPosition().y < jumpHighest ) jumpHighest = body.getPosition().y;
 		
 		if ( Settings.PLAYER_BALANCE_ROTATION )
@@ -65,7 +75,7 @@ class Player {
 		keyPressed++;
 		if ( Settings.PLAYER_GROUND_SLOWDOWN )
 		{
-			if( keyPressed > 1 && keyPressed < Settings.PLAYER_GROUND_SLOWDOWN_LENGTH )  wheel.setAngularDamping( 0.75 );
+			if ( keyPressed > 1 && keyPressed < Settings.PLAYER_GROUND_SLOWDOWN_LENGTH ) {  wheel.setAngularDamping( 0.75 + keyPressed / Settings.PLAYER_GROUND_SLOWDOWN_LENGTH ); }
 			if( keyPressed == Settings.PLAYER_GROUND_SLOWDOWN_LENGTH ) { wheel.setFixedRotation( true ); wheel.setAngularVelocity( 0 ); }
 		}
 			
@@ -88,9 +98,15 @@ class Player {
 	
 	
 	
-	public function applyHorizontalMove( direction:Float )
-	{
-		body.applyForce( new B2Vec2( direction * Settings.PLATFORMING_HORIZONTAL_MOVE_VELOCITY), body.getWorldCenter() );
+	public function applyHorizontalMove( direction:Float ) {
+		if ( isOnGround ){
+			body.applyForce( new B2Vec2( direction * Settings.PLATFORMING_HORIZONTAL_VELOCITY_ON_GROUND), body.getWorldCenter() );
+			// trace( "On ground" );
+		}
+		else {
+			body.applyForce( new B2Vec2( direction * Settings.PLATFORMING_HORIZONTAL_VELOCITY_IN_AIR), body.getWorldCenter() );
+			// trace( "on air" );
+		}
 		wheel.setFixedRotation( false );
 		keyPressed = 0;
 	}
@@ -107,6 +123,7 @@ class Player {
 			Lib.trace( Math.round(-jumpHeight / Settings.PLAYER_HEIGHT * 10) / 10 +"x");
 		}
 		isOnGround = true;
+		inAirCounter = 0;
 	}
 	
 }
