@@ -21,9 +21,10 @@ class Settings{
 	static public inline var PLAYER_WIDTH				:Float = 1.0;	// in meters
 	static public inline var PLAYER_HEIGHT				:Float = 1.8;	// in meters
 
-	static public inline var PLAYER_FIXED_ROTATION		:Bool = false;
-	static public inline var PLAYER_BALANCE_ROTATION	:Bool = true;
+	static public inline var PLAYER_FIXED_ROTATION		:Bool = true;
+	static public inline var PLAYER_BALANCE_ROTATION	:Bool = false;
 	static public inline var PLAYER_BALANCE_STRENGTH	:Float = 25.0;
+	static public inline var PLAYER_EXTRA_DRUNK			:Bool = false;
 	
 	static public inline var PLAYER_FRICTION			:Float = 1;
 	static public inline var PLAYER_RESTITUTION			:Float = .1;

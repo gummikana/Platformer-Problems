@@ -78,40 +78,21 @@ class PhysUtils {
 	public static function createPlayerInMeters(world:B2World, x:Float, y:Float, width_m:Float, height_m:Float, dynamicBody:Bool = true, friction:Float = .5, restitution:Float = .5, density:Float = 0):Array< B2Body > {
 		var result:Array< B2Body > = [];
 		
-		/*var bodyDefinition = new B2BodyDef();
-		bodyDefinition.position.set(x, y);
-		
-		if (dynamicBody) {
-			bodyDefinition.type = B2Body.b2_dynamicBody;
-		}
-		
-		var polygon = new B2PolygonShape();
-		polygon.setAsBox((width_m / 2) , (height_m / 2) );
-		
-		var fixtureDefinition = new B2FixtureDef();
-		fixtureDefinition.shape = polygon;
-		fixtureDefinition.density = density;
-		fixtureDefinition.friction = 0;
-		fixtureDefinition.restitution = restitution;
-		
-		if (!dynamicBody) {
-			fixtureDefinition.friction = friction;
-		}
-		
-		var body = world.createBody(bodyDefinition);
-		body.createFixture(fixtureDefinition);*/
-		
 		var body = createPill( world, x / Settings.PHYSICS_SCALE, y / Settings.PHYSICS_SCALE, ( width_m * 0.5 ) / Settings.PHYSICS_SCALE, height_m /  Settings.PHYSICS_SCALE, density, 0, restitution );
 		
 		// wheel 
+		var wheel_radius = ( width_m * 0.5 ) - 0.05;
 		var wheelDefinition = new B2BodyDef();
-		wheelDefinition.position.set(x, y + height_m * 0.5 + 0.05 );
+		wheelDefinition.position.set(x, y + ( height_m * 0.5 - wheel_radius ) + 0.05 );
+		
+		if( Settings.PLAYER_EXTRA_DRUNK )
+			wheelDefinition.position.set(x, y + ( height_m * 0.5 - wheel_radius ) + 0.15 );
 		
 		if (dynamicBody) {
 			wheelDefinition.type = B2Body.b2_dynamicBody;
 		}
 		
-		var circle = new B2CircleShape( width_m * 0.5 - 0.05 );
+		var circle = new B2CircleShape( wheel_radius );
 		
 		var fixtureDefinition = new B2FixtureDef();
 		fixtureDefinition.shape = circle;
@@ -123,7 +104,7 @@ class PhysUtils {
 		wheel.createFixture(fixtureDefinition);
 		
 		var jointDef = new B2RevoluteJointDef();
-		jointDef.initialize( body, wheel, new B2Vec2( x, y + height_m * 0.5 + 0.05 ) );
+		jointDef.initialize( body, wheel, new B2Vec2( x, y + ( height_m * 0.5 - wheel_radius ) + 0.05 ) );
 		
 		var joint = world.createJoint( jointDef );
 
@@ -140,7 +121,7 @@ class PhysUtils {
 		bodyDefinition.type = B2Body.b2_dynamicBody;
 		
 		var box = new B2PolygonShape();
-		box.setAsBox((radius - .3) * Settings.PHYSICS_SCALE, (length - radius * 2) * Settings.PHYSICS_SCALE);
+		box.setAsBox((radius - .3) * Settings.PHYSICS_SCALE, ( 0.5 * length - radius ) * Settings.PHYSICS_SCALE);
 		
 		var circle = new B2CircleShape(radius * Settings.PHYSICS_SCALE);
 		
@@ -156,10 +137,10 @@ class PhysUtils {
 		
 		fd.shape = circle;
 		
-		circle.setLocalPosition(Settings.psb2(0, -(length - radius * 2)));
+		circle.setLocalPosition(Settings.psb2(0, -(length * 0.5 - radius)));
 		body.createFixture(fd);
 		
-		circle.setLocalPosition(Settings.psb2(0, (length - radius * 2)));
+		circle.setLocalPosition(Settings.psb2(0, (length * 0.5 - radius)));
 		body.createFixture(fd);
 		
 		return body;
