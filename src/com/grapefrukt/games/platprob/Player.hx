@@ -1,4 +1,5 @@
 package com.grapefrukt.games.platprob;
+import box2D.common.math.B2Math;
 import box2D.common.math.B2Vec2;
 import box2D.dynamics.B2Body;
 import box2D.dynamics.B2World;
@@ -76,7 +77,14 @@ class Player {
 		if ( Settings.PLAYER_GROUND_SLOWDOWN )
 		{
 			if ( keyPressed > 1 && keyPressed < Settings.PLAYER_GROUND_SLOWDOWN_LENGTH ) {  wheel.setAngularDamping( 0.75 + keyPressed / Settings.PLAYER_GROUND_SLOWDOWN_LENGTH ); }
-			if( keyPressed == Settings.PLAYER_GROUND_SLOWDOWN_LENGTH ) { wheel.setFixedRotation( true ); wheel.setAngularVelocity( 0 ); }
+			if ( keyPressed == Settings.PLAYER_GROUND_SLOWDOWN_LENGTH ) { wheel.setFixedRotation( true ); wheel.setAngularVelocity( 0 ); }
+		}
+		
+		if( Settings.PLAYER_CLAMP_VELOCITY ) 
+		{
+			var velocity = body.getLinearVelocity();
+			if ( Math.abs( velocity.x ) > Settings.PLAYER_MAX_HORIZONTAL_VELOCITY ) { velocity.x = B2Math.clamp( velocity.x, -Settings.PLAYER_MAX_HORIZONTAL_VELOCITY, Settings.PLAYER_MAX_HORIZONTAL_VELOCITY ); }
+			body.setLinearVelocity( velocity );
 		}
 			
 	}

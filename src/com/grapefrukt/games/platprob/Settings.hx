@@ -25,6 +25,8 @@ class Settings{
 	static public inline var PLAYER_WHEEL_STOP			:Bool = true;
 	static public inline var PLAYER_GROUND_SLOWDOWN		:Bool = true;
 	static public inline var PLAYER_GROUND_SLOWDOWN_LENGTH:Int = 5;
+	static public inline var PLAYER_CLAMP_VELOCITY		:Bool = true;
+	static public inline var PLAYER_MAX_HORIZONTAL_VELOCITY:Float = 25.0;
 
 	static public inline var PLAYER_WIDTH				:Float = 1.0;	// in meters
 	static public inline var PLAYER_HEIGHT				:Float = 1.8;	// in meters
