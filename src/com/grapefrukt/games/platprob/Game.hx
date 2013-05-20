@@ -84,10 +84,6 @@ class Game extends Sprite {
 		
 	}
 	
-	public function applyJump( body:B2Body ) {
-		player.body.applyForce( new B2Vec2( 0, -10000 ), new B2Vec2( 0, 0 ) );
-	}
-	
 	public function applyHorizontalMove( body:B2Body, direction:Float )
 	{
 		body.applyForce( new B2Vec2( direction * Settings.PLATFORMING_HORIZONTAL_MOVE_VELOCITY), new B2Vec2() );
@@ -99,9 +95,11 @@ class Game extends Sprite {
 		world.drawDebugData();
 		
 		// playerBody.applyForce( new B2Vec2( 0, -100 ), new B2Vec2() );
-		if ( input.isDown(Input.JUMP, true) ) applyJump( player.body );
+		if ( player.isOnGround && input.isDown(Input.JUMP, true) ) player.jump();
 		if ( input.isDown(Input.LEFT, false) ) applyHorizontalMove( player.body, -1.0 );
 		if ( input.isDown(Input.RIGHT, false) ) applyHorizontalMove( player.body, 1.0 );
+		
+		player.update();
 	}
 	
 	private function handleKeyDown(e:KeyboardEvent):Void {
