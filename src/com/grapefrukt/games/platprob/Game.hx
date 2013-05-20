@@ -4,6 +4,8 @@ import box2D.common.math.B2Vec2;
 import box2D.dynamics.B2DebugDraw;
 import box2D.dynamics.B2World;
 import box2D.dynamics.B2Body;
+import com.grapefrukt.games.platprob.physics.ContactFilter;
+import com.grapefrukt.games.platprob.physics.ContactListener;
 import com.grapefrukt.games.platprob.physics.PhysUtils;
 import com.grapefrukt.utils.KeyInputUtil;
 import nme.display.Sprite;
@@ -29,9 +31,9 @@ class Game extends Sprite {
 	public function init() {
 		
 		world = new B2World(new B2Vec2(0, 10 * 9.8), false);
-		//contacts = new ContactListener();
-		//world.setContactListener(contacts);
-		//world.setContactFilter(new ContactFilter());
+		var contacts = new ContactListener();
+		world.setContactListener(contacts);
+		world.setContactFilter(new ContactFilter());
 		
 		physicsDebug = new Sprite();
 		addChild(physicsDebug);
