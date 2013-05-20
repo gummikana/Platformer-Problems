@@ -99,9 +99,10 @@ class Game extends Sprite {
 		player.update();
 		
 		var pos = player.body.getPosition();
+		var vel = player.body.getLinearVelocity();
 		pos.multiply(1 / Settings.PHYSICS_SCALE);
-		canvas.x = Settings.STAGE_W / 2 - pos.x;
-		canvas.y = Settings.STAGE_H / 2 - pos.y;
+		canvas.x -= (canvas.x - (Settings.STAGE_W / 2 - pos.x - vel.x * Settings.CAMERA_VELOCITY_LEAD_X)) * Settings.CAMERA_SMOOTHING;
+		canvas.y -= (canvas.y - (Settings.STAGE_H / 2 - pos.y - vel.y * Settings.CAMERA_VELOCITY_LEAD_Y)) * Settings.CAMERA_SMOOTHING;
 	}
 	
 	private function handleKeyDown(e:KeyboardEvent):Void {
