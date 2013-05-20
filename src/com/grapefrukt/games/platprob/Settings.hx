@@ -14,9 +14,12 @@ class Settings{
 	static public inline var PHYSICS_STEP_DURATION		:Float = 1 / 60;
 	static public inline var PHYSICS_GRAVITY			:Float = 10 * 9.8;	// 10 * 9.8
 	
-	static public inline var PLATFORMING_JUMP_VELOCITY	:Float = -12500;	// for 10x gravity -10000, -2000 for normal gravity
+	static public inline var PLATFORMING_JUMP_VELOCITY	:Float = -4375;	// for 10x gravity -10000, -2000 for normal gravity
 	static public inline var PLATFORMING_HORIZONTAL_MOVE_VELOCITY:Float = 500;
 
+	static public inline var PLAYER_WIDTH				:Float = 1.0;	// in meters
+	static public inline var PLAYER_HEIGHT				:Float = 1.8;	// in meters
+	
 	static public inline var PLAYER_FRICTION			:Float = 1;
 	static public inline var PLAYER_RESTITUTION			:Float = .1;
 	static public inline var PLAYER_DENSITY				:Float = 1;

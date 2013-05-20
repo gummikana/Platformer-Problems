@@ -22,8 +22,8 @@ class Player {
 	public var jumpHeightStart:Float;
 	
 	public function new(world:B2World) {
-		body = PhysUtils.createBox(world, Settings.STAGE_W / 2, Settings.STAGE_H / 4, 50, 100, true, Settings.PLAYER_FRICTION, Settings.PLAYER_RESTITUTION, Settings.PLAYER_DENSITY);
-		body.setFixedRotation( true );
+		body = PhysUtils.createBoxInMeters(world, 10, 10, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT, true, Settings.PLAYER_FRICTION, Settings.PLAYER_RESTITUTION, Settings.PLAYER_DENSITY);
+		body.setFixedRotation( false );
 		body.setUserData(this);
 		
 		isOnGround = false;
@@ -52,7 +52,7 @@ class Player {
 			jumpHeightStart = 0;
 			
 			Lib.trace( jumpTime );
-			Lib.trace( jumpHeight );
+			Lib.trace( jumpHeight / Settings.PLAYER_HEIGHT );
 		}
 		isOnGround = true;
 	}
