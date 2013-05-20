@@ -20,7 +20,7 @@ class Game extends Sprite {
 	private var world:B2World;
 	private var physicsDebug:Sprite;
 	private var input:KeyInputUtil;
-	private var playerBody:B2Body;
+	private var player:Player;
 	
 	public function new() {
 		super();
@@ -77,10 +77,7 @@ class Game extends Sprite {
 		PhysUtils.createBox(world, -50, Settings.STAGE_H / 2, 100, Settings.STAGE_H, false); // right
 		PhysUtils.createBox(world, Settings.STAGE_W + 50, Settings.STAGE_H / 2, 100, Settings.STAGE_H, false); // left
 		
-		var body:B2Body = Utils.createBox(world, Settings.STAGE_W / 2, Settings.STAGE_H / 4, 50, 100, true, 1);
-		body.setFixedRotation( true );
-		playerBody = body;
-
+		player = new Player(world);
 		
 		for ( i in 0 ... 10){
 			var pill = PhysUtils.createPill(world,
@@ -96,9 +93,8 @@ class Game extends Sprite {
 		}
 	}
 	
-	public function applyJump( body:B2Body )
-	{
-		body.applyForce( new B2Vec2( 0, -10000 ), new B2Vec2( 0, 0 ) );
+	public function applyJump( body:B2Body ) {
+		player.body.applyForce( new B2Vec2( 0, -10000 ), new B2Vec2( 0, 0 ) );
 	}
 	
 	public function handleEnterFrame(e:Event) {
@@ -107,7 +103,7 @@ class Game extends Sprite {
 		world.drawDebugData();
 		
 		// playerBody.applyForce( new B2Vec2( 0, -100 ), new B2Vec2() );
-		if ( Math.random() < 0.01 ) applyJump( playerBody );
+		if ( Math.random() < 0.01 ) applyJump( player.body );
 	}
 	
 	private function handleKeyDown(e:KeyboardEvent):Void {
