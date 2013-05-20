@@ -14,7 +14,7 @@ class Settings{
 	static public inline var PHYSICS_STEP_DURATION		:Float = 1 / 60;
 	static public inline var PHYSICS_GRAVITY			:Float = 10 * 9.8;	// 10 * 9.8
 	
-	static public inline var PLATFORMING_JUMP_VELOCITY	:Float = -4375;	// for 10x gravity -10000, -2000 for normal gravity
+	static public inline var PLATFORMING_JUMP_VELOCITY	:Float = -4375 * 2;	// for 10x gravity -10000, -2000 for normal gravity
 	static public inline var PLATFORMING_HORIZONTAL_MOVE_VELOCITY:Float = 250;
 	static public inline var PLATFORMING_CLAMP_JUMP		:Bool = false;
 

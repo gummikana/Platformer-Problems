@@ -75,8 +75,10 @@ class PhysUtils {
 		return body;
 	}
 	
-	public static function createPlayerInMeters(world:B2World, x:Float, y:Float, width_m:Float, height_m:Float, dynamicBody:Bool = true, friction:Float = .5, restitution:Float = .5, density:Float = 0):B2Body {
-		var bodyDefinition = new B2BodyDef();
+	public static function createPlayerInMeters(world:B2World, x:Float, y:Float, width_m:Float, height_m:Float, dynamicBody:Bool = true, friction:Float = .5, restitution:Float = .5, density:Float = 0):Array< B2Body > {
+		var result:Array< B2Body > = [];
+		
+		/*var bodyDefinition = new B2BodyDef();
 		bodyDefinition.position.set(x, y);
 		
 		if (dynamicBody) {
@@ -89,7 +91,7 @@ class PhysUtils {
 		var fixtureDefinition = new B2FixtureDef();
 		fixtureDefinition.shape = polygon;
 		fixtureDefinition.density = density;
-		fixtureDefinition.friction = friction;
+		fixtureDefinition.friction = 0;
 		fixtureDefinition.restitution = restitution;
 		
 		if (!dynamicBody) {
@@ -97,19 +99,21 @@ class PhysUtils {
 		}
 		
 		var body = world.createBody(bodyDefinition);
-		body.createFixture(fixtureDefinition);
+		body.createFixture(fixtureDefinition);*/
+		
+		var body = createPill( world, x / Settings.PHYSICS_SCALE, y / Settings.PHYSICS_SCALE, ( width_m * 0.5 ) / Settings.PHYSICS_SCALE, height_m /  Settings.PHYSICS_SCALE, density, 0, restitution );
 		
 		// wheel 
 		var wheelDefinition = new B2BodyDef();
-		wheelDefinition.position.set(x, y + height_m * 0.5);
+		wheelDefinition.position.set(x, y + height_m * 0.5 + 0.05 );
 		
 		if (dynamicBody) {
 			wheelDefinition.type = B2Body.b2_dynamicBody;
 		}
 		
-		var circle = new B2CircleShape( width_m * 0.5 );
+		var circle = new B2CircleShape( width_m * 0.5 - 0.05 );
 		
-		fixtureDefinition = new B2FixtureDef();
+		var fixtureDefinition = new B2FixtureDef();
 		fixtureDefinition.shape = circle;
 		fixtureDefinition.density = density;
 		fixtureDefinition.friction = friction;
@@ -118,16 +122,19 @@ class PhysUtils {
 		var wheel = world.createBody(wheelDefinition);
 		wheel.createFixture(fixtureDefinition);
 		
-		var joint = new B2RevoluteJointDef();
-		joint.initialize( body, wheel, new B2Vec2( x, y + height_m * 0.5 ) );
+		var jointDef = new B2RevoluteJointDef();
+		jointDef.initialize( body, wheel, new B2Vec2( x, y + height_m * 0.5 + 0.05 ) );
 		
-		world.createJoint( joint );
+		var joint = world.createJoint( jointDef );
+
+		result.push( body );
+		result.push( wheel );
 		
-		return body;
+		return result;
 	}
 
 	
-	public static function createPill(world:B2World, x:Float, y:Float, radius:Float, length:Float, density:Float = 0):B2Body {
+	public static function createPill(world:B2World, x:Float, y:Float, radius:Float, length:Float, density:Float = 0, friction:Float = 0.1, restitution:Float = 0.1):B2Body {
 		var bodyDefinition = new B2BodyDef();
 		bodyDefinition.position.set(x * Settings.PHYSICS_SCALE, y * Settings.PHYSICS_SCALE);
 		bodyDefinition.type = B2Body.b2_dynamicBody;
@@ -139,8 +146,8 @@ class PhysUtils {
 		
 		var fd = new B2FixtureDef();
 		fd.density = density;
-		fd.friction = .5;
-		fd.restitution = .5;
+		fd.friction = friction;
+		fd.restitution = restitution;
 		
 		var body = world.createBody(bodyDefinition);
 		

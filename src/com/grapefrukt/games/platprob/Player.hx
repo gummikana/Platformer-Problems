@@ -23,11 +23,13 @@ class Player {
 	
 	public function new(world:B2World) {
 		// body = PhysUtils.createBoxInMeters(world, 10, 10, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT, true, Settings.PLAYER_FRICTION, Settings.PLAYER_RESTITUTION, Settings.PLAYER_DENSITY);
-		body = PhysUtils.createPlayerInMeters(world, 10, 10, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT, true, Settings.PLAYER_FRICTION, Settings.PLAYER_RESTITUTION, Settings.PLAYER_DENSITY);
+		var body_parts = PhysUtils.createPlayerInMeters(world, 10, 10, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT, true, Settings.PLAYER_FRICTION, Settings.PLAYER_RESTITUTION, Settings.PLAYER_DENSITY);
+		body = body_parts[ 0 ];
 		body.setFixedRotation( Settings.PLAYER_FIXED_ROTATION );
-		body.setUserData(this);
+		// body.setUserData(this);
 		
-		
+		var wheel = body_parts[ 1 ];
+		wheel.setUserData( this );
 		
 		isOnGround = false;
 		jumpTimeStart = 0;
@@ -35,7 +37,7 @@ class Player {
 	}
 	
 	public function update() {
-		isOnGround = true;
+		isOnGround = false;
 		if ( jumpHeightStart != 0 && body.getPosition().y < jumpHighest ) jumpHighest = body.getPosition().y;
 		
 		if ( Settings.PLAYER_BALANCE_ROTATION ) 
