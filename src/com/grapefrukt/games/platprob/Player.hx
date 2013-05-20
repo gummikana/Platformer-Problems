@@ -55,6 +55,13 @@ class Player {
 		jumpHighest = jumpHeightStart;
 	}
 	
+	public function stopJump() {
+		var v = body.getLinearVelocityFromLocalPoint(body.getLocalCenter());
+		if (v.y > 0) return;
+		v.y = 0;
+		body.setLinearVelocity(v);
+	}
+	
 	public function applyHorizontalMove( direction:Float )
 	{
 		body.applyForce( new B2Vec2( direction * Settings.PLATFORMING_HORIZONTAL_MOVE_VELOCITY), body.getWorldCenter() );

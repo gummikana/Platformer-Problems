@@ -91,6 +91,8 @@ class Game extends Sprite {
 		
 		// playerBody.applyForce( new B2Vec2( 0, -100 ), new B2Vec2() );
 		if ( player.isOnGround && input.isDown(Input.JUMP, true) ) player.jump();
+		if ( Settings.PLATFORMING_CLAMP_JUMP && !player.isOnGround && !input.isDown(Input.JUMP) ) player.stopJump();
+		
 		if ( input.isDown(Input.LEFT, false) ) player.applyHorizontalMove(  -1.0 );
 		if ( input.isDown(Input.RIGHT, false) ) player.applyHorizontalMove(  1.0 );
 		
