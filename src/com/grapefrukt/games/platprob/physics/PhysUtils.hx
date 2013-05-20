@@ -83,7 +83,7 @@ class PhysUtils {
 		// wheel 
 		var wheel_radius = ( width_m * 0.5 ) - 0.05;
 		var wheelDefinition = new B2BodyDef();
-		wheelDefinition.position.set(x, y + ( height_m * 0.5 - wheel_radius ) + 0.05 );
+		wheelDefinition.position.set(x, y + ( height_m * 0.5 - wheel_radius ) + 0.10 );
 		
 		if( Settings.PLAYER_EXTRA_DRUNK )
 			wheelDefinition.position.set(x, y + ( height_m * 0.5 - wheel_radius ) + 0.15 );
@@ -104,7 +104,7 @@ class PhysUtils {
 		wheel.createFixture(fixtureDefinition);
 		
 		var jointDef = new B2RevoluteJointDef();
-		jointDef.initialize( body, wheel, new B2Vec2( x, y + ( height_m * 0.5 - wheel_radius ) + 0.05 ) );
+		jointDef.initialize( body, wheel, new B2Vec2( x, y + ( height_m * 0.5 - wheel_radius ) + 0.10 ) );
 		
 		var joint = world.createJoint( jointDef );
 
