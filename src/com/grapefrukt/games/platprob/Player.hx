@@ -34,6 +34,17 @@ class Player {
 	public function update() {
 		isOnGround = false;
 		if ( jumpHeightStart != 0 && body.getPosition().y < jumpHighest ) jumpHighest = body.getPosition().y;
+		
+		if ( Settings.PLAYER_BALANCE_ROTATION ) 
+		{
+			var angle:Float = body.getAngle();
+			if ( angle != 0 ) 
+			{
+				var ang_vel:Float = body.getAngularVelocity();
+				ang_vel += -angle * Settings.PLAYER_BALANCE_STRENGTH;
+				body.setAngularVelocity( ang_vel );
+			}
+		}
 	}
 	
 	public function jump() {
