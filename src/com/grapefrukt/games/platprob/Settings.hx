@@ -49,6 +49,10 @@ class Settings{
 	static public inline var COLOR_PLAYER_WHEEL			:Int = 0x6F3AAF;
 	static public inline var COLOR_TERRAIN				:Int = 0x4587B6;
 	
+	static public inline var CAMERA_SMOOTHING			:Float = 0.05;
+	static public inline var CAMERA_VELOCITY_LEAD_X		:Float = 15;
+	static public inline var CAMERA_VELOCITY_LEAD_Y		:Float = 5;
+	
 	public static function psb2(x:Float, y:Float):B2Vec2 {
 		return new B2Vec2(x * PHYSICS_SCALE, y * PHYSICS_SCALE);
 	}
