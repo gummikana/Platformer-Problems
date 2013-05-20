@@ -1,6 +1,8 @@
 package com.grapefrukt.games.platprob;
 
 import nme.display.Sprite;
+import nme.display.StageAlign;
+import nme.display.StageScaleMode;
 import nme.events.Event;
 import nme.Lib;
 
@@ -22,6 +24,9 @@ class Main extends Sprite {
 	function init() {
 		if (inited) return;
 		inited = true;
+		
+		Lib.current.stage.align = StageAlign.TOP;
+		Lib.current.stage.scaleMode = StageScaleMode.SHOW_ALL;
 
 		var g = new Game();
 		addChild(g);
@@ -47,8 +52,7 @@ class Main extends Sprite {
 	
 	public static function main() {
 		// static entry point
-		Lib.current.stage.align = nme.display.StageAlign.TOP_LEFT;
-		Lib.current.stage.scaleMode = nme.display.StageScaleMode.NO_SCALE;
+		
 		Lib.current.addChild(new Main());
 	}
 }
