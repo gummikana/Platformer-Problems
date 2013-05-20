@@ -27,7 +27,7 @@ class Game extends Sprite {
 	
 	public function init() {
 		
-		world = new B2World(new B2Vec2(0, 10 * 9.8), false);
+		world = new B2World(new B2Vec2(0, Settings.PHYSICS_GRAVITY ), false);
 		//contacts = new ContactListener();
 		//world.setContactListener(contacts);
 		//world.setContactFilter(new ContactFilter());
@@ -97,7 +97,7 @@ class Game extends Sprite {
 	
 	public function applyJump( body:B2Body )
 	{
-		body.applyForce( new B2Vec2( 0, -10000 ), new B2Vec2( 0, 0 ) );
+		body.applyForce( new B2Vec2( 0, Settings.PLATFORMING_JUMP_VELOCITY ), new B2Vec2( 0, 0 ) );
 	}
 	
 	public function handleEnterFrame(e:Event) {
@@ -106,7 +106,7 @@ class Game extends Sprite {
 		world.drawDebugData();
 		
 		// playerBody.applyForce( new B2Vec2( 0, -100 ), new B2Vec2() );
-		if ( Math.random() < 0.01 ) applyJump( playerBody );
+		if ( input.isDown(Input.JUMP, true) ) applyJump( playerBody );
 	}
 	
 	private function handleKeyDown(e:KeyboardEvent):Void {
