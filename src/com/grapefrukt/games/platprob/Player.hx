@@ -22,7 +22,7 @@ class Player {
 	public var jumpHeightStart:Float;
 	
 	public function new(world:B2World) {
-		body = PhysUtils.createBox(world, Settings.STAGE_W / 2, Settings.STAGE_H / 4, 50, 100, true, 1);
+		body = PhysUtils.createBox(world, Settings.STAGE_W / 2, Settings.STAGE_H / 4, 50, 100, true, Settings.PLAYER_FRICTION, Settings.PLAYER_RESTITUTION, Settings.PLAYER_DENSITY);
 		body.setFixedRotation( true );
 		body.setUserData(this);
 		

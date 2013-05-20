@@ -12,8 +12,15 @@ import com.grapefrukt.games.platprob.Settings;
  * @author Martin Jonasson, m@grapefrukt.com
  */
 class PhysUtils {
+	
+	public static function createBounds(world:B2World, friction:Float, restitution:Float) {
+		PhysUtils.createBox(world, Settings.STAGE_W / 2, Settings.STAGE_H + 50, Settings.STAGE_W, 100, false, friction, restitution); // bottom
+		PhysUtils.createBox(world, Settings.STAGE_W / 2, -50, Settings.STAGE_W, 100, false, friction, restitution); // top
+		PhysUtils.createBox(world, -50, Settings.STAGE_H / 2, 100, Settings.STAGE_H, false, friction, restitution); // right
+		PhysUtils.createBox(world, Settings.STAGE_W + 50, Settings.STAGE_H / 2, 100, Settings.STAGE_H, false, friction, restitution); // left
+	}
 
-	public static function createBox(world:B2World, x:Float, y:Float, width:Float, height:Float, dynamicBody:Bool = true, density:Float = 0):B2Body {
+	public static function createBox(world:B2World, x:Float, y:Float, width:Float, height:Float, dynamicBody:Bool = true, friction:Float = .5, restitution:Float = .5, density:Float = 0):B2Body {
 		var bodyDefinition = new B2BodyDef();
 		bodyDefinition.position.set(x * Settings.PHYSICS_SCALE, y * Settings.PHYSICS_SCALE);
 		
@@ -27,11 +34,11 @@ class PhysUtils {
 		var fixtureDefinition = new B2FixtureDef();
 		fixtureDefinition.shape = polygon;
 		fixtureDefinition.density = density;
-		fixtureDefinition.friction = .5;
-		fixtureDefinition.restitution = .5;
+		fixtureDefinition.friction = friction;
+		fixtureDefinition.restitution = restitution;
 		
 		if (!dynamicBody) {
-			fixtureDefinition.friction = .05;
+			fixtureDefinition.friction = friction;
 		}
 		
 		var body = world.createBody(bodyDefinition);
