@@ -5,6 +5,8 @@ import box2D.dynamics.B2Body;
 import box2D.dynamics.B2BodyDef;
 import box2D.dynamics.B2FixtureDef;
 import box2D.dynamics.B2World;
+import box2D.common.math.B2Vec2;
+import box2D.dynamics.joints.B2RevoluteJointDef;
 import com.grapefrukt.games.platprob.Settings;
 
 /**
@@ -69,6 +71,57 @@ class PhysUtils {
 		
 		var body = world.createBody(bodyDefinition);
 		body.createFixture(fixtureDefinition);
+		
+		return body;
+	}
+	
+	public static function createPlayerInMeters(world:B2World, x:Float, y:Float, width_m:Float, height_m:Float, dynamicBody:Bool = true, friction:Float = .5, restitution:Float = .5, density:Float = 0):B2Body {
+		var bodyDefinition = new B2BodyDef();
+		bodyDefinition.position.set(x, y);
+		
+		if (dynamicBody) {
+			bodyDefinition.type = B2Body.b2_dynamicBody;
+		}
+		
+		var polygon = new B2PolygonShape();
+		polygon.setAsBox((width_m / 2) , (height_m / 2) );
+		
+		var fixtureDefinition = new B2FixtureDef();
+		fixtureDefinition.shape = polygon;
+		fixtureDefinition.density = density;
+		fixtureDefinition.friction = friction;
+		fixtureDefinition.restitution = restitution;
+		
+		if (!dynamicBody) {
+			fixtureDefinition.friction = friction;
+		}
+		
+		var body = world.createBody(bodyDefinition);
+		body.createFixture(fixtureDefinition);
+		
+		// wheel 
+		var wheelDefinition = new B2BodyDef();
+		wheelDefinition.position.set(x, y + height_m * 0.5);
+		
+		if (dynamicBody) {
+			wheelDefinition.type = B2Body.b2_dynamicBody;
+		}
+		
+		var circle = new B2CircleShape( width_m * 0.5 );
+		
+		fixtureDefinition = new B2FixtureDef();
+		fixtureDefinition.shape = circle;
+		fixtureDefinition.density = density;
+		fixtureDefinition.friction = friction;
+		fixtureDefinition.restitution = restitution;
+		
+		var wheel = world.createBody(wheelDefinition);
+		wheel.createFixture(fixtureDefinition);
+		
+		var joint = new B2RevoluteJointDef();
+		joint.initialize( body, wheel, new B2Vec2( x, y + height_m * 0.5 ) );
+		
+		world.createJoint( joint );
 		
 		return body;
 	}

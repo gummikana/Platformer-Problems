@@ -22,9 +22,12 @@ class Player {
 	public var jumpHeightStart:Float;
 	
 	public function new(world:B2World) {
-		body = PhysUtils.createBoxInMeters(world, 10, 10, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT, true, Settings.PLAYER_FRICTION, Settings.PLAYER_RESTITUTION, Settings.PLAYER_DENSITY);
+		// body = PhysUtils.createBoxInMeters(world, 10, 10, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT, true, Settings.PLAYER_FRICTION, Settings.PLAYER_RESTITUTION, Settings.PLAYER_DENSITY);
+		body = PhysUtils.createPlayerInMeters(world, 10, 10, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT, true, Settings.PLAYER_FRICTION, Settings.PLAYER_RESTITUTION, Settings.PLAYER_DENSITY);
 		body.setFixedRotation( Settings.PLAYER_FIXED_ROTATION );
 		body.setUserData(this);
+		
+		
 		
 		isOnGround = false;
 		jumpTimeStart = 0;
@@ -32,7 +35,7 @@ class Player {
 	}
 	
 	public function update() {
-		isOnGround = false;
+		isOnGround = true;
 		if ( jumpHeightStart != 0 && body.getPosition().y < jumpHighest ) jumpHighest = body.getPosition().y;
 		
 		if ( Settings.PLAYER_BALANCE_ROTATION ) 
