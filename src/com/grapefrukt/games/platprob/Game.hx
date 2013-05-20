@@ -82,18 +82,6 @@ class Game extends Sprite {
 		player = new Player(world);
 
 		
-		for ( i in 0 ... 10){
-			var pill = PhysUtils.createPill(world,
-				Settings.STAGE_W / 2 + (Math.random() * 2 - 1) * 200,
-				Settings.STAGE_H / 2 + (Math.random() * 2 - 1) * 200,
-				20,
-				100,
-				0.1
-			);
-			pill.getFixtureList().setFriction(0);
-			//pill.applyTorque(100);
-			pill.setAngle(Math.random() * Math.PI * 2);
-		}
 	}
 	
 	public function applyJump( body:B2Body ) {
