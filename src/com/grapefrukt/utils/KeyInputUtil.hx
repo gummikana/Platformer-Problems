@@ -37,7 +37,12 @@ class KeyInputUtil {
 	
 	private function handleKey(e:KeyboardEvent):Void {
 		if (!keymap.exists(e.keyCode)) return;
-		inputs.set(Type.enumIndex(keymap.get(e.keyCode)), { enabled : e.type == KeyboardEvent.KEY_DOWN, isNew : true } );
+		
+		var state = e.type == KeyboardEvent.KEY_DOWN;
+		var input = Type.enumIndex(keymap.get(e.keyCode));
+		if (inputs.exists(input) && inputs.get(input).enabled == state) return;
+		
+		inputs.set(input, { enabled : state, isNew : true } );
 	}
 	
 	public function isDown(key:Input, useNewFlag:Bool = false):Bool {
