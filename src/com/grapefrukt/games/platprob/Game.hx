@@ -4,6 +4,9 @@ import box2D.common.math.B2Vec2;
 import box2D.dynamics.B2DebugDraw;
 import box2D.dynamics.B2World;
 import box2D.dynamics.B2Body;
+import com.grapefrukt.games.platprob.physics.ContactFilter;
+import com.grapefrukt.games.platprob.physics.ContactListener;
+import com.grapefrukt.games.platprob.physics.PhysUtils;
 import com.grapefrukt.utils.KeyInputUtil;
 import nme.display.Sprite;
 import nme.events.Event;
@@ -19,7 +22,7 @@ class Game extends Sprite {
 	private var world:B2World;
 	private var physicsDebug:Sprite;
 	private var input:KeyInputUtil;
-	private var playerBody:B2Body;
+	private var player:Player;
 	
 	public function new() {
 		super();
@@ -28,9 +31,9 @@ class Game extends Sprite {
 	public function init() {
 		
 		world = new B2World(new B2Vec2(0, Settings.PHYSICS_GRAVITY ), false);
-		//contacts = new ContactListener();
-		//world.setContactListener(contacts);
-		//world.setContactFilter(new ContactFilter());
+		var contacts = new ContactListener();
+		world.setContactListener(contacts);
+		world.setContactFilter(new ContactFilter());
 		
 		physicsDebug = new Sprite();
 		addChild(physicsDebug);
@@ -71,18 +74,16 @@ class Game extends Sprite {
 		}
 		
 		// create screen bounds
-		Utils.createBox(world, Settings.STAGE_W / 2, Settings.STAGE_H + 50, Settings.STAGE_W, 100, false); // bottom
-		Utils.createBox(world, Settings.STAGE_W / 2, -50, Settings.STAGE_W, 100, false); // top
-		Utils.createBox(world, -50, Settings.STAGE_H / 2, 100, Settings.STAGE_H, false); // right
-		Utils.createBox(world, Settings.STAGE_W + 50, Settings.STAGE_H / 2, 100, Settings.STAGE_H, false); // left
+		PhysUtils.createBox(world, Settings.STAGE_W / 2, Settings.STAGE_H + 50, Settings.STAGE_W, 100, false); // bottom
+		PhysUtils.createBox(world, Settings.STAGE_W / 2, -50, Settings.STAGE_W, 100, false); // top
+		PhysUtils.createBox(world, -50, Settings.STAGE_H / 2, 100, Settings.STAGE_H, false); // right
+		PhysUtils.createBox(world, Settings.STAGE_W + 50, Settings.STAGE_H / 2, 100, Settings.STAGE_H, false); // left
 		
-		var body:B2Body = Utils.createBox(world, Settings.STAGE_W / 2, Settings.STAGE_H / 4, 50, 100, true, 1);
-		// body.setFixedRotation( true );
-		playerBody = body;
+		player = new Player(world);
 
 		
 		for ( i in 0 ... 10){
-			var pill = Utils.createPill(world,
+			var pill = PhysUtils.createPill(world,
 				Settings.STAGE_W / 2 + (Math.random() * 2 - 1) * 200,
 				Settings.STAGE_H / 2 + (Math.random() * 2 - 1) * 200,
 				20,
@@ -95,9 +96,8 @@ class Game extends Sprite {
 		}
 	}
 	
-	public function applyJump( body:B2Body )
-	{
-		body.applyForce( new B2Vec2( 0, Settings.PLATFORMING_JUMP_VELOCITY ), new B2Vec2( 0, 0 ) );
+	public function applyJump( body:B2Body ) {
+		player.body.applyForce( new B2Vec2( 0, -10000 ), new B2Vec2( 0, 0 ) );
 	}
 	
 	public function applyHorizontalMove( body:B2Body, direction:Float )
@@ -111,9 +111,9 @@ class Game extends Sprite {
 		world.drawDebugData();
 		
 		// playerBody.applyForce( new B2Vec2( 0, -100 ), new B2Vec2() );
-		if ( input.isDown(Input.JUMP, true) ) applyJump( playerBody );
-		if ( input.isDown(Input.LEFT, false) ) applyHorizontalMove( playerBody, -1.0 );
-		if ( input.isDown(Input.RIGHT, false) ) applyHorizontalMove( playerBody, 1.0 );
+		if ( input.isDown(Input.JUMP, true) ) applyJump( player.body );
+		if ( input.isDown(Input.LEFT, false) ) applyHorizontalMove( player.body, -1.0 );
+		if ( input.isDown(Input.RIGHT, false) ) applyHorizontalMove( player.body, 1.0 );
 	}
 	
 	private function handleKeyDown(e:KeyboardEvent):Void {
