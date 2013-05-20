@@ -4,6 +4,7 @@ import box2D.common.math.B2Vec2;
 import box2D.dynamics.B2DebugDraw;
 import box2D.dynamics.B2World;
 import box2D.dynamics.B2Body;
+import com.grapefrukt.games.platprob.physics.PhysUtils;
 import com.grapefrukt.utils.KeyInputUtil;
 import nme.display.Sprite;
 import nme.events.Event;
@@ -71,10 +72,10 @@ class Game extends Sprite {
 		}
 		
 		// create screen bounds
-		Utils.createBox(world, Settings.STAGE_W / 2, Settings.STAGE_H + 50, Settings.STAGE_W, 100, false); // bottom
-		Utils.createBox(world, Settings.STAGE_W / 2, -50, Settings.STAGE_W, 100, false); // top
-		Utils.createBox(world, -50, Settings.STAGE_H / 2, 100, Settings.STAGE_H, false); // right
-		Utils.createBox(world, Settings.STAGE_W + 50, Settings.STAGE_H / 2, 100, Settings.STAGE_H, false); // left
+		PhysUtils.createBox(world, Settings.STAGE_W / 2, Settings.STAGE_H + 50, Settings.STAGE_W, 100, false); // bottom
+		PhysUtils.createBox(world, Settings.STAGE_W / 2, -50, Settings.STAGE_W, 100, false); // top
+		PhysUtils.createBox(world, -50, Settings.STAGE_H / 2, 100, Settings.STAGE_H, false); // right
+		PhysUtils.createBox(world, Settings.STAGE_W + 50, Settings.STAGE_H / 2, 100, Settings.STAGE_H, false); // left
 		
 		var body:B2Body = Utils.createBox(world, Settings.STAGE_W / 2, Settings.STAGE_H / 4, 50, 100, true, 1);
 		body.setFixedRotation( true );
@@ -82,7 +83,7 @@ class Game extends Sprite {
 
 		
 		for ( i in 0 ... 10){
-			var pill = Utils.createPill(world,
+			var pill = PhysUtils.createPill(world,
 				Settings.STAGE_W / 2 + (Math.random() * 2 - 1) * 200,
 				Settings.STAGE_H / 2 + (Math.random() * 2 - 1) * 200,
 				20,

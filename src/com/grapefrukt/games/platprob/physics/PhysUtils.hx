@@ -1,4 +1,4 @@
-package com.grapefrukt.games.platprob;
+package com.grapefrukt.games.platprob.physics;
 import box2D.collision.shapes.B2CircleShape;
 import box2D.collision.shapes.B2PolygonShape;
 import box2D.dynamics.B2Body;
@@ -10,7 +10,7 @@ import box2D.dynamics.B2World;
  * ...
  * @author Martin Jonasson, m@grapefrukt.com
  */
-class Utils {
+class PhysUtils {
 
 	public static function createBox(world:B2World, x:Float, y:Float, width:Float, height:Float, dynamicBody:Bool = true, density:Float = 0):B2Body {
 		var bodyDefinition = new B2BodyDef();
