@@ -99,6 +99,13 @@ class Game extends Sprite {
 	
 	private function handleKeyDown(e:KeyboardEvent):Void {
 		if (e.keyCode == Keyboard.SPACE) reset();
+		if (e.keyCode == Keyboard.ESCAPE) {
+			#if flash
+				flash.system.System.exit(0);
+			#else
+				Lib.exit();
+			#end
+		}
 	}
 	
 }
