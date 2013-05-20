@@ -74,8 +74,9 @@ class Player {
 			jumpHeight = jumpHighest - jumpHeightStart;
 			jumpHeightStart = 0;
 			
-			Lib.trace( jumpTime );
-			Lib.trace( jumpHeight / Settings.PLAYER_HEIGHT );
+			Lib.trace( "" );
+			Lib.trace( jumpTime + "ms" );
+			Lib.trace( Math.round(-jumpHeight / Settings.PLAYER_HEIGHT * 10) / 10 +"x");
 		}
 		isOnGround = true;
 	}
