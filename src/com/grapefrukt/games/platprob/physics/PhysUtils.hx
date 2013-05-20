@@ -31,6 +31,7 @@ class PhysUtils {
 		}
 		
 		var polygon = new B2PolygonShape();
+		polygon.m_color = Settings.COLOR_TERRAIN;
 		polygon.setAsBox((width / 2) * Settings.PHYSICS_SCALE, (height / 2) * Settings.PHYSICS_SCALE);
 		
 		var fixtureDefinition = new B2FixtureDef();
@@ -80,7 +81,7 @@ class PhysUtils {
 		
 		var body = createPill( world, x / Settings.PHYSICS_SCALE, y / Settings.PHYSICS_SCALE, ( width_m * 0.5 ) / Settings.PHYSICS_SCALE, height_m /  Settings.PHYSICS_SCALE, density, 0, restitution );
 		
-		// wheel 
+		// wheel
 		var wheel_radius = ( width_m * 0.5 ) - 0.05;
 		var wheelDefinition = new B2BodyDef();
 		wheelDefinition.position.set(x, y + ( height_m * 0.5 - wheel_radius ) + 0.10 );
@@ -93,6 +94,7 @@ class PhysUtils {
 		}
 		
 		var circle = new B2CircleShape( wheel_radius );
+		circle.m_color = Settings.COLOR_PLAYER_WHEEL;
 		
 		var fixtureDefinition = new B2FixtureDef();
 		fixtureDefinition.shape = circle;
@@ -121,9 +123,11 @@ class PhysUtils {
 		bodyDefinition.type = B2Body.b2_dynamicBody;
 		
 		var box = new B2PolygonShape();
+		box.m_color = Settings.COLOR_PLAYER_BODY;
 		box.setAsBox((radius - .3) * Settings.PHYSICS_SCALE, ( 0.5 * length - radius ) * Settings.PHYSICS_SCALE);
 		
 		var circle = new B2CircleShape(radius * Settings.PHYSICS_SCALE);
+		circle.m_color = Settings.COLOR_PLAYER_BODY_PILLS;
 		
 		var fd = new B2FixtureDef();
 		fd.density = density;

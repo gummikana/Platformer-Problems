@@ -61,6 +61,7 @@ class B2Shape
 		//Don't copy m_type?
 		//m_type = other.m_type;
 		m_radius = other.m_radius;
+		m_color = other.m_color;
 	}
 	
 	/**
