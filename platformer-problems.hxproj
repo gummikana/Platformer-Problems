@@ -16,6 +16,7 @@
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
     <class path="src" />
+    <class path="lib" />
     <class path="D:\files\tools\sdks\haxe-nme\haxe/lib\nme/3,5,5/" />
     <class path="bin/flash/haxe" />
   </classpaths>
@@ -31,7 +32,6 @@
   <haxelib>
     <library name="nme" />
     <library name="actuate" />
-    <library name="box2d" />
   </haxelib>
   <!-- Class files to compile (other referenced classes will automatically be included) -->
   <compileTargets>
