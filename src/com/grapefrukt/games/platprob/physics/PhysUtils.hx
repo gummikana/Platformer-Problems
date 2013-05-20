@@ -5,6 +5,7 @@ import box2D.dynamics.B2Body;
 import box2D.dynamics.B2BodyDef;
 import box2D.dynamics.B2FixtureDef;
 import box2D.dynamics.B2World;
+import com.grapefrukt.games.platprob.Settings;
 
 /**
  * ...
