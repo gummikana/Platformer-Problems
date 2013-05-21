@@ -10,11 +10,13 @@ import com.grapefrukt.games.platprob.physics.PhysUtils;
 import com.grapefrukt.utils.KeyInputUtil;
 import com.grapefrukt.utils.SettingsLoader;
 import com.grapefrukt.utils.Shaker;
+import com.grapefrukt.utils.Timestep;
 import com.grapefrukt.utils.Toggler;
 import nme.display.Sprite;
 import nme.events.Event;
 import nme.events.KeyboardEvent;
 import nme.Lib;
+import nme.text.TextField;
 import nme.ui.Keyboard;
 
 /**
@@ -29,38 +31,38 @@ class Game extends Sprite {
 	private var player:PlayerVelocity;
 	private var toggler:Toggler;
 	private var settingsLoader:SettingsLoader;
-	
+	private var debugDraw:B2DebugDraw;
+	private var time:Timestep;
+	private var acc:Float = 0;
+	private var text:TextField;
 	
 	public function new() {
 		super();
 	}
 	
 	public function init() {
-		
 		toggler = new Toggler(Settings, false);
 		Lib.current.addChild(toggler);
+		
+		text = new TextField();
+		Lib.current.addChild(text);
 		
 		settingsLoader = new SettingsLoader("config/config.cfg", Settings);
 		settingsLoader.addEventListener(Event.COMPLETE, function(e:Event) {
 			toggler.reset();
 		});
 		
-		world = new B2World(new B2Vec2(0, Settings.PHYSICS_GRAVITY ), false);
-		var contacts = new ContactListener();
-		world.setContactListener(contacts);
-		world.setContactFilter(new ContactFilter());
+		time = new Timestep(60, 1 / 60);
 		
 		canvas = new Sprite();
 		addChild(canvas);
 		
-		var debugDraw = new B2DebugDraw();
+		debugDraw = new B2DebugDraw();
 		debugDraw.setSprite(canvas);
 		debugDraw.setDrawScale(1 / Settings.PHYSICS_SCALE);
 		debugDraw.setFlags(B2DebugDraw.e_shapeBit | B2DebugDraw.e_jointBit);
 		debugDraw.setFillAlpha(1);
 		debugDraw.setLineThickness(0);
-		
-		world.setDebugDraw(debugDraw);
 		
 		input = new KeyInputUtil(stage);
 		input.map(Keyboard.LEFT, Input.LEFT);
@@ -77,36 +79,43 @@ class Game extends Sprite {
 	}
 	
 	public function reset() {
-		// destroy all joints
-		var joint = world.getJointList();
-		while (joint != null) {
-			world.destroyJoint(joint);
-			joint = joint.getNext();
-		}
+		if (world != null) PhysUtils.destroyWorld(world);
 		
-		// destroy all bodies
-		var body = world.getBodyList();
-		while (body != null) {
-			world.destroyBody(body);
-			body = body.getNext();
-		}
-		
-		// create screen bounds
-		//PhysUtils.createBounds(world, Settings.BOUNDS_FRICTION, Settings.BOUNDS_RESTITUTION);
+		world = new B2World(new B2Vec2(0, Settings.PHYSICS_GRAVITY ), false);
+		world.setContactListener(new ContactListener());
+		world.setContactFilter(new ContactFilter());
+		world.setDebugDraw(debugDraw);
 		
 		Level.load(world, "level");
 		
 		player = new PlayerVelocity(world);
-		
 	}
 
 	
 	public function handleEnterFrame(e:Event) {
-		world.step(Settings.PHYSICS_STEP_DURATION, 10, 10);
-		world.clearForces();
+		time.tick();
+		
+		acc += time.timeDelta;
+		var numSteps = 0;
+		while (acc - Settings.PHYSICS_STEP_DURATION > 0) {
+			world.step(Settings.PHYSICS_STEP_DURATION, 10, 10);
+			world.clearForces();
+			
+			acc -= Settings.PHYSICS_STEP_DURATION;
+			numSteps++;
+			
+			if (numSteps > 8) {
+				acc = 0;
+				Lib.trace("update taking too long, bailing");
+				break;
+			}
+		}
+		
+		text.text = numSteps + " " + time.timeDelta;
+		
 		world.drawDebugData();
 		
-		Shaker.update(1);
+		Shaker.update(time.timeDelta);
 		
 		// playerBody.applyForce( new B2Vec2( 0, -100 ), new B2Vec2() );
 		if ( player.isOnGround && input.isDown(Input.JUMP, true) ) player.jump();
@@ -115,7 +124,7 @@ class Game extends Sprite {
 		if ( input.isDown(Input.LEFT, false) ) player.applyHorizontalMove(  -1.0 );
 		if ( input.isDown(Input.RIGHT, false) ) player.applyHorizontalMove(  1.0 );
 		
-		player.update();
+		player.update(time.timeDelta);
 		
 		var pos = player.body.getPosition();
 		var vel = player.body.getLinearVelocity();

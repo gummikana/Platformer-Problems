@@ -27,23 +27,23 @@ class PlayerVelocity {
 	
 	public function new(world:B2World) {
 		/*body = PhysUtils.createPill(
-			world, 
-			8.5 / Settings.PHYSICS_SCALE , 
-			10 / Settings.PHYSICS_SCALE, 
-			( Settings.PLAYER_WIDTH * 0.5 ) / Settings.PHYSICS_SCALE, 
-			Settings.PLAYER_HEIGHT / Settings.PHYSICS_SCALE, 
-			Settings.VPLAYER_FRICTION, 
-			Settings.VPLAYER_RESTITUTION, 
+			world,
+			8.5 / Settings.PHYSICS_SCALE ,
+			10 / Settings.PHYSICS_SCALE,
+			( Settings.PLAYER_WIDTH * 0.5 ) / Settings.PHYSICS_SCALE,
+			Settings.PLAYER_HEIGHT / Settings.PHYSICS_SCALE,
+			Settings.VPLAYER_FRICTION,
+			Settings.VPLAYER_RESTITUTION,
 			Settings.VPLAYER_DENSITY );
 			*/
-		body = PhysUtils.createDiamondInMeters( 
+		body = PhysUtils.createDiamondInMeters(
 			world,
-			8.5, 
-			10, 
-			Settings.PLAYER_WIDTH * 0.5, 
-			Settings.PLAYER_HEIGHT, 
-			Settings.VPLAYER_FRICTION, 
-			Settings.VPLAYER_RESTITUTION, 
+			8.5,
+			10,
+			Settings.PLAYER_WIDTH * 0.5,
+			Settings.PLAYER_HEIGHT,
+			Settings.VPLAYER_FRICTION,
+			Settings.VPLAYER_RESTITUTION,
 			Settings.VPLAYER_DENSITY );
 			
 		// body.setFixedRotation( true );
@@ -57,7 +57,7 @@ class PlayerVelocity {
 		keyPressed = 0;
 	}
 	
-	public function update() {
+	public function update(timeDelta:Float) {
 		updateBody( body );
 		
 		if ( Settings.PLATFORMING_USE_IN_AIR_COUNTER == false ) {
@@ -87,7 +87,7 @@ class PlayerVelocity {
 			// if ( keyPressed == Settings.PLAYER_GROUND_SLOWDOWN_LENGTH ) { wheel.setFixedRotation( true ); wheel.setAngularVelocity( 0 ); }
 		}
 		
-		/*if( Settings.PLAYER_CLAMP_VELOCITY ) 
+		/*if( Settings.PLAYER_CLAMP_VELOCITY )
 		{
 			
 			var velocity = body.getLinearVelocity();
@@ -107,7 +107,7 @@ class PlayerVelocity {
 		var TERMINAL_VELOCITY = 50;
 		
 		pbody.m_platformingVelocity.y += ( PLAYER_GRAVITY * dt );
-		if ( pbody.m_platformingVelocity.y > TERMINAL_VELOCITY ) pbody.m_platformingVelocity.y = TERMINAL_VELOCITY;			
+		if ( pbody.m_platformingVelocity.y > TERMINAL_VELOCITY ) pbody.m_platformingVelocity.y = TERMINAL_VELOCITY;
 		
 		// pbody.m_platformingVelocity.x *= 0.95;
 		
@@ -177,26 +177,26 @@ class PlayerVelocity {
 			trace( localPoint.y );
 			trace( "we want: " + Settings.PLAYER_HEIGHT * 0.5 );*/
 			
-			if ( floatCompare( localPoint.x, Settings.PLAYER_WIDTH * 0.5, 0.01 ) ) 
+			if ( floatCompare( localPoint.x, Settings.PLAYER_WIDTH * 0.5, 0.01 ) )
 			{
 				if ( body.m_platformingVelocity.x > 0 ) body.m_platformingVelocity.x = 0;
 			}
-			else if ( floatCompare( localPoint.x, -Settings.PLAYER_WIDTH * 0.5, 0.01 ) ) 
+			else if ( floatCompare( localPoint.x, -Settings.PLAYER_WIDTH * 0.5, 0.01 ) )
 			{
 				if ( body.m_platformingVelocity.x < 0 ) body.m_platformingVelocity.x = 0;
 			}
 			
-			if( floatCompare( localPoint.y, Settings.PLAYER_HEIGHT * 0.5, 0.01 ) ) 
+			if( floatCompare( localPoint.y, Settings.PLAYER_HEIGHT * 0.5, 0.01 ) )
 			{
 				// also on ground
-				if ( body.m_platformingVelocity.y >= 0 ) { 
-					body.m_platformingVelocity.y = 0.1; 
+				if ( body.m_platformingVelocity.y >= 0 ) {
+					body.m_platformingVelocity.y = 0.1;
 					}
 				touchGround();
 			}
-			else if ( floatCompare( localPoint.y, -Settings.PLAYER_HEIGHT * 0.5, 0.01 ) ) 
+			else if ( floatCompare( localPoint.y, -Settings.PLAYER_HEIGHT * 0.5, 0.01 ) )
 			{
-				if ( body.m_platformingVelocity.y < 0 ) body.m_platformingVelocity.y = 0; 
+				if ( body.m_platformingVelocity.y < 0 ) body.m_platformingVelocity.y = 0;
 			}
 			
 			// trace( contact.getManifold().m_points[ i ].m_localPoint.x );
