@@ -22,6 +22,7 @@
 	<icon path="icons/assets/nme.svg" />
 	<assets path="assets/images"  rename="images" 	type="image" 	include="*.png" />
 	<assets path="assets/fonts"   rename="fonts" 	type="font" 	include="*.ttf" />
+	<assets path="assets" 		  rename="config" 					include="*.cfg" />
 	
 	<!-- optimize output -->
 	<haxeflag name="--dead-code-elimination" unless="haxe3" />

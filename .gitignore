@@ -1,1 +1,2 @@
-bin/
+bin/flash/haxe/
+bin/flash/bin/*.swf

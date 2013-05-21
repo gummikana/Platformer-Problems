@@ -8,6 +8,7 @@ import com.grapefrukt.games.platprob.physics.ContactFilter;
 import com.grapefrukt.games.platprob.physics.ContactListener;
 import com.grapefrukt.games.platprob.physics.PhysUtils;
 import com.grapefrukt.utils.KeyInputUtil;
+import com.grapefrukt.utils.SettingsLoader;
 import com.grapefrukt.utils.Toggler;
 import nme.display.Sprite;
 import nme.events.Event;
@@ -26,6 +27,7 @@ class Game extends Sprite {
 	private var input:KeyInputUtil;
 	private var player:PlayerVelocity;
 	private var toggler:Toggler;
+	private var settingsLoader:SettingsLoader;
 	
 	
 	public function new() {
@@ -36,6 +38,11 @@ class Game extends Sprite {
 		
 		toggler = new Toggler(Settings, true);
 		Lib.current.addChild(toggler);
+		
+		settingsLoader = new SettingsLoader("config/config.cfg", Settings);
+		settingsLoader.addEventListener(Event.COMPLETE, function(e:Event) {
+			toggler.reset();
+		});
 		
 		world = new B2World(new B2Vec2(0, Settings.PHYSICS_GRAVITY ), false);
 		var contacts = new ContactListener();
@@ -113,6 +120,7 @@ class Game extends Sprite {
 	
 	private function handleKeyDown(e:KeyboardEvent):Void {
 		if (e.keyCode == Keyboard.SPACE) reset();
+		if (e.keyCode == Keyboard.E) settingsLoader.export();
 		if (e.keyCode == Keyboard.ESCAPE) {
 			#if flash
 				flash.system.System.exit(0);

@@ -48,9 +48,8 @@ class Toggler extends Sprite {
 			addEventListener(Event.ADDED_TO_STAGE, handleAddedToStage);
 		}
 		
-		private function reset() {
+		public function reset() {
 			var metadata = Meta.getStatics(_targetClass);
-			//var fields = Reflect.fields(_targetClass);
 			var fields = Type.getClassFields(_targetClass);
 			
 			_properties = [];
@@ -94,14 +93,7 @@ class Toggler extends Sprite {
 			var window:Window = null;
 			
 			for (property in _properties) {
-				//var groupName:String = getGroupName(property.name);
-				//var groupName:String = property.order.substr(0, 1);
-				//trace(window ? window.title : "null", groupName);
 				if (window == null || (window.title != property.header && property.header != "")) {
-					if (window != null) {
-						//window.content.getChildAt(0).height = cast(window.content.getChildAt(0), DisplayObjectContainer).numChildren * 30;
-					}
-					
 					accordion.addWindowAt(property.header, accordion.numWindows);
 					window = accordion.getWindowAt(accordion.numWindows - 1);
 					var container:VBox = new VBox(window.content, 10, 10);
