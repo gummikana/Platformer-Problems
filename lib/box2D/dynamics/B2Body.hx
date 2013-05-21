@@ -1161,6 +1161,8 @@ class B2Body
 		m_sweep = new B2Sweep();
 		m_linearVelocity = new B2Vec2();
 		m_force = new B2Vec2();
+		m_platformingVelocity = new B2Vec2();
+		m_specialGravity = null;
 		
 		//b2Settings.b2Assert(world.IsLocked() == false);
 		
@@ -1337,6 +1339,10 @@ class B2Body
 
 	public var m_linearVelocity:B2Vec2;
 	public var m_angularVelocity:Float;
+	
+	// HAXS ADDED FOR PLATFORMING
+	public var m_platformingVelocity:B2Vec2;
+	public var m_specialGravity(default, null):B2Vec2;
 
 	public var m_force:B2Vec2;
 	public var m_torque:Float;
