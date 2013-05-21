@@ -1163,6 +1163,7 @@ class B2Body
 		m_force = new B2Vec2();
 		m_platformingVelocity = new B2Vec2();
 		m_specialGravity = null;
+		m_tempVelocity = new B2Vec2();
 		
 		//b2Settings.b2Assert(world.IsLocked() == false);
 		
@@ -1342,8 +1343,9 @@ class B2Body
 	
 	// HAXS ADDED FOR PLATFORMING
 	public var m_platformingVelocity:B2Vec2;
-	public var m_specialGravity(default, null):B2Vec2;
-
+	public var m_specialGravity:B2Vec2;
+	public var m_tempVelocity:B2Vec2;
+	
 	public var m_force:B2Vec2;
 	public var m_torque:Float;
 

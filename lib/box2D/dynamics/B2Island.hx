@@ -175,6 +175,7 @@ class B2Island
 			
 			if (b.getType() != B2Body.b2_dynamicBody)
 				continue;
+				
 			
 			// Integrate velocities.
 			//b.m_linearVelocity += step.dt * (gravity + b.m_invMass * b.m_force);
@@ -272,9 +273,10 @@ class B2Island
 			
 			// Integrate
 			//b.m_sweep.c += step.dt * b.m_linearVelocity;
-			b.m_sweep.c.x += step.dt * ( b.m_linearVelocity.x + b.m_platformingVelocity.x );
+			b.m_sweep.c.x += step.dt * ( b.m_linearVelocity.x + b.m_platformingVelocity.x  );
 			b.m_sweep.c.y += step.dt * ( b.m_linearVelocity.y + b.m_platformingVelocity.y );
 			b.m_sweep.a += step.dt * b.m_angularVelocity;
+			
 			
 			// Compute new transform
 			b.synchronizeTransform();
@@ -301,7 +303,9 @@ class B2Island
 			}
 		}
 		
+			
 		report(contactSolver.m_constraints);
+		
 		
 		if (allowSleep){
 			
@@ -419,8 +423,8 @@ class B2Island
 			b.m_sweep.a0 = b.m_sweep.a;
 			
 			// Integrate
-			b.m_sweep.c.x += subStep.dt * b.m_linearVelocity.x;
-			b.m_sweep.c.y += subStep.dt * b.m_linearVelocity.y;
+			b.m_sweep.c.x += subStep.dt * ( b.m_linearVelocity.x + b.m_platformingVelocity.x );
+			b.m_sweep.c.y += subStep.dt * ( b.m_linearVelocity.y + b.m_platformingVelocity.y );
 			b.m_sweep.a += subStep.dt * b.m_angularVelocity;
 			
 			// Compute new transform
