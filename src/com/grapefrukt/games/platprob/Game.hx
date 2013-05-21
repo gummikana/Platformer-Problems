@@ -8,6 +8,7 @@ import com.grapefrukt.games.platprob.physics.ContactFilter;
 import com.grapefrukt.games.platprob.physics.ContactListener;
 import com.grapefrukt.games.platprob.physics.PhysUtils;
 import com.grapefrukt.utils.KeyInputUtil;
+import com.grapefrukt.utils.Toggler;
 import nme.display.Sprite;
 import nme.events.Event;
 import nme.events.KeyboardEvent;
@@ -24,6 +25,7 @@ class Game extends Sprite {
 	private var canvas:Sprite;
 	private var input:KeyInputUtil;
 	private var player:PlayerVelocity;
+	private var toggler:Toggler;
 	
 	
 	public function new() {
@@ -31,6 +33,9 @@ class Game extends Sprite {
 	}
 	
 	public function init() {
+		
+		toggler = new Toggler(Settings, true);
+		Lib.current.addChild(toggler);
 		
 		world = new B2World(new B2Vec2(0, Settings.PHYSICS_GRAVITY ), false);
 		var contacts = new ContactListener();

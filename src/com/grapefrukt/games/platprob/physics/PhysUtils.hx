@@ -15,6 +15,10 @@ import com.grapefrukt.games.platprob.Settings;
  */
 class PhysUtils {
 	
+	public static function psb2(x:Float, y:Float):B2Vec2 {
+		return new B2Vec2(x * Settings.PHYSICS_SCALE, y * Settings.PHYSICS_SCALE);
+	}
+	
 	public static function createBounds(world:B2World, friction:Float, restitution:Float) {
 		PhysUtils.createBox(world, Settings.STAGE_W / 2, Settings.STAGE_H + 50, Settings.STAGE_W, 100, false, friction, restitution); // bottom
 		PhysUtils.createBox(world, Settings.STAGE_W / 2, -50, Settings.STAGE_W, 100, false, friction, restitution); // top
@@ -140,10 +144,10 @@ class PhysUtils {
 		
 		fd.shape = circle;
 		
-		circle.setLocalPosition(Settings.psb2(0, -(length * 0.5 - radius)));
+		circle.setLocalPosition(psb2(0, -(length * 0.5 - radius)));
 		body.createFixture(fd);
 		
-		circle.setLocalPosition(Settings.psb2(0, (length * 0.5 - radius)));
+		circle.setLocalPosition(psb2(0, (length * 0.5 - radius)));
 		body.createFixture(fd);
 		
 		return body;
