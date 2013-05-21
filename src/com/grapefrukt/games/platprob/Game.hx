@@ -9,6 +9,7 @@ import com.grapefrukt.games.platprob.physics.ContactListener;
 import com.grapefrukt.games.platprob.physics.PhysUtils;
 import com.grapefrukt.utils.KeyInputUtil;
 import com.grapefrukt.utils.SettingsLoader;
+import com.grapefrukt.utils.Shaker;
 import com.grapefrukt.utils.Toggler;
 import nme.display.Sprite;
 import nme.events.Event;
@@ -36,7 +37,7 @@ class Game extends Sprite {
 	
 	public function init() {
 		
-		toggler = new Toggler(Settings, true);
+		toggler = new Toggler(Settings, false);
 		Lib.current.addChild(toggler);
 		
 		settingsLoader = new SettingsLoader("config/config.cfg", Settings);
@@ -66,6 +67,8 @@ class Game extends Sprite {
 		input.map(Keyboard.RIGHT, Input.RIGHT);
 		input.map(Keyboard.UP, Input.JUMP);
 		input.map(Keyboard.Z, Input.JUMP);
+		
+		Shaker.init(this);
 		
 		addEventListener(Event.ENTER_FRAME, handleEnterFrame);
 		stage.addEventListener(KeyboardEvent.KEY_DOWN, handleKeyDown);
@@ -103,6 +106,8 @@ class Game extends Sprite {
 		world.clearForces();
 		world.drawDebugData();
 		
+		Shaker.update(1);
+		
 		// playerBody.applyForce( new B2Vec2( 0, -100 ), new B2Vec2() );
 		if ( player.isOnGround && input.isDown(Input.JUMP, true) ) player.jump();
 		if ( Settings.PLATFORMING_CLAMP_JUMP && !player.isOnGround && !input.isDown(Input.JUMP) ) player.stopJump();
@@ -121,6 +126,7 @@ class Game extends Sprite {
 	
 	private function handleKeyDown(e:KeyboardEvent):Void {
 		if (e.keyCode == Keyboard.SPACE) reset();
+		if (e.keyCode == Keyboard.S) Shaker.shakeRandom(20);
 		if (e.keyCode == Keyboard.E) settingsLoader.export();
 		if (e.keyCode == Keyboard.ESCAPE) {
 			#if flash
