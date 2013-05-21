@@ -219,4 +219,20 @@ class PhysUtils {
 		return body;
 	}
 	
+	static public function destroyWorld(world:B2World) {
+		// destroy all joints
+		var joint = world.getJointList();
+		while (joint != null) {
+			world.destroyJoint(joint);
+			joint = joint.getNext();
+		}
+		
+		// destroy all bodies
+		var body = world.getBodyList();
+		while (body != null) {
+			world.destroyBody(body);
+			body = body.getNext();
+		}
+	}
+	
 }
