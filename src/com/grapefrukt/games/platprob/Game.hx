@@ -23,7 +23,8 @@ class Game extends Sprite {
 	private var world:B2World;
 	private var canvas:Sprite;
 	private var input:KeyInputUtil;
-	private var player:Player;
+	private var player:PlayerVelocity;
+	
 	
 	public function new() {
 		super();
@@ -79,7 +80,7 @@ class Game extends Sprite {
 		
 		Level.load(world, "level");
 		
-		player = new Player(world);
+		player = new PlayerVelocity(world);
 		
 	}
 

@@ -53,6 +53,8 @@ class PhysUtils {
 	public static function createBoxInMeters(world:B2World, x:Float, y:Float, width_m:Float, height_m:Float, dynamicBody:Bool = true, friction:Float = .5, restitution:Float = .5, density:Float = 0):B2Body {
 		var bodyDefinition = new B2BodyDef();
 		bodyDefinition.position.set(x, y);
+		bodyDefinition.allowSleep = false;
+		bodyDefinition.bullet = true;
 		
 		if (dynamicBody) {
 			bodyDefinition.type = B2Body.b2_dynamicBody;
@@ -66,10 +68,6 @@ class PhysUtils {
 		fixtureDefinition.density = density;
 		fixtureDefinition.friction = friction;
 		fixtureDefinition.restitution = restitution;
-		
-		if (!dynamicBody) {
-			fixtureDefinition.friction = friction;
-		}
 		
 		var body = world.createBody(bodyDefinition);
 		body.createFixture(fixtureDefinition);
@@ -125,7 +123,7 @@ class PhysUtils {
 		
 		var box = new B2PolygonShape();
 		box.m_color = Settings.COLOR_PLAYER_BODY;
-		box.setAsBox((radius - .3) * Settings.PHYSICS_SCALE, ( 0.5 * length - radius ) * Settings.PHYSICS_SCALE);
+		box.setAsBox((radius ) * Settings.PHYSICS_SCALE, ( 0.5 * length - radius ) * Settings.PHYSICS_SCALE);
 		
 		var circle = new B2CircleShape(radius * Settings.PHYSICS_SCALE);
 		circle.m_color = Settings.COLOR_PLAYER_BODY_PILLS;
