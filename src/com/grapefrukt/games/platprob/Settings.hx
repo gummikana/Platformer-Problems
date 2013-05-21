@@ -37,11 +37,15 @@ class Settings{
 	static public var PLAYER_EXTRA_DRUNK			:Bool = false;
 	
 	
-	static public var PLAYER_FRICTION				:Float = 10;
+	static public var PLAYER_FRICTION				:Float = 0;
 	static public var PLAYER_RESTITUTION			:Float = .1;
 	static public var PLAYER_DENSITY				:Float = 1;
 	
-	static public var BOUNDS_FRICTION				:Float = 1;
+	static public var VPLAYER_FRICTION				:Float = 0;
+	static public var VPLAYER_RESTITUTION			:Float = .1;
+	static public var VPLAYER_DENSITY				:Float = 1;
+	
+	static public var BOUNDS_FRICTION				:Float = 0.8;
 	static public var BOUNDS_RESTITUTION			:Float = .1;
 
 	static public inline var COLOR_PLAYER_BODY			:Int = 0x00c653;

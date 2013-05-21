@@ -26,24 +26,30 @@ class PlayerVelocity {
 	public var jumpHeightStart:Float;
 	
 	public function new(world:B2World) {
-		// body = PhysUtils.createBoxInMeters(world, 8.5, 10, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT, true, 0, Settings.PLAYER_RESTITUTION, Settings.PLAYER_DENSITY);
-		body = PhysUtils.createPill(
+		/*body = PhysUtils.createPill(
 			world, 
 			8.5 / Settings.PHYSICS_SCALE , 
 			10 / Settings.PHYSICS_SCALE, 
 			( Settings.PLAYER_WIDTH * 0.5 ) / Settings.PHYSICS_SCALE, 
 			Settings.PLAYER_HEIGHT / Settings.PHYSICS_SCALE, 
-			0, 
-			Settings.PLAYER_RESTITUTION, 
-			Settings.PLAYER_DENSITY );
+			Settings.VPLAYER_FRICTION, 
+			Settings.VPLAYER_RESTITUTION, 
+			Settings.VPLAYER_DENSITY );
+			*/
+		body = PhysUtils.createDiamondInMeters( 
+			world,
+			8.5, 
+			10, 
+			Settings.PLAYER_WIDTH * 0.5, 
+			Settings.PLAYER_HEIGHT, 
+			Settings.VPLAYER_FRICTION, 
+			Settings.VPLAYER_RESTITUTION, 
+			Settings.VPLAYER_DENSITY );
 			
-		
 		// body.setFixedRotation( true );
 		body.setUserData( this );
 		body.m_specialGravity = new B2Vec2(0, 0);
-		body.setLinearVelocity( new B2Vec2( -10, 0 ) );
 	
-		
 		isOnGround = false;
 		inAirCounter = 0;
 		jumpTimeStart = 0;
@@ -52,14 +58,13 @@ class PlayerVelocity {
 	}
 	
 	public function update() {
-		// isOnGround = false;
 		updateBody( body );
 		
 		if ( Settings.PLATFORMING_USE_IN_AIR_COUNTER == false ) {
-			isOnGround = true;
+			isOnGround = false;
 		} else {
 			inAirCounter++;
-			if ( inAirCounter >= Settings.PLATFORMING_AIR_COUNTER_MAX ) isOnGround = true;
+			if ( inAirCounter >= Settings.PLATFORMING_AIR_COUNTER_MAX ) isOnGround = false;
 		}
 		
 		if ( jumpHeightStart != 0 && body.getPosition().y < jumpHighest ) jumpHighest = body.getPosition().y;
@@ -156,31 +161,40 @@ class PlayerVelocity {
 		}
 		isOnGround = true;
 		inAirCounter = 0;
+		// trace( "on ground" );
+	}
+	
+	public function floatCompare( a:Float, b:Float, delta:Float ):Bool {
+		return ( Math.abs( a - b ) < delta );
 	}
 	
 	public function onContact( contact:B2Contact):Void {
-		// trace( "on contact" );
+		
 		for (i in 0...contact.getManifold().m_pointCount )
 		{
 			var localPoint = contact.getManifold().m_points[ i ].m_localPoint;
-			// trace( localPoint.x );
-			// trace( localPoint.y );
+			/*trace( localPoint.x );
+			trace( localPoint.y );
+			trace( "we want: " + Settings.PLAYER_HEIGHT * 0.5 );*/
 			
-			if ( localPoint.x >= Settings.PLAYER_WIDTH * 0.5 ) 
+			if ( floatCompare( localPoint.x, Settings.PLAYER_WIDTH * 0.5, 0.01 ) ) 
 			{
 				if ( body.m_platformingVelocity.x > 0 ) body.m_platformingVelocity.x = 0;
 			}
-			else if ( localPoint.x <= -Settings.PLAYER_WIDTH * 0.5 ) 
+			else if ( floatCompare( localPoint.x, -Settings.PLAYER_WIDTH * 0.5, 0.01 ) ) 
 			{
 				if ( body.m_platformingVelocity.x < 0 ) body.m_platformingVelocity.x = 0;
 			}
 			
-			if( localPoint.y >= Settings.PLAYER_HEIGHT * 0.5 ) 
+			if( floatCompare( localPoint.y, Settings.PLAYER_HEIGHT * 0.5, 0.01 ) ) 
 			{
 				// also on ground
-				if ( body.m_platformingVelocity.y > 0 ) body.m_platformingVelocity.y = 0.1; 
+				if ( body.m_platformingVelocity.y >= 0 ) { 
+					body.m_platformingVelocity.y = 0.1; 
+					}
+				touchGround();
 			}
-			else if ( localPoint.y <= -Settings.PLAYER_HEIGHT * 0.5 ) 
+			else if ( floatCompare( localPoint.y, -Settings.PLAYER_HEIGHT * 0.5, 0.01 ) ) 
 			{
 				if ( body.m_platformingVelocity.y < 0 ) body.m_platformingVelocity.y = 0; 
 			}
