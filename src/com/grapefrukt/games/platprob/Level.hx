@@ -20,10 +20,10 @@ class Level {
 				
 				if (alpha == 255) {
 					PhysUtils.createBox(world,
-						(x - data.width / 2) * Settings.PLAYER_WIDTH / Settings.PHYSICS_SCALE,
-						(y - data.height / 2) * Settings.PLAYER_WIDTH / Settings.PHYSICS_SCALE,
-						Settings.PLAYER_WIDTH / Settings.PHYSICS_SCALE,
-						Settings.PLAYER_WIDTH / Settings.PHYSICS_SCALE,
+						(x - data.width / 2) * Settings.TILE_SIZE / Settings.PHYSICS_SCALE,
+						(y - data.height / 2) * Settings.TILE_SIZE / Settings.PHYSICS_SCALE,
+						Settings.TILE_SIZE / Settings.PHYSICS_SCALE,
+						Settings.TILE_SIZE / Settings.PHYSICS_SCALE,
 						false,
 						Settings.BOUNDS_FRICTION,
 						Settings.BOUNDS_RESTITUTION,

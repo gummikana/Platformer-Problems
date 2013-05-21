@@ -28,6 +28,7 @@ class Settings{
 	static public var PLAYER_CLAMP_VELOCITY				:Bool = true;
 	static public var PLAYER_MAX_HORIZONTAL_VELOCITY	:Float = 25.0;
 
+	static public var TILE_SIZE						:Float = 1.0;	// in meters
 	static public var PLAYER_WIDTH					:Float = 1.0;	// in meters
 	static public var PLAYER_HEIGHT					:Float = 1.8;	// in meters
 
@@ -42,8 +43,13 @@ class Settings{
 	static public var PLAYER_DENSITY				:Float = 1;
 	
 	static public var VPLAYER_FRICTION				:Float = 0;
-	static public var VPLAYER_RESTITUTION			:Float = .1;
+	static public var VPLAYER_RESTITUTION			:Float = 0;
 	static public var VPLAYER_DENSITY				:Float = 1;
+	@values(0.001, 1) static public var VPLAYER_DELTA					:Float = 1.0;
+	static public var VPLAYER_JUMP_VELOCITY			:Float = -39;
+	static public var VPLAYER_HORIZONTAL_VELOCITY	:Float = 0.1;
+	static public var VPLAYER_GRAVITY				:Float = 98;
+	static public var VPLAYER_TERMINAL_VELOCITY		:Float = 50;
 	
 	static public var BOUNDS_FRICTION				:Float = 0.8;
 	static public var BOUNDS_RESTITUTION			:Float = .1;

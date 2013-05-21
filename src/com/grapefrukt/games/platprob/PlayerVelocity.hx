@@ -24,8 +24,11 @@ class PlayerVelocity {
 	public var jumpHeight:Float;
 	public var jumpHighest:Float;
 	public var jumpHeightStart:Float;
+	public var contacts:Array< B2Contact >;
+
 	
 	public function new(world:B2World) {
+		contacts = [];
 		/*body = PhysUtils.createPill(
 			world, 
 			8.5 / Settings.PHYSICS_SCALE , 
@@ -58,6 +61,11 @@ class PlayerVelocity {
 	}
 	
 	public function update() {
+		for ( i in 0...contacts.length ) {
+			trace( "Contact: " + i );
+			onContact( contacts[ i ] );			
+		}
+		
 		updateBody( body );
 		
 		if ( Settings.PLATFORMING_USE_IN_AIR_COUNTER == false ) {
@@ -102,13 +110,16 @@ class PlayerVelocity {
 	
 	public function updateBody( pbody:B2Body )
 	{
-		var PLAYER_GRAVITY = 98.0;
-		var dt = 1 / 60;
-		var TERMINAL_VELOCITY = 50;
+		/*if ( body_new_pos != null ) 
+		{
+			pbody.setPosition( body_new_pos );
+			body_new_pos = null;
+		}*/
+		pbody.m_platformingVelocity.y += ( Settings.VPLAYER_GRAVITY * Settings.PHYSICS_STEP_DURATION );
+		if ( pbody.m_platformingVelocity.y > Settings.VPLAYER_TERMINAL_VELOCITY ) pbody.m_platformingVelocity.y = Settings.VPLAYER_TERMINAL_VELOCITY;			
 		
-		pbody.m_platformingVelocity.y += ( PLAYER_GRAVITY * dt );
-		if ( pbody.m_platformingVelocity.y > TERMINAL_VELOCITY ) pbody.m_platformingVelocity.y = TERMINAL_VELOCITY;			
-		
+		// pbody.m_linearVelocity.x = pbody.m_platformingVelocity.x * 0.1;
+		// pbody.m_linearVelocity.y = pbody.m_platformingVelocity.y * 0.1;
 		// pbody.m_platformingVelocity.x *= 0.95;
 		
 		/*trace( pbody.m_platformingVelocity.x );
@@ -119,7 +130,7 @@ class PlayerVelocity {
 	}
 	
 	public function jump() {
-		body.m_platformingVelocity.y = -30;
+		body.m_platformingVelocity.y = Settings.VPLAYER_JUMP_VELOCITY;
 		
 		jumpTimeStart = Lib.getTimer();
 		jumpHeightStart = body.getPosition().y;
@@ -145,7 +156,7 @@ class PlayerVelocity {
 		
 		keyPressed = 0;
 		
-		body.m_platformingVelocity.x += direction * 5;
+		body.m_platformingVelocity.x += direction * Settings.VPLAYER_HORIZONTAL_VELOCITY;
 	}
 	
 	public function touchGround() {
@@ -168,25 +179,72 @@ class PlayerVelocity {
 		return ( Math.abs( a - b ) < delta );
 	}
 	
+	var body_new_pos:B2Vec2;
+
+	public function addContact( contact:B2Contact ):Void {
+		contacts.push( contact );
+		onContact( contact );
+	}
+	
+	public function endContact( contact:B2Contact ):Void {
+		contacts.remove( contact );
+	}
+	
 	public function onContact( contact:B2Contact):Void {
 		
-		for (i in 0...contact.getManifold().m_pointCount )
+		// trace( contact.getManifold().m_localPlaneNormal.x + ", " + contact.getManifold().m_localPlaneNormal.y );
+		
+		var normal = contact.getManifold().m_localPlaneNormal;
+		
+		body_new_pos = body.getPosition().copy();
+		body_new_pos.x += normal.x * Math.abs( body.m_platformingVelocity.x ) * Settings.PHYSICS_STEP_DURATION * 1;
+		body_new_pos.y += normal.y * Math.abs( body.m_platformingVelocity.y ) * Settings.PHYSICS_STEP_DURATION * 1;
+		
+		if ( normal.x < 0 ) 
+		{
+			if(  body.m_platformingVelocity.x > 0 ) {
+				trace( "Right side" );
+				body.m_platformingVelocity.x -= 5.1;
+			} else {
+				trace( "Fake right" );
+			}
+		}
+		else if ( normal.x > 0 ) {
+			if (  body.m_platformingVelocity.x < 0 ) {
+				trace( "Left side" );
+				body.m_platformingVelocity.x = 5.1;
+			} else {
+				trace( "Fake left" );
+			}
+		}
+
+		if ( normal.y < -0.5 ) {
+			// also on ground
+			if ( body.m_platformingVelocity.y >= 0 ) { 
+				body.m_platformingVelocity.y = 0.5; 
+				}
+			touchGround();
+		}
+		else if ( normal.y > 0.5 && body.m_platformingVelocity.y < 0 ) {
+			body.m_platformingVelocity.y = 0.0; 
+		}
+		
+		// contact.
+		
+		/*for (i in 0...contact.getManifold().m_pointCount )
 		{
 			var localPoint = contact.getManifold().m_points[ i ].m_localPoint;
-			/*trace( localPoint.x );
-			trace( localPoint.y );
-			trace( "we want: " + Settings.PLAYER_HEIGHT * 0.5 );*/
-			
-			if ( floatCompare( localPoint.x, Settings.PLAYER_WIDTH * 0.5, 0.01 ) ) 
+			var delta = Settings.VPLAYER_DELTA;
+			if ( floatCompare( localPoint.x, Settings.PLAYER_WIDTH * 0.495, delta ) ) 
 			{
 				if ( body.m_platformingVelocity.x > 0 ) body.m_platformingVelocity.x = 0;
 			}
-			else if ( floatCompare( localPoint.x, -Settings.PLAYER_WIDTH * 0.5, 0.01 ) ) 
+			else if ( floatCompare( localPoint.x, -Settings.PLAYER_WIDTH * 0.495, delta ) ) 
 			{
 				if ( body.m_platformingVelocity.x < 0 ) body.m_platformingVelocity.x = 0;
 			}
 			
-			if( floatCompare( localPoint.y, Settings.PLAYER_HEIGHT * 0.5, 0.01 ) ) 
+			if( floatCompare( localPoint.y, Settings.PLAYER_HEIGHT * 0.5, delta ) ) 
 			{
 				// also on ground
 				if ( body.m_platformingVelocity.y >= 0 ) { 
@@ -194,14 +252,14 @@ class PlayerVelocity {
 					}
 				touchGround();
 			}
-			else if ( floatCompare( localPoint.y, -Settings.PLAYER_HEIGHT * 0.5, 0.01 ) ) 
+			else if ( floatCompare( localPoint.y, -Settings.PLAYER_HEIGHT * 0.5, delta ) ) 
 			{
 				if ( body.m_platformingVelocity.y < 0 ) body.m_platformingVelocity.y = 0; 
 			}
 			
 			// trace( contact.getManifold().m_points[ i ].m_localPoint.x );
 			// trace( contact.getManifold().m_points[ i ].m_localPoint.y );
-		}
+		}*/
 	}
 	
 }

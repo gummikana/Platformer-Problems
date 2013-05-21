@@ -158,6 +158,8 @@ class PhysUtils {
 		var bodyDefinition = new B2BodyDef();
 		bodyDefinition.position.set(x, y);
 		bodyDefinition.type = B2Body.b2_dynamicBody;
+		bodyDefinition.allowSleep = false;
+		bodyDefinition.bullet = true;
 		
 		var box = new B2PolygonShape();
 		box.m_color = Settings.COLOR_PLAYER_BODY;

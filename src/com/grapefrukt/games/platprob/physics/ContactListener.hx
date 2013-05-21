@@ -34,14 +34,34 @@ class ContactListener extends B2ContactListener {
 		var player_velocity:PlayerVelocity = null;
 		if (Type.getClass(contact.getFixtureB().getBody().getUserData()) == PlayerVelocity) {
 			player_velocity = cast(contact.getFixtureB().getBody().getUserData(), PlayerVelocity);
+			// trace( "B" );
+		} else if (Type.getClass(contact.getFixtureA().getBody().getUserData()) == PlayerVelocity) {
+			player_velocity = cast(contact.getFixtureA().getBody().getUserData(), PlayerVelocity);
+			// trace( "A" );
+		} 
+		
+		if ( player_velocity != null ) {
+			player_velocity.addContact( contact );
+		}
+	}
+	
+	/**
+	 * Called when two fixtures cease to touch.
+	 */
+	override public function endContact(contact:B2Contact):Void  {
+		
+		var player_velocity:PlayerVelocity = null;
+		if (Type.getClass(contact.getFixtureB().getBody().getUserData()) == PlayerVelocity) {
+			player_velocity = cast(contact.getFixtureB().getBody().getUserData(), PlayerVelocity);
 		} else if (Type.getClass(contact.getFixtureA().getBody().getUserData()) == PlayerVelocity) {
 			player_velocity = cast(contact.getFixtureA().getBody().getUserData(), PlayerVelocity);
 		} 
 		
 		if ( player_velocity != null ) {
-			player_velocity.onContact( contact );
+			player_velocity.endContact( contact );
 		}
 	}
+
 	
 	override public function postSolve(contact:B2Contact, impulse:B2ContactImpulse):Void {
 		
