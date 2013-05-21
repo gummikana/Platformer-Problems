@@ -13,6 +13,7 @@ import nme.Lib;
  */
 class PlayerVelocity {
 	
+	public var world(default, null):B2World;
 	public var body(default, null):B2Body;
 	public var isOnGround(default, null):Bool;
 	public var inAirCounter:Int;
@@ -27,7 +28,7 @@ class PlayerVelocity {
 	public var contacts:Array< B2Contact >;
 
 	
-	public function new(world:B2World) {
+	public function new(in_world:B2World) {
 		contacts = [];
 		/*body = PhysUtils.createPill(
 			world,
@@ -39,6 +40,7 @@ class PlayerVelocity {
 			Settings.VPLAYER_RESTITUTION,
 			Settings.VPLAYER_DENSITY );
 			*/
+		world = in_world;
 		body = PhysUtils.createDiamondInMeters(
 			world,
 			8.5,
@@ -62,7 +64,6 @@ class PlayerVelocity {
 	
 	public function update(timeDelta:Float) {
 		for ( i in 0...contacts.length ) {
-			trace( "Contact: " + i );
 			onContact( contacts[ i ] );			
 		}
 		
@@ -110,6 +111,7 @@ class PlayerVelocity {
 	
 	public function updateBody( pbody:B2Body )
 	{
+		// pbody.m_linearVelocity.x = 0.01;
 		/*if ( body_new_pos != null ) 
 		{
 			pbody.setPosition( body_new_pos );
@@ -117,6 +119,50 @@ class PlayerVelocity {
 		}*/
 		pbody.m_platformingVelocity.y += ( Settings.VPLAYER_GRAVITY * Settings.PHYSICS_STEP_DURATION );
 		if ( pbody.m_platformingVelocity.y > Settings.VPLAYER_TERMINAL_VELOCITY ) pbody.m_platformingVelocity.y = Settings.VPLAYER_TERMINAL_VELOCITY;			
+		
+		var direction = 1.0;
+		if ( pbody.m_platformingVelocity.y < 0 ) direction = -1.0;
+		
+		if ( direction != 0 ) 
+		{
+			var pos1 = body.getPosition().copy();
+			pos1.x -= 0.49 * Settings.PLAYER_WIDTH;
+			
+			var pos2 = pos1.copy();
+			pos2.y += direction * 0.55 * Settings.PLAYER_HEIGHT;
+			
+			var fixtures = world.rayCastAll( pos1, pos2 );
+			
+			for ( i in 0...fixtures.length )
+			{
+				if ( fixtures[ i ] != pbody.getFixtureList() ) {
+					if ( direction > 0 ) touchGround();
+					pbody.m_platformingVelocity.y = 0;
+					return;
+				}
+			}
+		}
+
+		if ( direction != 0 ) 
+		{
+			var pos1 = body.getPosition().copy();
+			pos1.x += 0.49 * Settings.PLAYER_WIDTH;
+			
+			var pos2 = pos1.copy();
+			pos2.y += direction * 0.55 * Settings.PLAYER_HEIGHT;
+			
+			var fixtures = world.rayCastAll( pos1, pos2 );
+			
+			for ( i in 0...fixtures.length )
+			{
+				if ( fixtures[ i ] != pbody.getFixtureList() ) {
+					if ( direction > 0 ) touchGround();
+					pbody.m_platformingVelocity.y = 0;
+					return;
+				}
+			}
+
+		}
 		
 		// pbody.m_linearVelocity.x = pbody.m_platformingVelocity.x * 0.1;
 		// pbody.m_linearVelocity.y = pbody.m_platformingVelocity.y * 0.1;
@@ -156,6 +202,24 @@ class PlayerVelocity {
 		
 		keyPressed = 0;
 		
+		if ( direction != 0 ) 
+		{
+			var pos1 = body.getPosition().copy();
+			pos1.y += 0.5;
+			
+			var pos2 = pos1.copy();
+			pos2.x += direction * 0.6;
+			
+			var fixtures = world.rayCastAll( pos1, pos2 );
+			
+			for ( i in 0...fixtures.length )
+			{
+				if ( fixtures[ i ] != body.getFixtureList() ) {
+					// trace( "collided on right side" );
+					return;
+				}
+			}
+		}
 		body.m_platformingVelocity.x += direction * Settings.VPLAYER_HORIZONTAL_VELOCITY;
 	}
 	
@@ -190,31 +254,32 @@ class PlayerVelocity {
 		contacts.remove( contact );
 	}
 	
+	
 	public function onContact( contact:B2Contact):Void {
 		
 		// trace( contact.getManifold().m_localPlaneNormal.x + ", " + contact.getManifold().m_localPlaneNormal.y );
 		
 		var normal = contact.getManifold().m_localPlaneNormal;
 		
-		body_new_pos = body.getPosition().copy();
+		/*body_new_pos = body.getPosition().copy();
 		body_new_pos.x += normal.x * Math.abs( body.m_platformingVelocity.x ) * Settings.PHYSICS_STEP_DURATION * 1;
 		body_new_pos.y += normal.y * Math.abs( body.m_platformingVelocity.y ) * Settings.PHYSICS_STEP_DURATION * 1;
+		*/
 		
-		if ( normal.x < 0 ) 
+		if ( normal.x < -0.5 ) 
 		{
-			if(  body.m_platformingVelocity.x > 0 ) {
-				trace( "Right side" );
-				body.m_platformingVelocity.x -= 5.1;
+			if (  body.m_platformingVelocity.x >= 0 ) {
+				body.m_platformingVelocity.x = 0;
 			} else {
-				trace( "Fake right" );
 			}
 		}
-		else if ( normal.x > 0 ) {
+		else if ( normal.x > 0.5 ) {
 			if (  body.m_platformingVelocity.x < 0 ) {
-				trace( "Left side" );
-				body.m_platformingVelocity.x = 5.1;
+				
+				// trace( "Left side" );
+				body.m_platformingVelocity.x = 0;
 			} else {
-				trace( "Fake left" );
+				// trace( "Fake left" );
 			}
 		}
 
@@ -230,10 +295,12 @@ class PlayerVelocity {
 		}
 		
 		// contact.
-		
-		/*for (i in 0...contact.getManifold().m_pointCount )
+		/*
+		for (i in 0...contact.getManifold().m_pointCount )
 		{
 			var localPoint = contact.getManifold().m_points[ i ].m_localPoint;
+			
+			if ( floatCompare( localPoint.x, Settings.PLAYER_WIDTH * 0.5, 0.01 ) )
 			{
 				if ( body.m_platformingVelocity.x > 0 ) body.m_platformingVelocity.x = 0;
 			}

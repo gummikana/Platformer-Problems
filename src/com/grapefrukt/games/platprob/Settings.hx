@@ -47,7 +47,7 @@ class Settings{
 	static public var VPLAYER_DENSITY				:Float = 1;
 	@values(0.001, 1) static public var VPLAYER_DELTA					:Float = 1.0;
 	static public var VPLAYER_JUMP_VELOCITY			:Float = -39;
-	static public var VPLAYER_HORIZONTAL_VELOCITY	:Float = 0.1;
+	static public var VPLAYER_HORIZONTAL_VELOCITY	:Float = 5.1;
 	static public var VPLAYER_GRAVITY				:Float = 98;
 	static public var VPLAYER_TERMINAL_VELOCITY		:Float = 50;
 	
@@ -59,8 +59,8 @@ class Settings{
 	static public inline var COLOR_PLAYER_WHEEL			:Int = 0x6F3AAF;
 	static public inline var COLOR_TERRAIN				:Int = 0x4587B6;
 	
-	static public var CAMERA_SMOOTHING				:Float = 0.05;
-	static public var CAMERA_VELOCITY_LEAD_X		:Float = 15;
-	static public var CAMERA_VELOCITY_LEAD_Y		:Float = 5;
+	static public var CAMERA_SMOOTHING				:Float = 1;
+	static public var CAMERA_VELOCITY_LEAD_X		:Float = 0;
+	static public var CAMERA_VELOCITY_LEAD_Y		:Float = 0;
 	
 }
