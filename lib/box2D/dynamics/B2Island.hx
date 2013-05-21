@@ -178,8 +178,17 @@ class B2Island
 			
 			// Integrate velocities.
 			//b.m_linearVelocity += step.dt * (gravity + b.m_invMass * b.m_force);
-			b.m_linearVelocity.x += step.dt * (gravity.x + b.m_invMass * b.m_force.x);
-			b.m_linearVelocity.y += step.dt * (gravity.y + b.m_invMass * b.m_force.y);
+			if ( b.m_specialGravity == null )
+			{
+				b.m_linearVelocity.x += step.dt * (gravity.x + b.m_invMass * b.m_force.x);
+				b.m_linearVelocity.y += step.dt * (gravity.y + b.m_invMass * b.m_force.y);
+			}
+			else 
+			{
+				b.m_linearVelocity.x += step.dt * (b.m_specialGravity.x + b.m_invMass * b.m_force.x);
+				b.m_linearVelocity.y += step.dt * (b.m_specialGravity.y + b.m_invMass * b.m_force.y);
+			}
+			
 			b.m_angularVelocity += step.dt * b.m_invI * b.m_torque;
 			
 			// Apply damping.
@@ -235,8 +244,8 @@ class B2Island
 				
 			// Check for large velocities.
 			// b2Vec2 translation = step.dt * b.m_linearVelocity;
-			var translationX:Float = step.dt * b.m_linearVelocity.x;
-			var translationY:Float = step.dt * b.m_linearVelocity.y;
+			var translationX:Float = step.dt * ( b.m_linearVelocity.x );
+			var translationY:Float = step.dt * ( b.m_linearVelocity.y );
 			//if (b2Dot(translation, translation) > b2_maxTranslationSquared)
 			if ((translationX*translationX+translationY*translationY) > B2Settings.b2_maxTranslationSquared)
 			{
@@ -263,8 +272,8 @@ class B2Island
 			
 			// Integrate
 			//b.m_sweep.c += step.dt * b.m_linearVelocity;
-			b.m_sweep.c.x += step.dt * b.m_linearVelocity.x;
-			b.m_sweep.c.y += step.dt * b.m_linearVelocity.y;
+			b.m_sweep.c.x += step.dt * ( b.m_linearVelocity.x + b.m_platformingVelocity.x );
+			b.m_sweep.c.y += step.dt * ( b.m_linearVelocity.y + b.m_platformingVelocity.y );
 			b.m_sweep.a += step.dt * b.m_angularVelocity;
 			
 			// Compute new transform
