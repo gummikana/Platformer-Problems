@@ -153,6 +153,51 @@ class PhysUtils {
 		return body;
 	}
 	
+	
+	public static function createDiamondInMeters(world:B2World, x:Float, y:Float, radius:Float, length:Float, density:Float = 0, friction:Float = 0.1, restitution:Float = 0.1):B2Body {
+		var bodyDefinition = new B2BodyDef();
+		bodyDefinition.position.set(x, y);
+		bodyDefinition.type = B2Body.b2_dynamicBody;
+		
+		var box = new B2PolygonShape();
+		box.m_color = Settings.COLOR_PLAYER_BODY;
+		
+		var width = radius;
+		var height = length * 0.5;
+		var offset_y = 0.25 * height;
+		var offset_x = 0.25 * width;
+		
+		var vertices:Array< B2Vec2 > = [];
+		vertices.push( new B2Vec2( -width, -height + offset_y ) );
+		vertices.push( new B2Vec2( -width + offset_x, -height ) );
+		
+		vertices.push( new B2Vec2( width - offset_x, -height ) );
+		vertices.push( new B2Vec2( width, -height + offset_y ) );
+
+		vertices.push( new B2Vec2( width, height - offset_y ) );
+		vertices.push( new B2Vec2( width - offset_x, height ) );
+		
+		vertices.push( new B2Vec2( -width + offset_x, height ) );
+		vertices.push( new B2Vec2( -width, height - offset_y ) );
+		
+		box.setAsArray( vertices, 8 );
+		
+	
+		
+		var fd = new B2FixtureDef();
+		fd.density = density;
+		fd.friction = friction;
+		fd.restitution = restitution;
+		
+		var body = world.createBody(bodyDefinition);
+		
+		fd.shape = box;
+		body.createFixture(fd);
+		
+		
+		return body;
+	}
+	
 	public static function createCircle(world:B2World, x:Float, y:Float, radius:Float, dynamicBody:Bool):B2Body {
 		var bodyDefinition = new B2BodyDef();
 		bodyDefinition.position.set(x * Settings.PHYSICS_SCALE, y * Settings.PHYSICS_SCALE);
