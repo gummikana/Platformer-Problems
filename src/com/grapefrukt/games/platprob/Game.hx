@@ -64,6 +64,7 @@ class Game extends Sprite {
 		input = new KeyInputUtil(stage);
 		input.map(Keyboard.LEFT, Input.LEFT);
 		input.map(Keyboard.RIGHT, Input.RIGHT);
+		input.map(Keyboard.UP, Input.JUMP);
 		input.map(Keyboard.Z, Input.JUMP);
 		
 		addEventListener(Event.ENTER_FRAME, handleEnterFrame);
