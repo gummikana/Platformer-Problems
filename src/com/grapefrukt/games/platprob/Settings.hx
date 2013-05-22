@@ -67,7 +67,7 @@ class Settings{
 	static public inline var COLOR_PLAYER_WHEEL			:Int = 0x6F3AAF;
 	static public inline var COLOR_TERRAIN				:Int = 0x4587B6;
 	
-	static public var CAMERA_SMOOTHING				:Float = 1;
+	@range(0.05, 1) static public var CAMERA_SMOOTHING						:Float = 0.05;
 	@range(0, 30) static public var CAMERA_VELOCITY_LEAD_X		:Float = 15;
 	@range(0, 30) static public var CAMERA_VELOCITY_LEAD_Y		:Float = 5;
 	
