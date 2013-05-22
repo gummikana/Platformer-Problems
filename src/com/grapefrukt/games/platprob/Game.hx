@@ -94,7 +94,7 @@ class Game extends Sprite {
 		
 		Level.load(world, "level");
 		
-		if ( Settings.USE_VPLAYER == true )
+		if ( Settings.VPLAYER_IN_USE == true )
 			player = new PlayerVelocity( world );
 		else
 			player = new Player(world);
