@@ -118,7 +118,7 @@ class Game extends Sprite {
 		
 		Level.load(world, "level");
 		
-		if ( Settings.USE_VPLAYER == true )
+		if ( Settings.VPLAYER_IN_USE == true )
 			player = new PlayerVelocity( world );
 		else
 			player = new Player(world);
@@ -154,16 +154,18 @@ class Game extends Sprite {
 			world.drawDebugData();
 		
 			Shaker.update(time.timeDelta);
-			
-			// playerBody.applyForce( new B2Vec2( 0, -100 ), new B2Vec2() );
-			if ( player.isOnGround && input.isDown(Input.JUMP, true) ) player.jump();
-			if ( Settings.PLATFORMING_CLAMP_JUMP && !player.isOnGround && !input.isDown(Input.JUMP) ) player.stopJump();
-			
-			if ( input.isDown(Input.LEFT, false) ) player.applyHorizontalMove(  -1.0 );
-			if ( input.isDown(Input.RIGHT, false) ) player.applyHorizontalMove(  1.0 );
-			
-			player.update(time.timeDelta);
-			
+
+			for ( i in 0...numSteps ) {
+
+				// playerBody.applyForce( new B2Vec2( 0, -100 ), new B2Vec2() );
+				if ( player.isOnGround && input.isDown(Input.JUMP, true) ) player.jump();
+				if ( Settings.PLATFORMING_CLAMP_JUMP && !player.isOnGround && !input.isDown(Input.JUMP) ) player.stopJump();
+				
+				if ( input.isDown(Input.LEFT, false) ) player.applyHorizontalMove(  -1.0 );
+				if ( input.isDown(Input.RIGHT, false) ) player.applyHorizontalMove(  1.0 );
+				
+				player.update(time.timeDelta);
+			}
 			var pos = player.body.getPosition().copy();
 			var vel = player.body.getLinearVelocity().copy();
 			// vel.x = 0;

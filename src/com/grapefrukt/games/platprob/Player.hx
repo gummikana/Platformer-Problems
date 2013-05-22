@@ -23,8 +23,7 @@ class Player extends IPlayer {
 		super();
 		contacts = [];
 		
-		for ( i in 0...10 )
-		{
+		for ( i in 0...10 ) {
 			var box = PhysUtils.createBoxInMeters(world, 10 + i * 1.5, 30, 1.0, 1.0, true, 0.5, .5, Settings.PLAYER_DENSITY);
 		}
 		
@@ -96,13 +95,13 @@ class Player extends IPlayer {
 		if ( Settings.PLAYER_GROUND_SLOWDOWN && wheel != null )
 		{
 			if ( keyPressed > 1 && keyPressed < Settings.PLAYER_GROUND_SLOWDOWN_LENGTH ) {  wheel.setAngularDamping( 0.75 + keyPressed / Settings.PLAYER_GROUND_SLOWDOWN_LENGTH ); }
-			if ( keyPressed == Settings.PLAYER_GROUND_SLOWDOWN_LENGTH ) { wheel.setFixedRotation( true ); wheel.setAngularVelocity( 0 ); }
+			if ( keyPressed >= Settings.PLAYER_GROUND_SLOWDOWN_LENGTH ) { wheel.setFixedRotation( true ); wheel.setAngularVelocity( 0 ); }
 		}
 		
 		if( Settings.PLAYER_CLAMP_VELOCITY ) 
 		{
 			var velocity = body.getLinearVelocity();
-			if ( Math.abs( velocity.x ) > Settings.PLAYER_MAX_HORIZONTAL_VELOCITY ) { velocity.x = B2Math.clamp( velocity.x, -Settings.PLAYER_MAX_HORIZONTAL_VELOCITY, Settings.PLAYER_MAX_HORIZONTAL_VELOCITY ); }
+			if ( Math.abs( velocity.x ) > Settings.PLAYER_CLAMP_MAX_VELOCITY ) { velocity.x = B2Math.clamp( velocity.x, -Settings.PLAYER_CLAMP_MAX_VELOCITY, Settings.PLAYER_CLAMP_MAX_VELOCITY ); }
 			body.setLinearVelocity( velocity );
 		}
 			
