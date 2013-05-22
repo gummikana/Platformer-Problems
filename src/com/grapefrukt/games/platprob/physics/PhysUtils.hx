@@ -83,7 +83,6 @@ class PhysUtils {
 	public static function createPlayerInMeters(world:B2World, x:Float, y:Float, width_m:Float, height_m:Float, dynamicBody:Bool = true, friction:Float = .5, restitution:Float = .5, density:Float = 0):Array< B2Body > {
 		var result:Array< B2Body > = [];
 		
-		var body = createPill( world, x / Settings.PHYSICS_SCALE, y / Settings.PHYSICS_SCALE, ( width_m * 0.5 ) / Settings.PHYSICS_SCALE, height_m /  Settings.PHYSICS_SCALE, density, 0, restitution );
 		
 		// wheel
 		var wheel_radius = ( width_m * 0.5 ) - 0.05;
@@ -108,6 +107,8 @@ class PhysUtils {
 		
 		var wheel = world.createBody(wheelDefinition);
 		wheel.createFixture(fixtureDefinition);
+
+		var body = createPill( world, x / Settings.PHYSICS_SCALE, y / Settings.PHYSICS_SCALE, ( width_m * 0.5 ) / Settings.PHYSICS_SCALE, height_m /  Settings.PHYSICS_SCALE, density, 0, restitution );
 		
 		var jointDef = new B2RevoluteJointDef();
 		jointDef.initialize( body, wheel, new B2Vec2( x, y + ( height_m * 0.5 - wheel_radius ) + 0.10 ) );
