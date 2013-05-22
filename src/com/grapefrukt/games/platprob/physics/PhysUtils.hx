@@ -127,7 +127,7 @@ class PhysUtils {
 		
 		var box = new B2PolygonShape();
 		box.m_color = Settings.COLOR_PLAYER_BODY;
-		box.setAsBox((radius ) * Settings.PHYSICS_SCALE, ( 0.5 * length - radius ) * Settings.PHYSICS_SCALE);
+		box.setAsBox((radius - Settings.PLAYER_PILL_BOX_SIZE_LESS ) * Settings.PHYSICS_SCALE, ( 0.5 * length - radius ) * Settings.PHYSICS_SCALE);
 		
 		var circle = new B2CircleShape(radius * Settings.PHYSICS_SCALE);
 		circle.m_color = Settings.COLOR_PLAYER_BODY_PILLS;

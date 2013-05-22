@@ -99,14 +99,14 @@ class Game extends Sprite {
 
 	
 	public function handleEnterFrame(e:Event) {
-		time.tick();
+		/*time.tick();
 		
 		acc += time.timeDelta;
 		var numSteps = 0;
-		while (acc - Settings.PHYSICS_STEP_DURATION > 0) {
+		while (acc - Settings.PHYSICS_STEP_DURATION > 0) {*/
 			world.step(Settings.PHYSICS_STEP_DURATION, 10, 10);
 			world.clearForces();
-			
+			/*
 			acc -= Settings.PHYSICS_STEP_DURATION;
 			numSteps++;
 			
@@ -117,7 +117,7 @@ class Game extends Sprite {
 			}
 		}
 		
-		text.text = numSteps + " " + time.timeDelta;
+		text.text = numSteps + " " + time.timeDelta;*/
 		
 		world.drawDebugData();
 		
@@ -134,8 +134,8 @@ class Game extends Sprite {
 		
 		var pos = player.body.getPosition();
 		var vel = player.body.getLinearVelocity();
-		vel.x = 0;
-		vel.y = 0;
+		// vel.x = 0;
+		// vel.y = 0;
 		pos.multiply(1 / Settings.PHYSICS_SCALE);
 		canvas.x -= (canvas.x - (Settings.STAGE_W / 2 - pos.x - vel.x * Settings.CAMERA_VELOCITY_LEAD_X)) * Settings.CAMERA_SMOOTHING;
 		canvas.y -= (canvas.y - (Settings.STAGE_H / 2 - pos.y - vel.y * Settings.CAMERA_VELOCITY_LEAD_Y)) * Settings.CAMERA_SMOOTHING;
