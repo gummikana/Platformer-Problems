@@ -11,11 +11,11 @@ import nme.Lib;
  * ...
  * @author Martin Jonasson, m@grapefrukt.com
  */
-class PlayerVelocity {
+class PlayerVelocity extends IPlayer {
 	
 	public var world(default, null):B2World;
-	public var body(default, null):B2Body;
-	public var isOnGround(default, null):Bool;
+	// public var body(default, null):B2Body;
+	// public var isOnGround(default, null):Bool;
 	public var inAirCounter:Int;
 	public var keyPressed:Int;
 	
@@ -29,6 +29,7 @@ class PlayerVelocity {
 
 	
 	public function new(in_world:B2World) {
+		super();
 		contacts = [];
 		world = in_world;
 		
@@ -52,7 +53,7 @@ class PlayerVelocity {
 		keyPressed = 0;
 	}
 	
-	public function update(timeDelta:Float) {
+	override public function update(timeDelta:Float) :Void {
 		for ( i in 0...contacts.length ) {
 			onContact( contacts[ i ] );			
 		}
@@ -161,7 +162,7 @@ class PlayerVelocity {
 		trace( pbody.m_linearVelocity.y );*/
 	}
 	
-	public function jump() {
+	override public function jump() {
 		body.m_platformingVelocity.y = Settings.VPLAYER_JUMP_VELOCITY;
 		
 		jumpTimeStart = Lib.getTimer();
@@ -169,14 +170,12 @@ class PlayerVelocity {
 		jumpHighest = jumpHeightStart;
 	}
 	
-	public function stopJump() {
+	override public function stopJump() {
 		if (body.m_platformingVelocity.y > 0) return;
 		body.m_platformingVelocity.y = 0;
 	}
-	
-	
-	
-	public function applyHorizontalMove( direction:Float ) {
+		
+	override public function applyHorizontalMove( direction:Float ) {
 		if ( isOnGround ){
 			// body.applyForce( new B2Vec2( direction * Settings.PLATFORMING_HORIZONTAL_VELOCITY_ON_GROUND), body.getWorldCenter() );
 			// trace( "On ground" );

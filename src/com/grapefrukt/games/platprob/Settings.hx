@@ -14,6 +14,8 @@ class Settings{
 	@values(-1,100) static public var PHYSICS_STEP_DURATION				:Float = 1 / 60;
 	@values(3,100) static public var PHYSICS_GRAVITY					:Float = 10 * 9.8;	// 10 * 9.8
 	
+	static public var USE_VPLAYER							:Bool = false;
+	
 	static public var PLATFORMING_JUMP_VELOCITY				:Float = -4375 * 1.5;	// for 10x gravity -10000, -2000 for normal gravity
 	static public var PLATFORMING_CLAMP_JUMP				:Bool = false;
 	static public var PLATFORMING_USE_IN_AIR_COUNTER		:Bool = true;

@@ -10,11 +10,11 @@ import nme.Lib;
  * ...
  * @author Martin Jonasson, m@grapefrukt.com
  */
-class Player {
+class Player extends IPlayer {
 	
-	public var body(default, null):B2Body;
+	// public var body(default, null):B2Body;
 	public var wheel(default, null):B2Body;
-	public var isOnGround(default, null):Bool;
+	// public var isOnGround(default, null):Bool;
 	public var inAirCounter:Int;
 	public var keyPressed:Int;
 	
@@ -26,6 +26,7 @@ class Player {
 	public var jumpHeightStart:Float;
 	
 	public function new(world:B2World) {
+		super();
 		// body = PhysUtils.createBoxInMeters(world, 10, 10, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT, true, Settings.PLAYER_FRICTION, Settings.PLAYER_RESTITUTION, Settings.PLAYER_DENSITY);
 		var body_t = PhysUtils.createBoxInMeters(world, 8.5, 10, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT , true );
 		var body_parts = PhysUtils.createPlayerInMeters(world, 10, 10, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT, true, Settings.PLAYER_FRICTION, Settings.PLAYER_RESTITUTION, Settings.PLAYER_DENSITY);
@@ -44,7 +45,7 @@ class Player {
 		keyPressed = 0;
 	}
 	
-	public function update() {
+	override public function update(timeDelta:Float) :Void {
 		// isOnGround = false;
 		
 		if ( Settings.PLATFORMING_USE_IN_AIR_COUNTER == false ) {
@@ -89,7 +90,7 @@ class Player {
 			
 	}
 	
-	public function jump() {
+	override public function jump():Void {
 		body.applyForce( new B2Vec2( 0, Settings.PLATFORMING_JUMP_VELOCITY ), body.getWorldCenter() );
 		
 		jumpTimeStart = Lib.getTimer();
@@ -97,7 +98,7 @@ class Player {
 		jumpHighest = jumpHeightStart;
 	}
 	
-	public function stopJump() {
+	override public function stopJump():Void  {
 		var v = body.getLinearVelocityFromLocalPoint(body.getLocalCenter());
 		if (v.y > 0) return;
 		v.y = 0;
@@ -106,7 +107,7 @@ class Player {
 	
 	
 	
-	public function applyHorizontalMove( direction:Float ) {
+	override public function applyHorizontalMove( direction:Float ):Void  {
 		if ( isOnGround ){
 			body.applyForce( new B2Vec2( direction * Settings.PLATFORMING_HORIZONTAL_VELOCITY_ON_GROUND), body.getWorldCenter() );
 			// trace( "On ground" );

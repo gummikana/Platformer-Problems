@@ -28,7 +28,7 @@ class Game extends Sprite {
 	private var world:B2World;
 	private var canvas:Sprite;
 	private var input:KeyInputUtil;
-	private var player:PlayerVelocity;
+	private var player:IPlayer;
 	private var toggler:Toggler;
 	private var settingsLoader:SettingsLoader;
 	private var debugDraw:B2DebugDraw;
@@ -88,7 +88,10 @@ class Game extends Sprite {
 		
 		Level.load(world, "level");
 		
-		player = new PlayerVelocity(world);
+		if ( Settings.USE_VPLAYER == true )
+			player = new PlayerVelocity( world );
+		else
+			player = new Player(world);
 	}
 
 	
