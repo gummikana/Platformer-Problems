@@ -17,7 +17,7 @@ class Settings{
 	static public var USE_VPLAYER							:Bool = false;
 	
 	
-	static public var PLATFORMING_JUMP_VELOCITY				:Float = -400; // -4375 * 1.5;	// for 10x gravity -10000, -2000 for normal gravity
+	@range(-10000.0, -100.0) static public var PLATFORMING_JUMP_VELOCITY				:Float = -245; // -400 for 1.8 h, -4375 * 1.5;	// for 10x gravity -10000, -2000 for normal gravity
 	static public var PLATFORMING_CLAMP_JUMP				:Bool = false;
 	static public var PLATFORMING_USE_IN_AIR_COUNTER		:Bool = true;
 	static public var PLATFORMING_AIR_COUNTER_MAX			:Int = 10;
@@ -37,9 +37,9 @@ class Settings{
 	static public var PLAYER_CLAMP_VELOCITY				:Bool = true;
 	static public var PLAYER_MAX_HORIZONTAL_VELOCITY	:Float = 25.0;
 
-	static public var TILE_SIZE						:Float = 1.0;	// in meters
-	static public var PLAYER_WIDTH					:Float = 1.0;	// in meters
-	static public var PLAYER_HEIGHT					:Float = 1.8;	// in meters
+	static public var TILE_SIZE							:Float = 1.0;	// in meters
+	static public var PLAYER_WIDTH						:Float = 1.0;	// in meters
+	@range(1.0,4.0) static public var PLAYER_HEIGHT		:Float = 1.0;	// in meters
 
 	static public var PLAYER_FIXED_ROTATION			:Bool = true;
 	static public var PLAYER_BALANCE_ROTATION		:Bool = false;
