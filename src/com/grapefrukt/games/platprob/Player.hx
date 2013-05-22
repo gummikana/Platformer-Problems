@@ -37,7 +37,7 @@ class Player extends IPlayer {
 		
 		if ( Settings.PLAYER_IS_A_BOX ) 
 		{
-			body = PhysUtils.createBoxInMeters(world, Settings.PLAYER_START_POSITION_X, Settings.PLAYER_START_POSITION_Y, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT, true, Settings.PLAYER_FRICTION, Settings.PLAYER_RESTITUTION, Settings.PLAYER_DENSITY);
+			body = PhysUtils.createBoxInMeters(world, Settings.PLAYER_START_POSITION_X, Settings.PLAYER_START_POSITION_Y, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT, true, Settings.PLAYER_FRICTION, Settings.PLAYER_RESTITUTION, Settings.PLAYER_DENSITY, Settings.COLOR_PLAYER_BODY);
 			body.setFixedRotation( Settings.PLAYER_FIXED_ROTATION );
 			
 			// wheel = body;

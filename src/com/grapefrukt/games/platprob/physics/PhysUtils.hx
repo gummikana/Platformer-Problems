@@ -54,7 +54,7 @@ class PhysUtils {
 		
 		return body;
 	}
-	public static function createBoxInMeters(world:B2World, x:Float, y:Float, width_m:Float, height_m:Float, dynamicBody:Bool = true, friction:Float = .5, restitution:Float = .5, density:Float = 0):B2Body {
+	public static function createBoxInMeters(world:B2World, x:Float, y:Float, width_m:Float, height_m:Float, dynamicBody:Bool = true, friction:Float = .5, restitution:Float = .5, density:Float = 0, color:Int = -1):B2Body {
 		var bodyDefinition = new B2BodyDef();
 		bodyDefinition.position.set(x, y);
 		bodyDefinition.allowSleep = false;
@@ -65,6 +65,7 @@ class PhysUtils {
 		}
 		
 		var polygon = new B2PolygonShape();
+		polygon.m_color = color;
 		polygon.setAsBox((width_m / 2) , (height_m / 2) );
 		
 		var fixtureDefinition = new B2FixtureDef();
