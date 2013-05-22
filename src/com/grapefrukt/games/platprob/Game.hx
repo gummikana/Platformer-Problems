@@ -55,6 +55,7 @@ class Game extends Sprite {
 		settingsLoader = new SettingsLoader("config/config.cfg", Settings);
 		settingsLoader.addEventListener(Event.COMPLETE, function(e:Event) {
 			toggler.reset();
+			reset();
 		});
 		
 		time = new Timestep(60, 1 / 60);
