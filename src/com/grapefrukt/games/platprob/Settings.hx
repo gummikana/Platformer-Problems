@@ -12,7 +12,7 @@ class Settings{
 	
 	static public inline var PHYSICS_SCALE				:Float = 1 / 30;
 	@range(0.0083333333,0.0333333333) static public var PHYSICS_STEP_DURATION				:Float = 1 / 60;
-	@range(.98,980) static public var PHYSICS_GRAVITY										:Float = 9.8;	// 10 * 9.8
+	@range(1,200) static public var PHYSICS_GRAVITY										:Float = 9.8;	// 10 * 9.8
 	
 	static public var USE_VPLAYER							:Bool = false;
 	

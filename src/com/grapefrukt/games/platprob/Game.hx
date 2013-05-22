@@ -103,6 +103,9 @@ class Game extends Sprite {
 	public function handleEnterFrame(e:Event) {
 		time.tick();
 		
+		var g = world.getGravity();
+		g.y = Settings.PHYSICS_GRAVITY;
+		world.setGravity(g);
 	
 		acc += time.timeDelta;
 		var numSteps = 0;
