@@ -48,7 +48,9 @@ class Game extends Sprite {
 		Lib.current.addChild(new Stats());
 		
 		text = new TextField();
-		// Lib.current.addChild(text);
+		text.selectable = false;
+		text.mouseEnabled = false;
+		Lib.current.addChild(text);
 		
 		settingsLoader = new SettingsLoader("config/config.cfg", Settings);
 		settingsLoader.addEventListener(Event.COMPLETE, function(e:Event) {
