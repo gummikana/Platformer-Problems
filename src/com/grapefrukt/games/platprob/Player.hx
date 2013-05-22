@@ -30,7 +30,11 @@ class Player extends IPlayer {
 		super();
 		contacts = [];
 		
-		// body = PhysUtils.createBoxInMeters(world, 8.5, 10, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT, true, Settings.PLAYER_FRICTION, Settings.PLAYER_RESTITUTION, Settings.PLAYER_DENSITY);
+		for ( i in 0...10 )
+		{
+			var box = PhysUtils.createBoxInMeters(world, 10 + i * 1.5, 30, 1.0, 1.0, true, 0.5, .5, Settings.PLAYER_DENSITY);
+		}
+		
 		if ( Settings.PLAYER_IS_A_BOX ) 
 		{
 			body = PhysUtils.createBoxInMeters(world, Settings.PLAYER_START_POSITION_X, Settings.PLAYER_START_POSITION_Y, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT, true, Settings.PLAYER_FRICTION, Settings.PLAYER_RESTITUTION, Settings.PLAYER_DENSITY);
@@ -114,6 +118,8 @@ class Player extends IPlayer {
 	override public function jump():Void {
 		body.applyForce( new B2Vec2( 0, Settings.PLATFORMING_JUMP_VELOCITY ), body.getWorldCenter() );
 		
+		// isOnGround = false;
+		inAirCounter = Settings.PLATFORMING_AIR_COUNTER_MAX * 5;
 		jumpTimeStart = Lib.getTimer();
 		jumpHeightStart = body.getPosition().y;
 		jumpHighest = jumpHeightStart;
