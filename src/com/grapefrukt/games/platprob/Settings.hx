@@ -53,7 +53,7 @@ class Settings{
 	static public var VPLAYER_MAX_HORIZONTAL_SPEED	:Float = 25;
 	static public var VPLAYER_SLOWDOWN_MULTIPLIER	:Float = 0.75;
 	
-	static public var VPLAYER_RAYCAST 				:Bool = false;
+	static public var VPLAYER_RAYCAST 				:Bool = true;
 	
 	static public var BOUNDS_FRICTION				:Float = 0.8;
 	static public var BOUNDS_RESTITUTION			:Float = .1;
