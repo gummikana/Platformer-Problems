@@ -91,6 +91,8 @@ class PlayerVelocity {
 	
 	public function updateBody( pbody:B2Body )
 	{
+		if ( Settings.VPLAYER_RAYCAST == false && Settings.VPLAYER_RESPOND_TO_CONTACTS == false ) touchGround();
+		
 		// gravity
 		pbody.m_platformingVelocity.y += ( Settings.VPLAYER_GRAVITY * Settings.PHYSICS_STEP_DURATION );
 		
