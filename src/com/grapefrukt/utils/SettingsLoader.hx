@@ -1,4 +1,5 @@
 package com.grapefrukt.utils;
+import nme.errors.Error;
 import nme.events.ErrorEvent;
 import nme.events.Event;
 import nme.events.EventDispatcher;
@@ -108,7 +109,14 @@ class SettingsLoader extends EventDispatcher {
 	}
 	
 	private function setValue(name:String, value:Dynamic):Void {
-		Reflect.setField(_target, name, value);
+		if (Std.string(value) == "true") {
+			Reflect.setField(_target, name, true);
+		} else if(Std.string(value) == "false") {
+			Reflect.setField(_target, name, false);
+		} else {
+			Reflect.setField(_target, name, value);
+			if (value != Reflect.field(_target, name)) throw new Error("Failed setting value!");
+		}
 	}
 
 }
