@@ -33,6 +33,10 @@ class PlayerVelocity extends IPlayer {
 		contacts = [];
 		world = in_world;
 		
+		for ( i in 0...10 ) {
+			var box = PhysUtils.createBoxInMeters(world, 10 + i * 1.5, 30, 1.0, 1.0, true, 0.5, .5, Settings.PLAYER_DENSITY);
+		}
+		
 		body = PhysUtils.createDiamondInMeters(
 			world,
 			8.5,

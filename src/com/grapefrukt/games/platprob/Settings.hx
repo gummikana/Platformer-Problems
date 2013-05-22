@@ -36,9 +36,9 @@ class Settings{
 	
 	static public var PLAYER_WHEEL_STOP					:Bool = true;
 	static public var PLAYER_GROUND_SLOWDOWN			:Bool = true;
-	static public var PLAYER_GROUND_SLOWDOWN_LENGTH		:Int = 5;
+	@range(0,20) static public var PLAYER_GROUND_SLOWDOWN_LENGTH		:Int = 5;
 	static public var PLAYER_CLAMP_VELOCITY				:Bool = true;
-	static public var PLAYER_MAX_HORIZONTAL_VELOCITY	:Float = 25.0;
+	static public var PLAYER_CLAMP_MAX_VELOCITY			:Float = 19.0;
 
 	static public var TILE_SIZE							:Float = 1.0;	// in meters
 	static public var PLAYER_WIDTH						:Float = 1.0;	// in meters
