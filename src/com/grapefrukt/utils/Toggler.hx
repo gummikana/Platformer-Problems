@@ -25,24 +25,25 @@ class Property {
 	public function new(){}
 	
 	public var name:String;
-	public var comment:String;
 	public var type:ValueType;
 	public var value:Dynamic;
 	public var max:Float;
 	public var min:Float;
-	public var order:String = "";
 	public var header:String = "";
+	public var reset:Bool;
 }
 
 class Toggler extends Sprite {
 
 		private var _targetClass:Dynamic;
 		private var _properties:Array<Property>;
+		private var _resetMain:Void->Void;
 		
-		public function new(targetClass:Dynamic, visible:Bool = false) {
+		public function new(targetClass:Dynamic, visible:Bool = false, resetMain:Void->Void = null) {
 			super();
 			_targetClass = targetClass;
 			this.visible = visible;
+			_resetMain = resetMain;
 			
 			reset();
 			addEventListener(Event.ADDED_TO_STAGE, handleAddedToStage);
@@ -84,6 +85,9 @@ class Toggler extends Sprite {
 						property.min = range[0];
 						property.max = range[1];
 					}
+					
+					var reset = Reflect.field(meta, "reset");
+					if (reset == true) property.reset = true;
 				}
 				
 				_properties.push(property);
@@ -116,7 +120,7 @@ class Toggler extends Sprite {
 				if (Type.enumEq(property.type, ValueType.TBool)) {
 					var checkbox:CheckBox = new CheckBox(row, 0, 0, "");
 					checkbox.selected = property.value;
-					checkbox.addEventListener(Event.CHANGE, getToggleClosure(checkbox, property.name));
+					checkbox.addEventListener(Event.CHANGE, getToggleClosure(checkbox, property));
 				} else if (Type.enumEq(property.type, ValueType.TFloat) || Type.enumEq(property.type, ValueType.TInt)) {
 					var slider:HUISlider = new HUISlider(row, 0, 0, "");
 					slider.width = 130;
@@ -124,7 +128,7 @@ class Toggler extends Sprite {
 					slider.minimum = property.min;
 					slider.maximum = property.max;
 					slider.value = property.value;
-					slider.addEventListener(Event.CHANGE, getSliderClosure(slider, property.name));
+					slider.addEventListener(Event.CHANGE, getSliderClosure(slider, property));
 				}
 			}
 			
@@ -158,15 +162,17 @@ class Toggler extends Sprite {
 			return name.substr(0, name.indexOf("_"));
 		}
 		
-		private function getToggleClosure(checkbox:CheckBox, field:String) {
+		private function getToggleClosure(checkbox:CheckBox, property:Property) {
 			return function(e:Event) {
-				Reflect.setField(_targetClass, field, checkbox.selected);
+				Reflect.setField(_targetClass, property.name, checkbox.selected);
+				if (property.reset && _resetMain != null) _resetMain();
 			}
 		}
 		
-		private function getSliderClosure(slider:HUISlider, field:String) {
+		private function getSliderClosure(slider:HUISlider, property:Property) {
 			return function(e:Event) {
-				Reflect.setField(_targetClass, field, slider.value);
+				Reflect.setField(_targetClass, property.name, slider.value);
+				if (property.reset && _resetMain != null) _resetMain();
 			}
 		}
 		
@@ -180,12 +186,6 @@ class Toggler extends Sprite {
 		}
 		
 		private function _sort(p1:Property, p2:Property):Int {
-			if (p1.order == "" && p2.order != "") return 1;
-			if (p1.order != "" && p2.order == "") return -1;
-			
-			if (p1.order < p2.order) return -1;
-			if (p1.order > p2.order) return 1;
-			
 			if (p1.name < p2.name) return -1;
 			if (p1.name > p2.name) return 1;
 			return 0;
