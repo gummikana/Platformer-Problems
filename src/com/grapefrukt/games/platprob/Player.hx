@@ -18,13 +18,6 @@ class Player extends IPlayer {
 	public var keyPressed:Int;
 	public var contacts:Array< B2Contact >;
 	
-	// stats
-	public var jumpTime:Int;
-	public var jumpTimeStart:Int;
-	public var jumpHeight:Float;
-	public var jumpHighest:Float;
-	public var jumpHeightStart:Float;
-
 	
 	public function new(world:B2World) {
 		super();

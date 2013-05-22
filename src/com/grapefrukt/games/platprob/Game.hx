@@ -12,12 +12,18 @@ import com.grapefrukt.utils.SettingsLoader;
 import com.grapefrukt.utils.Shaker;
 import com.grapefrukt.utils.Timestep;
 import com.grapefrukt.utils.Toggler;
+import format.SWF;
 import net.hires.debug.Stats;
+import nme.Assets;
+import format.swf.MovieClip;
 import nme.display.Sprite;
 import nme.events.Event;
 import nme.events.KeyboardEvent;
 import nme.Lib;
 import nme.text.TextField;
+import nme.text.TextFieldAutoSize;
+import nme.text.TextFormat;
+import nme.text.TextFormatAlign;
 import nme.ui.Keyboard;
 
 /**
@@ -25,6 +31,8 @@ import nme.ui.Keyboard;
  * @author Martin Jonasson, m@grapefrukt.com
  */
 class Game extends Sprite {
+	
+	static private var SWF_DATA:SWF;
 
 	private var world:B2World;
 	private var canvas:Sprite;
@@ -36,6 +44,8 @@ class Game extends Sprite {
 	private var time:Timestep;
 	private var acc:Float = 0;
 	private var text:TextField;
+	private var gui:MovieClip;
+	private var txt:TextField;
 	
 	public function new() {
 		super();
@@ -82,6 +92,20 @@ class Game extends Sprite {
 		stage.addEventListener(KeyboardEvent.KEY_DOWN, handleKeyDown);
 		
 		reset();
+		
+		gui = getClip("ArrowKeysGfx");
+		gui.x = Settings.STAGE_W;
+		gui.y = Settings.STAGE_H;
+		addChild(gui);
+		
+		txt = FontSettings.getDefaultTextField(72, 0xB6D29C, 300);
+		FontSettings.setAlign(txt, TextFormatAlign.RIGHT);
+		txt.autoSize = TextFieldAutoSize.RIGHT;
+		txt.text = "";
+		txt.x = -55 - 300;
+		txt.y = -270;
+		gui.addChild(txt);
+		
 	}
 	
 	public function reset() {
@@ -148,6 +172,16 @@ class Game extends Sprite {
 			canvas.x -= (canvas.x - (Settings.STAGE_W / 2 - pos.x - vel.x * Settings.CAMERA_VELOCITY_LEAD_X)) * Settings.CAMERA_SMOOTHING;
 			canvas.y -= (canvas.y - (Settings.STAGE_H / 2 - pos.y - vel.y * Settings.CAMERA_VELOCITY_LEAD_Y)) * Settings.CAMERA_SMOOTHING;
 		}
+		
+		gui.getChildByName("left").visible = input.isDown(Input.LEFT);
+		gui.getChildByName("jump").visible = input.isDown(Input.JUMP);
+		gui.getChildByName("right").visible = input.isDown(Input.RIGHT);
+		
+		if (player.jumpTime > 0) {
+			txt.text = Math.round( -player.jumpHeight / Settings.PLAYER_HEIGHT * 10) / 10 +"x\n" + Math.round(player.jumpTime / 10)*10 + "ms";
+		} else {
+			txt.text = "";
+		}
 	}
 	
 	private function handleKeyDown(e:KeyboardEvent):Void {
@@ -161,6 +195,11 @@ class Game extends Sprite {
 				Lib.exit();
 			#end
 		}
+	}
+	
+	public static function getClip(tag:String) {
+		if (SWF_DATA == null) SWF_DATA = new SWF(Assets.getBytes ("libraries/platformer.swf"));
+		return SWF_DATA.createMovieClip(tag);
 	}
 	
 }

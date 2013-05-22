@@ -18,13 +18,6 @@ class PlayerVelocity extends IPlayer {
 	// public var isOnGround(default, null):Bool;
 	public var inAirCounter:Int;
 	public var keyPressed:Int;
-	
-	// stats
-	public var jumpTime:Int;
-	public var jumpTimeStart:Int;
-	public var jumpHeight:Float;
-	public var jumpHighest:Float;
-	public var jumpHeightStart:Float;
 	public var contacts:Array< B2Contact >;
 
 	
