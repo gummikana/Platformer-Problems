@@ -12,6 +12,7 @@ import com.grapefrukt.utils.SettingsLoader;
 import com.grapefrukt.utils.Shaker;
 import com.grapefrukt.utils.Timestep;
 import com.grapefrukt.utils.Toggler;
+import net.hires.debug.Stats;
 import nme.display.Sprite;
 import nme.events.Event;
 import nme.events.KeyboardEvent;
@@ -43,6 +44,8 @@ class Game extends Sprite {
 	public function init() {
 		toggler = new Toggler(Settings, false);
 		Lib.current.addChild(toggler);
+		
+		Lib.current.addChild(new Stats());
 		
 		text = new TextField();
 		// Lib.current.addChild(text);
