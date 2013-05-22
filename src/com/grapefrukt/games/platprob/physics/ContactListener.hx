@@ -30,7 +30,7 @@ class ContactListener extends B2ContactListener {
 		}
 		
 		if( player != null )
-			player.touchGround();
+			player.addContact( contact );
 			
 		var player_velocity:PlayerVelocity = null;
 		if (Type.getClass(contact.getFixtureB().getBody().getUserData()) == PlayerVelocity) {
@@ -51,6 +51,16 @@ class ContactListener extends B2ContactListener {
 	 */
 	override public function endContact(contact:B2Contact):Void  {
 		
+		var player:Player = null;
+		if(Type.getClass(contact.getFixtureB().getBody().getUserData()) == Player) {
+			player = cast(contact.getFixtureB().getBody().getUserData(), Player);
+		} else if( Type.getClass(contact.getFixtureA().getBody().getUserData()) == Player ) {
+			player = cast(contact.getFixtureA().getBody().getUserData(), Player);
+		}
+		
+		if( player != null )
+			player.endContact( contact );
+			
 		var player_velocity:PlayerVelocity = null;
 		if (Type.getClass(contact.getFixtureB().getBody().getUserData()) == PlayerVelocity) {
 			player_velocity = cast(contact.getFixtureB().getBody().getUserData(), PlayerVelocity);

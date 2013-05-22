@@ -3,6 +3,7 @@ import box2D.common.math.B2Math;
 import box2D.common.math.B2Vec2;
 import box2D.dynamics.B2Body;
 import box2D.dynamics.B2World;
+import box2D.dynamics.contacts.B2Contact;
 import com.grapefrukt.games.platprob.physics.PhysUtils;
 import nme.Lib;
 
@@ -12,11 +13,10 @@ import nme.Lib;
  */
 class Player extends IPlayer {
 	
-	// public var body(default, null):B2Body;
 	public var wheel(default, null):B2Body;
-	// public var isOnGround(default, null):Bool;
 	public var inAirCounter:Int;
 	public var keyPressed:Int;
+	public var contacts:Array< B2Contact >;
 	
 	// stats
 	public var jumpTime:Int;
@@ -24,14 +24,16 @@ class Player extends IPlayer {
 	public var jumpHeight:Float;
 	public var jumpHighest:Float;
 	public var jumpHeightStart:Float;
+
 	
 	public function new(world:B2World) {
 		super();
+		contacts = [];
 		
-		body = PhysUtils.createBoxInMeters(world, 8.5, 10, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT, true, Settings.PLAYER_FRICTION, Settings.PLAYER_RESTITUTION, Settings.PLAYER_DENSITY);
+		// body = PhysUtils.createBoxInMeters(world, 8.5, 10, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT, true, Settings.PLAYER_FRICTION, Settings.PLAYER_RESTITUTION, Settings.PLAYER_DENSITY);
 		if ( Settings.PLAYER_IS_A_BOX ) 
 		{
-			body = PhysUtils.createBoxInMeters(world, 10, 10, Settings.PLAYER_WIDTH, Settings.PLAYER_WIDTH, true, Settings.PLAYER_FRICTION, Settings.PLAYER_RESTITUTION, Settings.PLAYER_DENSITY);
+			body = PhysUtils.createBoxInMeters(world, 10 - 0.6, 10, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT, true, Settings.PLAYER_FRICTION, Settings.PLAYER_RESTITUTION, Settings.PLAYER_DENSITY);
 			body.setFixedRotation( false );
 			
 			// wheel = body;
@@ -60,12 +62,19 @@ class Player extends IPlayer {
 	override public function update(timeDelta:Float) :Void {
 		// isOnGround = false;
 		
+		for ( i in 0...contacts.length ) {
+			onContact( contacts[ i ] );			
+		}
+		
+		
 		if ( Settings.PLATFORMING_USE_IN_AIR_COUNTER == false ) {
 			isOnGround = false;
 		} else {
 			inAirCounter++;
 			if ( inAirCounter >= Settings.PLATFORMING_AIR_COUNTER_MAX ) isOnGround = false;
 		}
+
+		if ( Settings.PLATFORMING_TOUCH_GROUND_IN_USE == false ) isOnGround = true;
 		
 		if ( jumpHeightStart != 0 && body.getPosition().y < jumpHighest ) jumpHighest = body.getPosition().y;
 		
@@ -135,6 +144,7 @@ class Player extends IPlayer {
 	}
 	
 	public function touchGround() {
+		// trace( "touched ground" );
 		if ( isOnGround == false && jumpTimeStart != 0 ) {
 			jumpTime = Lib.getTimer() - jumpTimeStart;
 			jumpTimeStart = 0;
@@ -148,5 +158,20 @@ class Player extends IPlayer {
 		isOnGround = true;
 		inAirCounter = 0;
 	}
+
 	
+	public function addContact( contact:B2Contact ):Void {
+		contacts.push( contact );
+		// onContact( contact );
+	}
+	
+	public function endContact( contact:B2Contact ):Void {
+		contacts.remove( contact );
+	}
+	
+	
+	public function onContact( contact:B2Contact):Void {
+		if( contact != null && contact.isTouching() )
+			touchGround();
+	}
 }
