@@ -35,6 +35,21 @@ class Player extends IPlayer {
 			// wheel = body;
 			body.setUserData( this );
 		}
+		else if ( Settings.PLAYER_HAS_WHEEL == false ) {
+			body = PhysUtils.createPill(
+				world, 
+				Settings.PLAYER_START_POSITION_X / Settings.PHYSICS_SCALE, 
+				Settings.PLAYER_START_POSITION_Y / Settings.PHYSICS_SCALE,
+				Settings.PLAYER_WIDTH / Settings.PHYSICS_SCALE * 0.5, 
+				Settings.PLAYER_HEIGHT / Settings.PHYSICS_SCALE, 
+				Settings.PLAYER_DENSITY,
+				Settings.PLAYER_FRICTION, 
+				Settings.PLAYER_RESTITUTION );
+			body.setFixedRotation( Settings.PLAYER_FIXED_ROTATION );
+			
+			// wheel = body;
+			body.setUserData( this );
+		}
 		else
 		{
 			// body = PhysUtils.createBoxInMeters(world, 10, 10, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT, true, Settings.PLAYER_FRICTION, Settings.PLAYER_RESTITUTION, Settings.PLAYER_DENSITY);
@@ -169,7 +184,8 @@ class Player extends IPlayer {
 	
 	
 	public function onContact( contact:B2Contact):Void {
-		if( contact != null && contact.isTouching() )
+		if ( contact != null && contact.isTouching() )
+			// trace( contact.getManifold().m_localPlaneNormal.x + ", " + contact.getManifold().m_localPlaneNormal.y );
 			touchGround();
 	}
 }

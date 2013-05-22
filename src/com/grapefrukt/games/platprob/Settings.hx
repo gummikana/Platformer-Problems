@@ -25,6 +25,7 @@ class Settings{
 	static public var PLATFORMING_TOUCH_GROUND_IN_USE	:Bool = true;
 	
 	static public var PLAYER_IS_A_BOX					:Bool = true;
+	static public var PLAYER_HAS_WHEEL					:Bool = false;
 	static public var PLAYER_PILL_BOX_SIZE_LESS			:Float = 0.3;
 	
 	@reset(true) static public var PLAYER_START_POSITION_X			:Float = 10.4;
