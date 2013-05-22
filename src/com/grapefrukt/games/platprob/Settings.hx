@@ -23,7 +23,7 @@ class Settings{
 	static public var PLATFORMING_AIR_COUNTER_MAX			:Int = 10;
 
 	@range(100, 1000.0) static public var PLATFORMING_HORIZONTAL_VELOCITY_ON_GROUND:Float = 250;
-	static public var PLATFORMING_HORIZONTAL_VELOCITY_IN_AIR:Float = 0.75 * 250;
+	@range(0, 1000.0) static public var PLATFORMING_HORIZONTAL_VELOCITY_IN_AIR:Float = 0.75 * 250;
 
 	static public var PLATFORMING_TOUCH_GROUND_IN_USE	:Bool = true;
 	
