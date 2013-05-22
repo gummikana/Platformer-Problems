@@ -107,7 +107,7 @@ class PlayerVelocity {
 		if ( pbody.m_platformingVelocity.y < 0 ) direction = -1.0;
 		
 		// raycasting
-		if ( direction != 0 ) 
+		if ( Settings.VPLAYER_RAYCAST && direction != 0 ) 
 		{
 			var pos1 = body.getPosition().copy();
 			pos1.x -= 0.49 * Settings.PLAYER_WIDTH;
@@ -127,7 +127,7 @@ class PlayerVelocity {
 			}
 		}
 
-		if ( direction != 0 ) 
+		if( Settings.VPLAYER_RAYCAST && direction != 0 ) 
 		{
 			var pos1 = body.getPosition().copy();
 			pos1.x += 0.49 * Settings.PLAYER_WIDTH;
@@ -187,7 +187,7 @@ class PlayerVelocity {
 		keyPressed = 0;
 		
 		// raycasting if we can move in that direction
-		if ( direction != 0 ) 
+		if ( Settings.VPLAYER_RAYCAST && direction != 0 ) 
 		{
 			var pos1 = body.getPosition().copy();
 			pos1.y += 0.5;
