@@ -42,7 +42,7 @@ class Game extends Sprite {
 	}
 	
 	public function init() {
-		toggler = new Toggler(Settings, false);
+		toggler = new Toggler(Settings, false, reset);
 		Lib.current.addChild(toggler);
 		
 		Lib.current.addChild(new Stats());
