@@ -30,8 +30,8 @@ class Settings{
 	static public var PLAYER_IS_A_BOX					:Bool = true;
 	static public var PLAYER_PILL_BOX_SIZE_LESS			:Float = 0.3;
 	
-	static public var PLAYER_START_POSITION_X			:Float = 10.4;
-	static public var PLAYER_START_POSITION_Y			:Float = 10.0;
+	@reset(true) static public var PLAYER_START_POSITION_X			:Float = 10.4;
+	@reset(true) static public var PLAYER_START_POSITION_Y			:Float = 10.0;
 	
 	
 	static public var PLAYER_WHEEL_STOP					:Bool = true;
