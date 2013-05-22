@@ -41,7 +41,7 @@ class Settings{
 	static public var PLAYER_WIDTH						:Float = 1.0;	// in meters
 	@range(1.0,4.0) static public var PLAYER_HEIGHT		:Float = 1.0;	// in meters
 
-	static public var PLAYER_FIXED_ROTATION			:Bool = true;
+	static public var PLAYER_FIXED_ROTATION			:Bool = false;
 	static public var PLAYER_BALANCE_ROTATION		:Bool = false;
 	static public var PLAYER_BALANCE_STRENGTH		:Float = 25.0;
 	static public var PLAYER_EXTRA_DRUNK			:Bool = false;
