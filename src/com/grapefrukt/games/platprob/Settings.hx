@@ -11,8 +11,8 @@ class Settings{
 	static public inline var STAGE_H					:Int = 480;
 	
 	static public inline var PHYSICS_SCALE				:Float = 1 / 30;
-	@values(-1,100) static public var PHYSICS_STEP_DURATION				:Float = 1 / 60;
-	@values(3,100) static public var PHYSICS_GRAVITY					:Float = 9.8;	// 10 * 9.8
+	@range(0.0083333333,0.0333333333) static public var PHYSICS_STEP_DURATION				:Float = 1 / 60;
+	@range(.98,980) static public var PHYSICS_GRAVITY										:Float = 9.8;	// 10 * 9.8
 	
 	static public var USE_VPLAYER							:Bool = false;
 	
@@ -54,7 +54,7 @@ class Settings{
 	static public var VPLAYER_FRICTION				:Float = 0;
 	static public var VPLAYER_RESTITUTION			:Float = 0;
 	static public var VPLAYER_DENSITY				:Float = 1;
-	@values(0.001, 1) static public var VPLAYER_DELTA					:Float = 1.0;
+	@range(0.001, 1) static public var VPLAYER_DELTA					:Float = 1.0;
 	static public var VPLAYER_JUMP_VELOCITY			:Float = -39;
 	static public var VPLAYER_HORIZONTAL_VELOCITY	:Float = 1.5;
 	static public var VPLAYER_GRAVITY				:Float = 98;
@@ -73,8 +73,8 @@ class Settings{
 	static public inline var COLOR_PLAYER_WHEEL			:Int = 0x6F3AAF;
 	static public inline var COLOR_TERRAIN				:Int = 0x4587B6;
 	
-	static public var CAMERA_SMOOTHING				:Float = 1;
-	static public var CAMERA_VELOCITY_LEAD_X		:Float = 0;
-	static public var CAMERA_VELOCITY_LEAD_Y		:Float = 0;
+	@range(0.05, 1) static public var CAMERA_SMOOTHING						:Float = 0.05;
+	@range(0, 30) static public var CAMERA_VELOCITY_LEAD_X		:Float = 15;
+	@range(0, 30) static public var CAMERA_VELOCITY_LEAD_Y		:Float = 5;
 	
 }
