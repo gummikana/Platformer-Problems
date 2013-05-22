@@ -96,14 +96,14 @@ class Game extends Sprite {
 
 	
 	public function handleEnterFrame(e:Event) {
-		time.tick();
+		/*time.tick();
 		
 		acc += time.timeDelta;
 		var numSteps = 0;
-		while (acc - Settings.PHYSICS_STEP_DURATION > 0) {
+		while (acc - Settings.PHYSICS_STEP_DURATION > 0) {*/
 			world.step(Settings.PHYSICS_STEP_DURATION, 10, 10);
 			world.clearForces();
-			
+			/*
 			acc -= Settings.PHYSICS_STEP_DURATION;
 			numSteps++;
 			
@@ -114,7 +114,7 @@ class Game extends Sprite {
 			}
 		}
 		
-		text.text = numSteps + " " + time.timeDelta;
+		text.text = numSteps + " " + time.timeDelta;*/
 		
 		world.drawDebugData();
 		

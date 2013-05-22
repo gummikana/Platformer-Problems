@@ -24,6 +24,7 @@ class Settings{
 	static public var PLATFORMING_HORIZONTAL_VELOCITY_ON_GROUND:Float = 250;
 	static public var PLATFORMING_HORIZONTAL_VELOCITY_IN_AIR:Float = 0.75 * 250;
 
+	static public var PLAYER_PILL_BOX_SIZE_LESS			:Float = 0.3;
 	static public var PLAYER_WHEEL_STOP					:Bool = true;
 	static public var PLAYER_GROUND_SLOWDOWN			:Bool = true;
 	static public var PLAYER_GROUND_SLOWDOWN_LENGTH		:Int = 5;
@@ -40,7 +41,7 @@ class Settings{
 	static public var PLAYER_EXTRA_DRUNK			:Bool = false;
 	
 	
-	static public var PLAYER_FRICTION				:Float = 0;
+	static public var PLAYER_FRICTION				:Float = 10;
 	static public var PLAYER_RESTITUTION			:Float = .1;
 	static public var PLAYER_DENSITY				:Float = 1;
 	
