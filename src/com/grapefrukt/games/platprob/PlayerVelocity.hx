@@ -245,6 +245,8 @@ class PlayerVelocity {
 	
 	public function onContact( contact:B2Contact):Void {
 		
+		if ( Settings.VPLAYER_RESPOND_TO_CONTACTS == false ) return;
+		
 		var normal = contact.getManifold().m_localPlaneNormal;
 		
 		if ( normal.x < -0.5 ) 
