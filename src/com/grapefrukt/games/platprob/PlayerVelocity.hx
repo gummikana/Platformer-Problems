@@ -91,12 +91,20 @@ class PlayerVelocity {
 	
 	public function updateBody( pbody:B2Body )
 	{
+		// gravity
 		pbody.m_platformingVelocity.y += ( Settings.VPLAYER_GRAVITY * Settings.PHYSICS_STEP_DURATION );
+		
+		// terminal velocity
 		if ( pbody.m_platformingVelocity.y > Settings.VPLAYER_TERMINAL_VELOCITY ) pbody.m_platformingVelocity.y = Settings.VPLAYER_TERMINAL_VELOCITY;			
+		
+		// horizontal max speed
+		pbody.m_platformingVelocity.x = B2Math.clamp( pbody.m_platformingVelocity.x, -Settings.VPLAYER_MAX_HORIZONTAL_SPEED, Settings.VPLAYER_MAX_HORIZONTAL_SPEED );
+		
+		// no keys pressed, slow down
+		if ( keyPressed != 0 ) pbody.m_platformingVelocity.x *= Settings.VPLAYER_SLOWDOWN_MULTIPLIER;
 		
 		var direction = 1.0;
 		if ( pbody.m_platformingVelocity.y < 0 ) direction = -1.0;
-		
 		
 		// raycasting
 		if ( direction != 0 ) 
@@ -197,7 +205,12 @@ class PlayerVelocity {
 				}
 			}
 		}
-		body.m_platformingVelocity.x += direction * Settings.VPLAYER_HORIZONTAL_VELOCITY;
+		
+		// if going in the opposite way, slow down first
+		if ( ( -direction * body.m_platformingVelocity.x ) >= Settings.VPLAYER_HORIZONTAL_VELOCITY ) 
+			body.m_platformingVelocity.x *= Settings.VPLAYER_SLOWDOWN_MULTIPLIER;
+		else
+			body.m_platformingVelocity.x += direction * Settings.VPLAYER_HORIZONTAL_VELOCITY;
 	}
 	
 	public function touchGround() {

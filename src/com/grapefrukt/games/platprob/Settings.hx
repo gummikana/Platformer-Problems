@@ -47,9 +47,11 @@ class Settings{
 	static public var VPLAYER_DENSITY				:Float = 1;
 	@values(0.001, 1) static public var VPLAYER_DELTA					:Float = 1.0;
 	static public var VPLAYER_JUMP_VELOCITY			:Float = -39;
-	static public var VPLAYER_HORIZONTAL_VELOCITY	:Float = 0.1;
+	static public var VPLAYER_HORIZONTAL_VELOCITY	:Float = 2.1;
 	static public var VPLAYER_GRAVITY				:Float = 98;
 	static public var VPLAYER_TERMINAL_VELOCITY		:Float = 50;
+	static public var VPLAYER_MAX_HORIZONTAL_SPEED	:Float = 25;
+	static public var VPLAYER_SLOWDOWN_MULTIPLIER	:Float = 0.75;
 	
 	static public var BOUNDS_FRICTION				:Float = 0.8;
 	static public var BOUNDS_RESTITUTION			:Float = .1;
