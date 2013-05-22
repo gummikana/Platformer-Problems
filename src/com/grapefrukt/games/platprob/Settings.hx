@@ -30,6 +30,9 @@ class Settings{
 	static public var PLAYER_IS_A_BOX					:Bool = true;
 	static public var PLAYER_PILL_BOX_SIZE_LESS			:Float = 0.3;
 	
+	static public var PLAYER_START_POSITION_X			:Float = 9.4;
+	static public var PLAYER_START_POSITION_Y			:Float = 10.0;
+	
 	
 	static public var PLAYER_WHEEL_STOP					:Bool = true;
 	static public var PLAYER_GROUND_SLOWDOWN			:Bool = true;
@@ -39,7 +42,7 @@ class Settings{
 
 	static public var TILE_SIZE							:Float = 1.0;	// in meters
 	static public var PLAYER_WIDTH						:Float = 1.0;	// in meters
-	@range(1.0,4.0) static public var PLAYER_HEIGHT		:Float = 1.0;	// in meters
+	@range(1.0,4.0) static public var PLAYER_HEIGHT		:Float = 1.8;	// in meters
 
 	static public var PLAYER_FIXED_ROTATION			:Bool = false;
 	static public var PLAYER_BALANCE_ROTATION		:Bool = false;
@@ -47,7 +50,7 @@ class Settings{
 	static public var PLAYER_EXTRA_DRUNK			:Bool = false;
 	
 	
-	static public var PLAYER_FRICTION				:Float = 10;
+	@range(0, 10)static public var PLAYER_FRICTION				:Float = 10;
 	static public var PLAYER_RESTITUTION			:Float = .1;
 	static public var PLAYER_DENSITY				:Float = 1;
 	
