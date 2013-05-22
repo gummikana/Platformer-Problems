@@ -22,16 +22,17 @@ class SettingsLoader extends EventDispatcher {
 	
 	public function new(url:String, target:Dynamic) {
 		super();
-		_url = url;
 		_target = target;
 		_loader = new URLLoader();
 		_loader.addEventListener(Event.COMPLETE, handleLoadComplete);
 		_loader.addEventListener(IOErrorEvent.IO_ERROR, handleIOError);
 		_loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, handleSecurityError);
-		reload();
+		reload(url);
 	}
 	
-	public function reload():Void {
+	public function reload(url:String = ""):Void {
+		if (url != "") _url = url;
+		
 		#if (bakeassets)
 			parse(Assets.getText(_url));
 		#else
