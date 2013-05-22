@@ -9,7 +9,7 @@
 	<app main="com.grapefrukt.games.platprob.Main" file="platformerproblems" path="bin" />
 	
 	<window background="#15335F" fps="60" />
-	<window width="800" height="480" unless="mobile" />
+	<window width="1280" height="720" unless="mobile" />
 	<window orientation="landscape" vsync="false" antialiasing="0" if="cpp" />
 	
 	<!-- classpath, haxe libs -->

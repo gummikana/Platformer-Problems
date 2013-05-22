@@ -7,8 +7,8 @@ import box2D.common.math.B2Vec2;
  */
 class Settings{
 
-	static public inline var STAGE_W					:Int = 800;
-	static public inline var STAGE_H					:Int = 480;
+	static public inline var STAGE_W					:Int = 1280;
+	static public inline var STAGE_H					:Int = 720;
 	
 	static public inline var PHYSICS_SCALE				:Float = 1 / 30;
 	@range(0.0083333333,0.0333333333) static public var PHYSICS_STEP_DURATION				:Float = 1 / 60;
