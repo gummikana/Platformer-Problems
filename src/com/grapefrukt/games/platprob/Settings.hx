@@ -17,12 +17,12 @@ class Settings{
 	static public var USE_VPLAYER							:Bool = false;
 	
 	
-	@range(-10000.0, -100.0) static public var PLATFORMING_JUMP_VELOCITY				:Float = -245; // -400 for 1.8 h, -4375 * 1.5;	// for 10x gravity -10000, -2000 for normal gravity
+	@range(-10000.0, -100.0) static public var PLATFORMING_JUMP_VELOCITY				:Float = -4375; // -400 for 1.8 h, -4375 * 1.5;	// for 10x gravity -10000, -2000 for normal gravity
 	static public var PLATFORMING_CLAMP_JUMP				:Bool = false;
 	static public var PLATFORMING_USE_IN_AIR_COUNTER		:Bool = true;
 	static public var PLATFORMING_AIR_COUNTER_MAX			:Int = 10;
 
-	static public var PLATFORMING_HORIZONTAL_VELOCITY_ON_GROUND:Float = 250;
+	@range(100, 1000.0) static public var PLATFORMING_HORIZONTAL_VELOCITY_ON_GROUND:Float = 250;
 	static public var PLATFORMING_HORIZONTAL_VELOCITY_IN_AIR:Float = 0.75 * 250;
 
 	static public var PLATFORMING_TOUCH_GROUND_IN_USE	:Bool = true;
@@ -30,8 +30,8 @@ class Settings{
 	static public var PLAYER_IS_A_BOX					:Bool = true;
 	static public var PLAYER_PILL_BOX_SIZE_LESS			:Float = 0.3;
 	
-	@reset(true) static public var PLAYER_START_POSITION_X	:Float = 9.4;
-	@reset(true) static public var PLAYER_START_POSITION_Y	:Float = 10.0;
+	static public var PLAYER_START_POSITION_X			:Float = 10.4;
+	static public var PLAYER_START_POSITION_Y			:Float = 10.0;
 	
 	
 	static public var PLAYER_WHEEL_STOP					:Bool = true;
