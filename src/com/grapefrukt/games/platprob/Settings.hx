@@ -12,7 +12,7 @@ class Settings{
 	
 	static public inline var PHYSICS_SCALE				:Float = 1 / 30;
 	@values(-1,100) static public var PHYSICS_STEP_DURATION				:Float = 1 / 60;
-	@values(3,100) static public var PHYSICS_GRAVITY					:Float = 10 * 9.8;	// 10 * 9.8
+	@values(3,100) static public var PHYSICS_GRAVITY					:Float = 9.8;	// 10 * 9.8
 	
 	static public var USE_VPLAYER							:Bool = false;
 	
@@ -25,7 +25,7 @@ class Settings{
 	static public var PLATFORMING_HORIZONTAL_VELOCITY_ON_GROUND:Float = 250;
 	static public var PLATFORMING_HORIZONTAL_VELOCITY_IN_AIR:Float = 0.75 * 250;
 
-	static public var PLAYER_IS_A_BOX					:Bool = false;
+	static public var PLAYER_IS_A_BOX					:Bool = true;
 	static public var PLAYER_PILL_BOX_SIZE_LESS			:Float = 0.3;
 	
 	static public var PLAYER_WHEEL_STOP					:Bool = true;

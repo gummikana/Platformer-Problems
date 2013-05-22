@@ -28,13 +28,14 @@ class Player extends IPlayer {
 	public function new(world:B2World) {
 		super();
 		
+		body = PhysUtils.createBoxInMeters(world, 8.5, 10, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT, true, Settings.PLAYER_FRICTION, Settings.PLAYER_RESTITUTION, Settings.PLAYER_DENSITY);
 		if ( Settings.PLAYER_IS_A_BOX ) 
 		{
 			body = PhysUtils.createBoxInMeters(world, 10, 10, Settings.PLAYER_WIDTH, Settings.PLAYER_WIDTH, true, Settings.PLAYER_FRICTION, Settings.PLAYER_RESTITUTION, Settings.PLAYER_DENSITY);
-			body.setFixedRotation( Settings.PLAYER_FIXED_ROTATION );
+			body.setFixedRotation( false );
 			
-			wheel = body;
-			wheel.setUserData( this );
+			// wheel = body;
+			body.setUserData( this );
 		}
 		else
 		{
@@ -86,7 +87,7 @@ class Player extends IPlayer {
 		*/
 		
 		keyPressed++;
-		if ( Settings.PLAYER_GROUND_SLOWDOWN )
+		if ( Settings.PLAYER_GROUND_SLOWDOWN && wheel != null )
 		{
 			if ( keyPressed > 1 && keyPressed < Settings.PLAYER_GROUND_SLOWDOWN_LENGTH ) {  wheel.setAngularDamping( 0.75 + keyPressed / Settings.PLAYER_GROUND_SLOWDOWN_LENGTH ); }
 			if ( keyPressed == Settings.PLAYER_GROUND_SLOWDOWN_LENGTH ) { wheel.setFixedRotation( true ); wheel.setAngularVelocity( 0 ); }
@@ -127,7 +128,9 @@ class Player extends IPlayer {
 			body.applyForce( new B2Vec2( direction * Settings.PLATFORMING_HORIZONTAL_VELOCITY_IN_AIR), body.getWorldCenter() );
 			// trace( "on air" );
 		}
-		wheel.setFixedRotation( false );
+		if( wheel != null )
+			wheel.setFixedRotation( false );
+			
 		keyPressed = 0;
 	}
 	

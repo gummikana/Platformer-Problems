@@ -131,8 +131,8 @@ class Game extends Sprite {
 			
 			player.update(time.timeDelta);
 			
-			var pos = player.body.getPosition();
-			var vel = player.body.getLinearVelocity();
+			var pos = player.body.getPosition().copy();
+			var vel = player.body.getLinearVelocity().copy();
 			// vel.x = 0;
 			// vel.y = 0;
 			pos.multiply(1 / Settings.PHYSICS_SCALE);
