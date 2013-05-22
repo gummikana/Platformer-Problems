@@ -77,6 +77,15 @@ class Toggler extends Sprite {
 				//for each (tag in variable.metadata.(@name == "o")) property.order = tag.arg.@value;
 				//for each (tag in variable.metadata.(@name == "header")) property.header = tag.arg.@value;
 				
+				var meta = Reflect.field(metadata, field);
+				if (meta != null) {
+					var range = Reflect.field(meta, "range");
+					if (range != null) {
+						property.min = range[0];
+						property.max = range[1];
+					}
+				}
+				
 				_properties.push(property);
 			}
 			
