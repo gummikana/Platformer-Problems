@@ -30,17 +30,8 @@ class PlayerVelocity {
 	
 	public function new(in_world:B2World) {
 		contacts = [];
-		/*body = PhysUtils.createPill(
-			world,
-			8.5 / Settings.PHYSICS_SCALE ,
-			10 / Settings.PHYSICS_SCALE,
-			( Settings.PLAYER_WIDTH * 0.5 ) / Settings.PHYSICS_SCALE,
-			Settings.PLAYER_HEIGHT / Settings.PHYSICS_SCALE,
-			Settings.VPLAYER_FRICTION,
-			Settings.VPLAYER_RESTITUTION,
-			Settings.VPLAYER_DENSITY );
-			*/
 		world = in_world;
+		
 		body = PhysUtils.createDiamondInMeters(
 			world,
 			8.5,
@@ -51,7 +42,6 @@ class PlayerVelocity {
 			Settings.VPLAYER_RESTITUTION,
 			Settings.VPLAYER_DENSITY );
 			
-		// body.setFixedRotation( true );
 		body.setUserData( this );
 		body.m_specialGravity = new B2Vec2(0, 0);
 	
@@ -77,17 +67,7 @@ class PlayerVelocity {
 		}
 		
 		if ( jumpHeightStart != 0 && body.getPosition().y < jumpHighest ) jumpHighest = body.getPosition().y;
-		
-		if ( Settings.PLAYER_BALANCE_ROTATION )
-		{
-			var angle:Float = body.getAngle();
-			if ( angle != 0 )
-			{
-				var ang_vel:Float = body.getAngularVelocity();
-				ang_vel += -angle * Settings.PLAYER_BALANCE_STRENGTH;
-				body.setAngularVelocity( ang_vel );
-			}
-		}
+	
 		
 		keyPressed++;
 		if ( Settings.PLAYER_GROUND_SLOWDOWN )
@@ -111,18 +91,14 @@ class PlayerVelocity {
 	
 	public function updateBody( pbody:B2Body )
 	{
-		// pbody.m_linearVelocity.x = 0.01;
-		/*if ( body_new_pos != null ) 
-		{
-			pbody.setPosition( body_new_pos );
-			body_new_pos = null;
-		}*/
 		pbody.m_platformingVelocity.y += ( Settings.VPLAYER_GRAVITY * Settings.PHYSICS_STEP_DURATION );
 		if ( pbody.m_platformingVelocity.y > Settings.VPLAYER_TERMINAL_VELOCITY ) pbody.m_platformingVelocity.y = Settings.VPLAYER_TERMINAL_VELOCITY;			
 		
 		var direction = 1.0;
 		if ( pbody.m_platformingVelocity.y < 0 ) direction = -1.0;
 		
+		
+		// raycasting
 		if ( direction != 0 ) 
 		{
 			var pos1 = body.getPosition().copy();
@@ -202,6 +178,7 @@ class PlayerVelocity {
 		
 		keyPressed = 0;
 		
+		// raycasting if we can move in that direction
 		if ( direction != 0 ) 
 		{
 			var pos1 = body.getPosition().copy();
@@ -243,11 +220,9 @@ class PlayerVelocity {
 		return ( Math.abs( a - b ) < delta );
 	}
 	
-	var body_new_pos:B2Vec2;
-
 	public function addContact( contact:B2Contact ):Void {
 		contacts.push( contact );
-		onContact( contact );
+		// onContact( contact );
 	}
 	
 	public function endContact( contact:B2Contact ):Void {
@@ -257,14 +232,7 @@ class PlayerVelocity {
 	
 	public function onContact( contact:B2Contact):Void {
 		
-		// trace( contact.getManifold().m_localPlaneNormal.x + ", " + contact.getManifold().m_localPlaneNormal.y );
-		
 		var normal = contact.getManifold().m_localPlaneNormal;
-		
-		/*body_new_pos = body.getPosition().copy();
-		body_new_pos.x += normal.x * Math.abs( body.m_platformingVelocity.x ) * Settings.PHYSICS_STEP_DURATION * 1;
-		body_new_pos.y += normal.y * Math.abs( body.m_platformingVelocity.y ) * Settings.PHYSICS_STEP_DURATION * 1;
-		*/
 		
 		if ( normal.x < -0.5 ) 
 		{
@@ -276,10 +244,8 @@ class PlayerVelocity {
 		else if ( normal.x > 0.5 ) {
 			if (  body.m_platformingVelocity.x < 0 ) {
 				
-				// trace( "Left side" );
 				body.m_platformingVelocity.x = 0;
 			} else {
-				// trace( "Fake left" );
 			}
 		}
 
@@ -294,34 +260,6 @@ class PlayerVelocity {
 			body.m_platformingVelocity.y = 0.0; 
 		}
 		
-		// contact.
-		/*
-		for (i in 0...contact.getManifold().m_pointCount )
-		{
-			var localPoint = contact.getManifold().m_points[ i ].m_localPoint;
-			
-			if ( floatCompare( localPoint.x, Settings.PLAYER_WIDTH * 0.5, 0.01 ) )
-			{
-				if ( body.m_platformingVelocity.x > 0 ) body.m_platformingVelocity.x = 0;
-			}
-			else if ( floatCompare( localPoint.x, -Settings.PLAYER_WIDTH * 0.5, 0.01 ) ) 			{
-				if ( body.m_platformingVelocity.x < 0 ) body.m_platformingVelocity.x = 0;
-			}
-			
-			if( floatCompare( localPoint.y, Settings.PLAYER_HEIGHT * 0.5, 0.01 ) ) 			{
-				// also on ground
-				if ( body.m_platformingVelocity.y >= 0 ) {
-					body.m_platformingVelocity.y = 0.1;
-					}
-				touchGround();
-			}
-			else if ( floatCompare( localPoint.y, -Settings.PLAYER_HEIGHT * 0.5, 0.01 ) ) 			{
-				if ( body.m_platformingVelocity.y < 0 ) body.m_platformingVelocity.y = 0;
-			}
-			
-			// trace( contact.getManifold().m_points[ i ].m_localPoint.x );
-			// trace( contact.getManifold().m_points[ i ].m_localPoint.y );
-		}*/
 	}
 	
 }

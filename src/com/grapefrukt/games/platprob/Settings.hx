@@ -47,7 +47,7 @@ class Settings{
 	static public var VPLAYER_DENSITY				:Float = 1;
 	@values(0.001, 1) static public var VPLAYER_DELTA					:Float = 1.0;
 	static public var VPLAYER_JUMP_VELOCITY			:Float = -39;
-	static public var VPLAYER_HORIZONTAL_VELOCITY	:Float = 5.1;
+	static public var VPLAYER_HORIZONTAL_VELOCITY	:Float = 0.1;
 	static public var VPLAYER_GRAVITY				:Float = 98;
 	static public var VPLAYER_TERMINAL_VELOCITY		:Float = 50;
 	
