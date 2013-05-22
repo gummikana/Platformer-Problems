@@ -63,7 +63,7 @@ class Toggler extends Sprite {
 				
 				property.name = field;
 				property.value = Reflect.field(_targetClass, field);
-				property.type = Type.typeof(property.value);
+				property.type = Type.typeof(Reflect.field(_targetClass, field));
 				property.header = getGroupName(field);
 				
 				if (property.type == ValueType.TFloat || property.type == ValueType.TInt) {
@@ -120,10 +120,10 @@ class Toggler extends Sprite {
 				} else if (Type.enumEq(property.type, ValueType.TFloat) || Type.enumEq(property.type, ValueType.TInt)) {
 					var slider:HUISlider = new HUISlider(row, 0, 0, "");
 					slider.width = 130;
+					slider.tick = (property.max - property.min) / 100;
 					slider.minimum = property.min;
 					slider.maximum = property.max;
 					slider.value = property.value;
-					if (Type.enumEq(property.type, ValueType.TInt)) slider.tick = 1;
 					slider.addEventListener(Event.CHANGE, getSliderClosure(slider, property.name));
 				}
 			}
