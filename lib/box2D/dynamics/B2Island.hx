@@ -173,7 +173,7 @@ class B2Island
 		{
 			b = m_bodies[i];
 			
-			if (b.getType() != B2Body.b2_dynamicBody)
+			if (b.getType() != DYNAMIC_BODY)
 				continue;
 				
 			
@@ -240,13 +240,13 @@ class B2Island
 		{
 			b = m_bodies[i];
 			
-			if (b.getType() == B2Body.b2_staticBody)
+			if (b.getType() == STATIC_BODY)
 				continue;
 				
 			// Check for large velocities.
 			// b2Vec2 translation = step.dt * b.m_linearVelocity;
-			var translationX:Float = step.dt * ( b.m_linearVelocity.x );
-			var translationY:Float = step.dt * ( b.m_linearVelocity.y );
+			var translationX:Float = step.dt * b.m_linearVelocity.x;
+			var translationY:Float = step.dt * b.m_linearVelocity.y;
 			//if (b2Dot(translation, translation) > b2_maxTranslationSquared)
 			if ((translationX*translationX+translationY*translationY) > B2Settings.b2_maxTranslationSquared)
 			{
@@ -277,7 +277,6 @@ class B2Island
 			b.m_sweep.c.y += step.dt * ( b.m_linearVelocity.y + b.m_platformingVelocity.y );
 			b.m_sweep.a += step.dt * b.m_angularVelocity;
 			
-			
 			// Compute new transform
 			b.synchronizeTransform();
 			
@@ -303,9 +302,7 @@ class B2Island
 			}
 		}
 		
-			
 		report(contactSolver.m_constraints);
-		
 		
 		if (allowSleep){
 			
@@ -317,7 +314,7 @@ class B2Island
 			for (i in 0...m_bodyCount)
 			{
 				b = m_bodies[i];
-				if (b.getType() == B2Body.b2_staticBody)
+				if (b.getType() == STATIC_BODY)
 				{
 					continue;
 				}
@@ -390,7 +387,7 @@ class B2Island
 		{
 			var b:B2Body = m_bodies[i];
 			
-			if (b.getType() == B2Body.b2_staticBody)
+			if (b.getType() == STATIC_BODY)
 				continue;
 				
 			// Check for large velocities.
@@ -503,12 +500,12 @@ class B2Island
 	public var m_contacts:Array <B2Contact>;
 	public var m_joints:Array <B2Joint>;
 
-	public var m_bodyCount:Int;
-	public var m_jointCount:Int;
-	public var m_contactCount:Int;
+	public var m_bodyCount:Int = 0;
+	public var m_jointCount:Int = 0;
+	public var m_contactCount:Int = 0;
 
-	private var m_bodyCapacity:Int;
-	public var m_contactCapacity:Int;
-	public var m_jointCapacity:Int;
+	private var m_bodyCapacity:Int = 0;
+	public var m_contactCapacity:Int = 0;
+	public var m_jointCapacity:Int = 0;
 	
 }

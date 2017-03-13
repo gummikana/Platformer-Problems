@@ -27,6 +27,7 @@ import box2D.collision.shapes.B2CircleShape;
 import box2D.collision.shapes.B2EdgeShape;
 import box2D.collision.shapes.B2PolygonShape;
 import box2D.collision.shapes.B2Shape;
+import box2D.collision.shapes.B2ShapeType;
 import box2D.common.B2Color;
 import box2D.common.B2Settings;
 import box2D.common.math.B2Math;
@@ -46,7 +47,7 @@ import box2D.dynamics.joints.B2PulleyJoint;
 
 /**
 * The world class manages all physics entities, dynamic simulation,
-* and asynchronous queries.
+* and asynchronous queries. 
 */
 class B2World
 {
@@ -83,6 +84,8 @@ class B2World
 		m_gravity = gravity;
 		
 		m_inv_dt0 = 0.0;
+		
+		m_flags = 0;
 		
 		m_contactManager.m_world = this;
 		
@@ -644,7 +647,9 @@ class B2World
 			return;
 		}
 		
+		#if (openfl || flash || nme)
 		m_debugDraw.m_sprite.graphics.clear();
+		#end
 		
 		var flags:Int = m_debugDraw.getFlags();
 		
@@ -680,12 +685,12 @@ class B2World
 						color.set(0.5, 0.5, 0.3);
 						drawShape(s, xf, color);
 					}
-					else if (b.getType() == B2Body.b2_staticBody)
+					else if (b.getType() == STATIC_BODY)
 					{
 						color.set(0.5, 0.9, 0.5);
 						drawShape(s, xf, color);
 					}
-					else if (b.getType() == B2Body.b2_kinematicBody)
+					else if (b.getType() == KINEMATIC_BODY)
 					{
 						color.set(0.5, 0.5, 0.9);
 						drawShape(s, xf, color);
@@ -943,7 +948,7 @@ class B2World
 	 * Get the world contact list. With the returned contact, use b2Contact::GetNext to get
 	 * the next contact in the world list. A NULL contact indicates the end of the list.
 	 * @return the head of the world contact list.
-	 * @warning contacts are
+	 * @warning contacts are 
 	 */
 	public function getContactList():B2Contact
 	{
@@ -1018,7 +1023,7 @@ class B2World
 			}
 			
 			// The seed can be dynamic or kinematic.
-			if (seed.getType() == B2Body.b2_staticBody)
+			if (seed.getType() == STATIC_BODY)
 			{
 				seed = seed.m_next;
 				continue;
@@ -1046,7 +1051,7 @@ class B2World
 				
 				// To keep islands as small as possible, we don't
 				// propagate islands across static bodies.
-				if (b.getType() == B2Body.b2_staticBody)
+				if (b.getType() == STATIC_BODY)
 				{
 					continue;
 				}
@@ -1132,7 +1137,7 @@ class B2World
 			{
 				// Allow static bodies to participate in other islands.
 				b = island.m_bodies[i];
-				if (b.getType() == B2Body.b2_staticBody)
+				if (b.getType() == STATIC_BODY)
 				{
 					b.m_flags &= ~B2Body.e_islandFlag;
 				}
@@ -1157,7 +1162,7 @@ class B2World
 				continue;
 			}
 			
-			if (b.getType() == B2Body.b2_staticBody)
+			if (b.getType() == STATIC_BODY)
 			{
 				b = b.m_next;
 				continue;
@@ -1263,8 +1268,8 @@ class B2World
 					bA = fA.m_body;
 					bB = fB.m_body;
 					
-					if ((bA.getType() != B2Body.b2_dynamicBody || bA.isAwake() == false) &&
-						(bB.getType() != B2Body.b2_dynamicBody || bB.isAwake() == false))
+					if ((bA.getType() != DYNAMIC_BODY || bA.isAwake() == false) &&
+						(bB.getType() != DYNAMIC_BODY || bB.isAwake() == false))
 					{
 						c = c.m_next;
 						continue;
@@ -1355,7 +1360,7 @@ class B2World
 			
 			// Build the TOI island. We need a dynamic seed.
 			var seed:B2Body = bA;
-			if (seed.getType() != B2Body.b2_dynamicBody)
+			if (seed.getType() != DYNAMIC_BODY)
 			{
 				seed = bB;
 			}
@@ -1384,7 +1389,7 @@ class B2World
 				
 				// To keep islands as small as possible, we don't
 				// propagate islands across static or kinematic bodies.
-				if (b.getType() != B2Body.b2_dynamicBody)
+				if (b.getType() != DYNAMIC_BODY)
 				{
 					continue;
 				}
@@ -1431,7 +1436,7 @@ class B2World
 					}
 					
 					// Synchronize the connected body.
-					if (other.getType() != B2Body.b2_staticBody)
+					if (other.getType() != STATIC_BODY)
 					{
 						other.advance(minTOI);
 						other.setAwake(true);
@@ -1473,7 +1478,7 @@ class B2World
 					}
 						
 					// Synchronize the connected body.
-					if (other.getType() != B2Body.b2_staticBody)
+					if (other.getType() != STATIC_BODY)
 					{
 						other.advance(minTOI);
 						other.setAwake(true);
@@ -1510,7 +1515,7 @@ class B2World
 					continue;
 				}
 				
-				if (b.getType() != B2Body.b2_dynamicBody)
+				if (b.getType() != DYNAMIC_BODY)
 				{
 					continue;
 				}
@@ -1568,10 +1573,10 @@ class B2World
 		
 		switch (joint.m_type)
 		{
-		case B2Joint.e_distanceJoint:
+		case DISTANCE_JOINT:
 			m_debugDraw.drawSegment(p1, p2, color);
 		
-		case B2Joint.e_pulleyJoint:
+		case PULLEY_JOINT:
 			{
 				var pulley:B2PulleyJoint = cast (joint, B2PulleyJoint);
 				var s1:B2Vec2 = pulley.getGroundAnchorA();
@@ -1581,7 +1586,7 @@ class B2World
 				m_debugDraw.drawSegment(s1, s2, color);
 			}
 		
-		case B2Joint.e_mouseJoint:
+		case MOUSE_JOINT:
 			m_debugDraw.drawSegment(p1, p2, color);
 		
 		default:
@@ -1594,14 +1599,10 @@ class B2World
 	}
 	
 	public function drawShape(shape:B2Shape, xf:B2Transform, color:B2Color) : Void{
-	
-		if (shape.m_color != -1) {
-			color.color = shape.m_color;
-		}
 		
 		switch (shape.m_type)
 		{
-		case B2Shape.e_circleShape:
+		case B2ShapeType.CIRCLE_SHAPE:
 			{
 				var circle:B2CircleShape = cast (shape, B2CircleShape);
 				
@@ -1612,7 +1613,7 @@ class B2World
 				m_debugDraw.drawSolidCircle(center, radius, axis, color);
 			}
 		
-		case B2Shape.e_polygonShape:
+		case B2ShapeType.POLYGON_SHAPE:
 			{
 				var i:Int;
 				var poly:B2PolygonShape = cast (shape, B2PolygonShape);
@@ -1629,14 +1630,14 @@ class B2World
 				m_debugDraw.drawSolidPolygon(vertices, vertexCount, color);
 			}
 		
-		case B2Shape.e_edgeShape:
+		case B2ShapeType.EDGE_SHAPE:
 			{
 				var edge: B2EdgeShape = cast (shape, B2EdgeShape);
 				
 				m_debugDraw.drawSegment(B2Math.mulX(xf, edge.getVertex1()), B2Math.mulX(xf, edge.getVertex2()), color);
 				
 			}
-		
+		default:
 		}
 	}
 	

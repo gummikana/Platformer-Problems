@@ -68,7 +68,7 @@ class B2Shape
 	* Get the type of this shape. You can use this to down cast to the concrete shape.
 	* @return the shape type.
 	*/
-	public function getType() : Int
+	public function getType() : B2ShapeType
 	{
 		return m_type;
 	}
@@ -122,9 +122,9 @@ class B2Shape
 	public static function testOverlap(shape1:B2Shape, transform1:B2Transform, shape2:B2Shape, transform2:B2Transform):Bool
 	{
 		// This seems to greatly improve performance on some platforms, without negative effects
-		return true;
+		//return true;
 		
-		/*var input:B2DistanceInput = new B2DistanceInput ();
+		var input:B2DistanceInput = new B2DistanceInput ();
 		input.proxyA = new B2DistanceProxy ();
 		input.proxyA.set(shape1);
 		input.proxyB = new B2DistanceProxy();
@@ -136,7 +136,7 @@ class B2Shape
 		simplexCache.count = 0;
 		var output:B2DistanceOutput = new B2DistanceOutput();
 		B2Distance.distance(output, simplexCache, input);
-		return output.distance  < 10.0 * B2Math.MIN_VALUE;*/
+		return output.distance  < 10.0 * B2Math.MIN_VALUE;
 	}
 	
 	//--------------- Internals Below -------------------
@@ -145,14 +145,14 @@ class B2Shape
 	 */
 	public function new ()
 	{
-		m_type = e_unknownShape;
+		m_type = B2ShapeType.UNKNOWN_SHAPE;
 		m_radius = B2Settings.b2_linearSlop;
 		m_color = -1;
 	}
 	
 	//virtual ~b2Shape();
 	
-	public var m_type:Int;
+	public var m_type:B2ShapeType;
 	public var m_radius:Float;
 	
 	public var m_color:Int;
@@ -162,11 +162,11 @@ class B2Shape
 	*/
 	//enum b2ShapeType
 	//{
-		static public var e_unknownShape:Int = 	-1;
-		static public var e_circleShape:Int = 	0;
-		static public var e_polygonShape:Int = 	1;
-		static public var e_edgeShape:Int =       2;
-		static public var e_shapeTypeCount:Int = 	3;
+		//static public var e_unknownShape:Int = 	-1;
+		//static public var e_circleShape:Int = 	0;
+		//static public var e_polygonShape:Int = 	1;
+		//static public var e_edgeShape:Int =       2;
+		//static public var e_shapeTypeCount:Int = 	3;
 	//};
 	
 	/**
