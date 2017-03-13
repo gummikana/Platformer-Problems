@@ -1340,9 +1340,8 @@ class B2Body
 	public var m_angularVelocity:Float;
 	
 	// HAXS ADDED FOR PLATFORMING
-	public var m_platformingVelocity:B2Vec2;
+	public var m_platformingVelocity:B2Vec2 = new B2Vec2(0, 0);
 	public var m_specialGravity:B2Vec2;
-	public var m_tempVelocity:B2Vec2;
 	
 	public var m_force:B2Vec2;
 	public var m_torque:Float;
