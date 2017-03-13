@@ -2,7 +2,7 @@
  * stats.hx
  * http://github.com/mrdoob/stats.as
  *
- * NME port by fermmm
+ * flash port by fermmm
  * http://fermmm.wordpress.com/
  *
  * Released under MIT license:
@@ -16,18 +16,18 @@
 
 package net.hires.debug;
 	
-import nme.display.BitmapData;
-import nme.display.Sprite;
-import nme.events.Event;
-import nme.events.MouseEvent;
-import nme.geom.Matrix;
-import nme.geom.Rectangle;
+import flash.display.BitmapData;
+import flash.display.Sprite;
+import flash.events.Event;
+import flash.events.MouseEvent;
+import flash.geom.Matrix;
+import flash.geom.Rectangle;
 import flash.system.System;
-import nme.text.TextField;
-import nme.display.Stage;
-import nme.text.TextFormat;
+import flash.text.TextField;
+import flash.display.Stage;
+import flash.text.TextFormat;
 import Xml;
-import nme.Lib;
+import flash.Lib;
 
 
 class Stats extends Sprite {
