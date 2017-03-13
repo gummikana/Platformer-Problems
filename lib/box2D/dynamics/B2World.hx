@@ -1600,6 +1600,10 @@ class B2World
 	
 	public function drawShape(shape:B2Shape, xf:B2Transform, color:B2Color) : Void{
 		
+		if (shape.m_color != -1) {
+			color.color = shape.m_color;
+		}
+		
 		switch (shape.m_type)
 		{
 		case B2ShapeType.CIRCLE_SHAPE:
