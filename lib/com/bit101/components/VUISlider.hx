@@ -1,9 +1,9 @@
 /**
-* HUISlider.as
+* VUISlider.as
 * Keith Peters
 * version 0.9.10
 * 
-* A Horizontal slider with a label and a value label.
+* A vertical Slider with a label and value label.
 * 
 * Copyright (c) 2011 Keith Peters
 * 
@@ -31,11 +31,11 @@ package com.bit101.components;
 import flash.display.DisplayObjectContainer;
 import flash.events.Event;
 
-class HUISlider extends UISlider
+class VUISlider extends UISlider
 {
 	/**
 	 * Constructor
-	 * @param parent The parent DisplayObjectContainer on which to add this HUISlider.
+	 * @param parent The parent DisplayObjectContainer on which to add this VUISlider.
 	 * @param x The x position to place this component.
 	 * @param y The y position to place this component.
 	 * @param label The string to use as the label for this component.
@@ -43,25 +43,17 @@ class HUISlider extends UISlider
 	 */
 	public function new(parent:DisplayObjectContainer = null, xpos:Float = 0, ypos:Float = 0, label:String = "", defaultHandler:Event->Void = null)
 	{
-		_sliderClass = HSlider;
+		_sliderClass = VSlider;
 		super(parent, xpos, ypos, label, defaultHandler);
 	}
 	
 	/**
-	 * Initializes the component.
+	 * Initializes this component.
 	 */
 	override private function init():Void
 	{
 		super.init();
-		setSize(200, 18);
-	}
-	
-	/**
-	 * Centers the label when label text is changed.
-	 */
-	override private function positionLabel():Void
-	{
-		_valueLabel.x = _slider.x + _slider.width + 5;
+		setSize(20, 146);
 	}
 	
 	
@@ -71,18 +63,26 @@ class HUISlider extends UISlider
 	// public methods
 	///////////////////////////////////
 	
-	/**
-	 * Draws the visual ui of this component.
-	 */
 	override public function draw():Void
 	{
 		super.draw();
-		_slider.x = _label.width + 5;
-		_slider.y = height / 2 - _slider.height / 2;
-		_slider.width = width - _label.width - 50 - 10;
+		_label.x = width / 2 - _label.width / 2;
 		
-		_valueLabel.x = _slider.x + _slider.width + 5;
+		_slider.x = width / 2 - _slider.width / 2;
+		_slider.y = _label.height + 5;
+		_slider.height = height - _label.height - _valueLabel.height - 10;
+		
+		_valueLabel.x = width / 2 - _valueLabel.width / 2;
+		_valueLabel.y = _slider.y + _slider.height + 5;
 	}
+	
+	override private function positionLabel():Void
+	{
+		_valueLabel.x = width / 2 - _valueLabel.width / 2;
+	}
+	
+	
+	
 	
 	///////////////////////////////////
 	// event handlers
@@ -91,5 +91,15 @@ class HUISlider extends UISlider
 	///////////////////////////////////
 	// getter/setters
 	///////////////////////////////////
+	
+	#if !flash
+	override function get_width():Float
+	#else
+	@:getter(width) override function get_width():Float
+	#end
+	{
+		if(_label == null) return _width;
+		return Math.max(_width, _label.width);
+	}
 	
 }

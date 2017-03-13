@@ -28,28 +28,21 @@
 
 package com.bit101.components;
 
+import flash.display.DisplayObjectContainer;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
 
 class PushButton extends Component
 {
-	public var label(getLabel, setLabel):String;
-	public var selected(getSelected, setSelected):Bool;
-	public var toggle(getToggle, setToggle):Bool;
-	
-	var _back:Sprite;
-	var _face:Sprite;
-	var _label:Label;
-	var _labelText:String;
-	var _over:Bool;
-	var _down:Bool;
-	var _selected:Bool;
-	var _toggle:Bool;
-	
-	#if !flash
-	var _clickableArea:Sprite;
-	#end
+	private var _back:Sprite;
+	private var _face:Sprite;
+	private var _label:Label;
+	private var _labelText:String = "";
+	private var _over:Bool = false;
+	private var _down:Bool = false;
+	private var _selected:Bool = false;
+	private var _toggle:Bool = false;
 	
 	/**
 	 * Constructor
@@ -59,14 +52,8 @@ class PushButton extends Component
 	 * @param label The string to use for the initial label of this component.
 	 * @param defaultHandler The event handling function to handle the default event for this component (click in this case).
 	 */
-	public function new(?parent:Dynamic = null, ?xpos:Float = 0, ?ypos:Float =  0, ?label:String = "", ?defaultHandler:Dynamic->Void = null)
+	public function new(parent:DisplayObjectContainer = null, xpos:Float = 0, ypos:Float =  0, label:String = "", defaultHandler:MouseEvent->Void = null)
 	{
-		_labelText = "";
-		_over = false;
-		_down = false;
-		_selected = false;
-		_toggle = false;
-		
 		super(parent, xpos, ypos);
 		if(defaultHandler != null)
 		{
@@ -78,7 +65,7 @@ class PushButton extends Component
 	/**
 	 * Initializes the component.
 	 */
-	override function init():Void
+	override private function init():Void
 	{
 		super.init();
 		buttonMode = true;
@@ -89,32 +76,19 @@ class PushButton extends Component
 	/**
 	 * Creates and adds the child display objects of this component.
 	 */
-	override function addChildren():Void
+	override private function addChildren():Void
 	{
 		_back = new Sprite();
-		#if flash
-		_back.filters = [getShadow(2, true)];
-		#end
-		_back.mouseEnabled = false;
 		addChild(_back);
 		
 		_face = new Sprite();
 		_face.mouseEnabled = false;
-		#if flash
-		_face.filters = [getShadow(1)];
-		#end
 		_face.x = 1;
 		_face.y = 1;
 		addChild(_face);
 		
 		_label = new Label();
 		addChild(_label);
-		
-		#if !flash
-		_clickableArea = new Sprite();
-		_clickableArea.alpha = 0;
-		addChild(_clickableArea);
-		#end
 		
 		addEventListener(MouseEvent.MOUSE_DOWN, onMouseGoDown);
 		addEventListener(MouseEvent.ROLL_OVER, onMouseOver);
@@ -123,7 +97,7 @@ class PushButton extends Component
 	/**
 	 * Draws the face of the button, color based on state.
 	 */
-	function drawFace():Void
+	private function drawFace():Void
 	{
 		_face.graphics.clear();
 		if(_down)
@@ -171,12 +145,6 @@ class PushButton extends Component
 		_label.draw();
 		_label.move(_width / 2 - _label.width / 2, _height / 2 - _label.height / 2);
 		
-		#if !flash
-		_clickableArea.graphics.clear();
-		_clickableArea.graphics.beginFill(Style.BACKGROUND);
-		_clickableArea.graphics.drawRect(0, 0, _width, _height);
-		_clickableArea.graphics.endFill();
-		#end
 	}
 	
 	
@@ -190,7 +158,7 @@ class PushButton extends Component
 	 * Internal mouseOver handler.
 	 * @param event The MouseEvent passed by the system.
 	 */
-	function onMouseOver(event:MouseEvent):Void
+	private function onMouseOver(event:MouseEvent):Void
 	{
 		_over = true;
 		addEventListener(MouseEvent.ROLL_OUT, onMouseOut);
@@ -200,15 +168,9 @@ class PushButton extends Component
 	 * Internal mouseOut handler.
 	 * @param event The MouseEvent passed by the system.
 	 */
-	function onMouseOut(event:MouseEvent):Void
+	private function onMouseOut(event:MouseEvent):Void
 	{
 		_over = false;
-		if(!_down)
-		{
-			#if flash
-			_face.filters = [getShadow(1)];
-			#end
-		}
 		removeEventListener(MouseEvent.ROLL_OUT, onMouseOut);
 	}
 	
@@ -216,13 +178,10 @@ class PushButton extends Component
 	 * Internal mouseOut handler.
 	 * @param event The MouseEvent passed by the system.
 	 */
-	function onMouseGoDown(event:MouseEvent):Void
+	private function onMouseGoDown(event:MouseEvent):Void
 	{
 		_down = true;
 		drawFace();
-		#if flash
-		_face.filters = [getShadow(1, true)];
-		#end
 		stage.addEventListener(MouseEvent.MOUSE_UP, onMouseGoUp);
 	}
 	
@@ -230,7 +189,7 @@ class PushButton extends Component
 	 * Internal mouseUp handler.
 	 * @param event The MouseEvent passed by the system.
 	 */
-	function onMouseGoUp(event:MouseEvent):Void
+	private function onMouseGoUp(event:MouseEvent):Void
 	{
 		if(_toggle  && _over)
 		{
@@ -238,9 +197,6 @@ class PushButton extends Component
 		}
 		_down = _selected;
 		drawFace();
-		#if flash
-		_face.filters = [getShadow(1, _selected)];
-		#end
 		stage.removeEventListener(MouseEvent.MOUSE_UP, onMouseGoUp);
 	}
 	
@@ -254,24 +210,22 @@ class PushButton extends Component
 	/**
 	 * Sets / gets the label text shown on this Pushbutton.
 	 */
-	public function setLabel(str:String):String
+	public var label(get_label, set_label):String;
+	
+	private function set_label(str:String):String
 	{
 		_labelText = str;
 		draw();
 		return str;
 	}
-	public function getLabel():String
+	private function get_label():String
 	{
 		return _labelText;
 	}
-
-  public function setLabelFormat (format : Dynamic) : Void
-  {
-    _label.setFormat (format);
-    invalidate ();
-  }
 	
-	public function setSelected(value:Bool):Bool
+	public var selected(get_selected, set_selected):Bool;
+	
+	private function set_selected(value:Bool):Bool
 	{
 		if(!_toggle)
 		{
@@ -280,45 +234,25 @@ class PushButton extends Component
 		
 		_selected = value;
 		_down = _selected;
-		#if flash
-		_face.filters = [getShadow(1, _selected)];
-		#end
 		drawFace();
 		return value;
 	}
-	public function getSelected():Bool
+	private function get_selected():Bool
 	{
 		return _selected;
 	}
 	
-	public function setToggle(value:Bool):Bool
+	public var toggle(get_toggle, set_toggle):Bool;
+	
+	private function set_toggle(value:Bool):Bool
 	{
 		_toggle = value;
 		return value;
 	}
-	public function getToggle():Bool
+	private function get_toggle():Bool
 	{
 		return _toggle;
 	}
 	
-	/********** Sprite composition ***************/
-	override public function addEventListener(type:String, listener:Dynamic->Void, useCapture:Bool = false, priority:Int = 0, useWeakReference:Bool = false):Void
-	{
-		#if flash
-		super.addEventListener(type, listener, useCapture, priority, useWeakReference);
-		#else
-		_clickableArea.addEventListener(type, listener, useCapture, priority, useWeakReference);
-		#end
-	}
-	
-	override public function removeEventListener(type:String, listener:Dynamic->Void, useCapture:Bool = false):Void
-	{
-		
-		#if flash
-		super.removeEventListener(type, listener, useCapture);
-		#else
-		_clickableArea.removeEventListener(type, listener, useCapture);
-		#end
-	}
 	
 }

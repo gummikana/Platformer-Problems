@@ -1,9 +1,9 @@
 /**
-* HSlider.as
+* VRangeSlider.as
 * Keith Peters
 * version 0.9.10
 * 
-* A Horizontal Slider component for choosing values.
+* A vertical slider with two handles for selecting a range of values.
 * 
 * Copyright (c) 2011 Keith Peters
 * 
@@ -29,21 +29,13 @@
 package com.bit101.components;
 
 import flash.display.DisplayObjectContainer;
-import com.bit101.components.Slider;
+import com.bit101.components.RangeSlider;
 import flash.events.Event;
 
-class HSlider extends Slider
+class VRangeSlider extends RangeSlider
 {
-	/**
-	 * Constructor
-	 * @param parent The parent DisplayObjectContainer on which to add this HSlider.
-	 * @param xpos The x position to place this component.
-	 * @param ypos The y position to place this component.
-	 * @param defaultHandler The event handling function to handle the default event for this component.
-	 */
 	public function new(parent:DisplayObjectContainer = null, xpos:Float = 0, ypos:Float = 0, defaultHandler:Event->Void = null)
 	{
-		super(SliderOrientation.HORIZONTAL, parent, xpos, ypos, defaultHandler);
+		super(RangeSliderOrientation.VERTICAL, parent, xpos, ypos, defaultHandler);
 	}
-	
 }
