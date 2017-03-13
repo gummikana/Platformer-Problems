@@ -24,6 +24,6 @@
 	<assets path="assets/fonts"   rename="fonts" 	type="font" 	include="*.ttf" />
 	<assets path="assets" 		  rename="config" 					include="*.cfg" />
 	
-	<library path="assets/swf/platformer.swf" preload="true" />
+	<!-- <library path="assets/swf/platformer.swf" preload="true" /> -->
 	
 </project>
