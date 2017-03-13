@@ -2,51 +2,49 @@
 <project version="2">
   <!-- Output SWF options -->
   <output>
-    <movie outputType="Application" />
+    <movie outputType="CustomBuild" />
     <movie input="" />
-    <movie path="application.nmml" />
+    <movie path="project.xml" />
     <movie fps="60" />
-    <movie width="800" />
-    <movie height="480" />
-    <movie version="3" />
+    <movie width="1280" />
+    <movie height="720" />
+    <movie version="0" />
     <movie minorVersion="0" />
-    <movie platform="NME" />
+    <movie platform="Lime" />
     <movie background="15335F" />
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
+    <class path="C:\files\dev\openfl" />
+    <class path="C:\files\dev\lime" />
+    <class path="C:\files\tools\sdks\haxe\haxe\lib\actuate\1,8,7" />
     <class path="src" />
     <class path="lib" />
-    <class path="C:\Motion-Twin\haxe/lib\nme/3,5,5/" />
-    <class path="bin/flash/haxe" />
+    <class path="bin\flash\haxe" />
   </classpaths>
   <!-- Build options -->
   <build>
-    <option directives="nme_install_tool&#xA;web" />
+    <option directives="openfl=3.4.0&#xA;lime=2.7.0&#xA;actuate=1.8.7&#xA;openfl-next&#xA;tools=2.7.0&#xA;no-compilation&#xA;openfl-flash&#xA;web&#xA;display" />
     <option flashStrict="False" />
+    <option noInlineOnDebug="False" />
     <option mainClass="ApplicationMain" />
     <option enabledebug="True" />
-    <option additional="--dead-code-elimination&#xA;-swf-version 11" />
+    <option additional="-swf-version 11.2" />
   </build>
   <!-- haxelib libraries -->
   <haxelib>
-    <library name="nme" />
-    <library name="actuate" />
+    <!-- example: <library name="..." /> -->
   </haxelib>
   <!-- Class files to compile (other referenced classes will automatically be included) -->
   <compileTargets>
     <compile path="src\com\grapefrukt\games\platprob\Main.hx" />
   </compileTargets>
-  <!-- Assets to embed into the output SWF -->
-  <library>
-    <!-- example: <asset path="..." id="..." update="..." glyphs="..." mode="..." place="..." sharepoint="..." /> -->
-  </library>
   <!-- Paths to exclude from the Project Explorer tree -->
   <hiddenPaths>
-    <!-- example: <hidden path="..." /> -->
+    <hidden path="obj" />
   </hiddenPaths>
   <!-- Executed before build -->
-  <preBuildCommand />
+  <preBuildCommand>"$(CompilerPath)/haxelib" run lime build "$(OutputFile)" $(TargetBuild) -$(BuildConfig) -Dfdb</preBuildCommand>
   <!-- Executed after build -->
   <postBuildCommand alwaysRun="False" />
   <!-- Other project options -->

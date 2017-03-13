@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	<!-- NMML reference: https://gist.github.com/1763850 -->
+	
+	<!-- metadata, make sure 'package' is at least 3 segments (ie. com.mycompany.myproject) -->
+	<meta title="platformer-problems" package="com.grapefrukt.games.platprob.platformerproblems" version="1.0.0" company="Martin Jonasson, m@grapefrukt.com" />
+
+	<!-- output -->
+	<app main="com.grapefrukt.games.platprob.Main" file="platformerproblems" path="bin" />
+	
+	<window background="#15335F" fps="60" />
+	<window width="1280" height="720" unless="mobile" />
+	<window orientation="landscape" vsync="false" antialiasing="0" if="cpp" />
+	
+	<!-- classpath, haxe libs -->
+	<source path="src" />
+	<source path="lib" />
+	<haxelib name="openfl" />
+	<haxelib name="actuate" />
+	
+	<!-- assets -->
+	<icon path="assets/openfl.svg" />
+	<assets path="assets/images"  rename="images" 	type="image" 	include="*.png" />
+	<assets path="assets/fonts"   rename="fonts" 	type="font" 	include="*.ttf" />
+	<assets path="assets" 		  rename="config" 					include="*.cfg" />
+	
+	<library path="assets/swf/platformer.swf" preload="true" />
+	
+</project>
