@@ -1,5 +1,5 @@
 package com.grapefrukt.utils;
-import nme.geom.Point;
+import flash.geom.Point;
 /**
  * ...
  * @author Martin Jonasson, m@grapefrukt.com

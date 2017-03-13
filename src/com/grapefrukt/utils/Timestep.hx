@@ -1,6 +1,6 @@
 package com.grapefrukt.utils;
 
-import nme.Lib;
+import flash.Lib;
 
 /**
  * ...

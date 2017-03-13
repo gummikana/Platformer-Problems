@@ -1,7 +1,7 @@
 package com.grapefrukt.utils;
-import nme.display.Stage;
-import nme.events.KeyboardEvent;
-import nme.ui.Keyboard;
+import flash.display.Stage;
+import flash.events.KeyboardEvent;
+import flash.ui.Keyboard;
 
 /**
  * ...
@@ -21,14 +21,14 @@ typedef InputTuple = {
 
 class KeyInputUtil {
 
-	private var inputs:IntHash<InputTuple>;
-	private var keymap:IntHash<Input>;
+	private var inputs:Map<Int, InputTuple>;
+	private var keymap:Map<Int, Input>;
 	
 	public function new(stage:Stage) {
 		stage.addEventListener(KeyboardEvent.KEY_DOWN, handleKey);
 		stage.addEventListener(KeyboardEvent.KEY_UP, handleKey);
-		inputs = new IntHash<InputTuple>();
-		keymap = new IntHash<Input>();
+		inputs = new Map<Int, InputTuple>();
+		keymap = new Map<Int, Input>();
 	}
 	
 	public function map(key:Int, input:Input) {

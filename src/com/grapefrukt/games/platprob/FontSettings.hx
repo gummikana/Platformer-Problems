@@ -1,9 +1,9 @@
 package com.grapefrukt.games.platprob;
-import nme.Assets;
-import nme.text.Font;
-import nme.text.TextField;
-import nme.text.TextFormat;
-import nme.text.TextFormatAlign;
+import openfl.Assets;
+import flash.text.Font;
+import flash.text.TextField;
+import flash.text.TextFormat;
+import flash.text.TextFormatAlign;
 
 /**
  * ...

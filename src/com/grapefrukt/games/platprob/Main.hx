@@ -1,10 +1,10 @@
 package com.grapefrukt.games.platprob;
 
-import nme.display.Sprite;
-import nme.display.StageAlign;
-import nme.display.StageScaleMode;
-import nme.events.Event;
-import nme.Lib;
+import flash.display.Sprite;
+import flash.display.StageAlign;
+import flash.display.StageScaleMode;
+import flash.events.Event;
+import flash.Lib;
 
 /**
  * ...

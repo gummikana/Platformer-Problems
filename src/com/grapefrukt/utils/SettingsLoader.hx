@@ -1,13 +1,13 @@
 package com.grapefrukt.utils;
-import nme.errors.Error;
-import nme.events.ErrorEvent;
-import nme.events.Event;
-import nme.events.EventDispatcher;
-import nme.events.IOErrorEvent;
-import nme.events.SecurityErrorEvent;
-import nme.net.URLLoader;
-import nme.net.URLRequest;
-import nme.Assets;
+import flash.errors.Error;
+import flash.events.ErrorEvent;
+import flash.events.Event;
+import flash.events.EventDispatcher;
+import flash.events.IOErrorEvent;
+import flash.events.SecurityErrorEvent;
+import flash.net.URLLoader;
+import flash.net.URLRequest;
+import openfl.Assets;
 
 /**
  * ...

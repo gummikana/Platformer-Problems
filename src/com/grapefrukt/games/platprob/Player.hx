@@ -5,7 +5,7 @@ import box2D.dynamics.B2Body;
 import box2D.dynamics.B2World;
 import box2D.dynamics.contacts.B2Contact;
 import com.grapefrukt.games.platprob.physics.PhysUtils;
-import nme.Lib;
+import flash.Lib;
 
 /**
  * ...

@@ -6,7 +6,7 @@ import box2D.collision.B2Manifold;
 import box2D.dynamics.contacts.B2Contact;
 import com.grapefrukt.games.platprob.Player;
 import com.grapefrukt.games.platprob.PlayerVelocity;
-import nme.Lib;
+import flash.Lib;
 
 /**
  * ...

@@ -12,19 +12,18 @@ import com.grapefrukt.utils.SettingsLoader;
 import com.grapefrukt.utils.Shaker;
 import com.grapefrukt.utils.Timestep;
 import com.grapefrukt.utils.Toggler;
-import format.SWF;
 import net.hires.debug.Stats;
-import nme.Assets;
-import format.swf.MovieClip;
-import nme.display.Sprite;
-import nme.events.Event;
-import nme.events.KeyboardEvent;
-import nme.Lib;
-import nme.text.TextField;
-import nme.text.TextFieldAutoSize;
-import nme.text.TextFormat;
-import nme.text.TextFormatAlign;
-import nme.ui.Keyboard;
+import openfl.Assets;
+import flash.display.Sprite;
+import flash.display.MovieClip;
+import flash.events.Event;
+import flash.events.KeyboardEvent;
+import flash.Lib;
+import flash.text.TextField;
+import flash.text.TextFieldAutoSize;
+import flash.text.TextFormat;
+import flash.text.TextFormatAlign;
+import flash.ui.Keyboard;
 
 /**
  * ...
@@ -32,8 +31,6 @@ import nme.ui.Keyboard;
  */
 class Game extends Sprite {
 	
-	static private var SWF_DATA:SWF;
-
 	private var world:B2World;
 	private var canvas:Sprite;
 	private var input:KeyInputUtil;
@@ -200,8 +197,9 @@ class Game extends Sprite {
 	}
 	
 	public static function getClip(tag:String) {
-		if (SWF_DATA == null) SWF_DATA = new SWF(Assets.getBytes ("libraries/platformer.swf"));
-		return SWF_DATA.createMovieClip(tag);
+		//if (SWF_DATA == null) SWF_DATA = new SWF(Assets.getBytes ("libraries/platformer.swf"));
+		//return SWF_DATA.createMovieClip(tag);
+		return Assets.getMovieClip ("platformer:" + tag);
 	}
 	
 }

@@ -8,12 +8,12 @@ import com.bit101.components.VBox;
 import com.bit101.components.Window;
 import com.grapefrukt.games.platprob.Settings;
 import haxe.rtti.Meta;
-import nme.display.DisplayObjectContainer;
-import nme.display.Sprite;
-import nme.events.Event;
-import nme.events.KeyboardEvent;
-import nme.Lib;
-import nme.ui.Keyboard;
+import flash.display.DisplayObjectContainer;
+import flash.display.Sprite;
+import flash.events.Event;
+import flash.events.KeyboardEvent;
+import flash.Lib;
+import flash.ui.Keyboard;
 import Type;
 
 /**
@@ -137,7 +137,7 @@ class Toggler extends Sprite {
 		}
 		
 		public function setAll(value:Bool) {
-			for (property in _properties) {
+			/*for (property in _properties) {
 				if (property.name == "EFFECT_SCREEN_COLORS") continue;
 				if (property.name == "EFFECT_PADDLE_SMILE") {
 					if (value) {
@@ -148,7 +148,7 @@ class Toggler extends Sprite {
 					
 				}
 				if (property.type == "Boolean") _targetClass[property.name] = value;
-			}
+			}*/
 			reset();
 		}
 		

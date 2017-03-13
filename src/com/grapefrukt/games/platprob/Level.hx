@@ -1,7 +1,7 @@
 package com.grapefrukt.games.platprob;
 import box2D.dynamics.B2World;
 import com.grapefrukt.games.platprob.physics.PhysUtils;
-import nme.Assets;
+import openfl.Assets;
 
 /**
  * ...
