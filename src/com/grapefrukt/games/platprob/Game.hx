@@ -90,7 +90,8 @@ class Game extends Sprite {
 		
 		reset();
 		
-		gui = getClip("ArrowKeysGfx");
+		//gui = getClip("ArrowKeysGfx");
+		gui = new MovieClip();
 		gui.x = Settings.STAGE_W;
 		gui.y = Settings.STAGE_H;
 		addChild(gui);
@@ -172,9 +173,9 @@ class Game extends Sprite {
 			canvas.y -= (canvas.y - (Settings.STAGE_H / 2 - pos.y - vel.y * Settings.CAMERA_VELOCITY_LEAD_Y)) * Settings.CAMERA_SMOOTHING;
 		}
 		
-		gui.getChildByName("left").visible = input.isDown(Input.LEFT);
-		gui.getChildByName("jump").visible = input.isDown(Input.JUMP);
-		gui.getChildByName("right").visible = input.isDown(Input.RIGHT);
+		//gui.getChildByName("left").visible = input.isDown(Input.LEFT);
+		//gui.getChildByName("jump").visible = input.isDown(Input.JUMP);
+		//gui.getChildByName("right").visible = input.isDown(Input.RIGHT);
 		
 		if (player.jumpTime > 0) {
 			txt.text = Math.round( -player.jumpHeight / Settings.PLAYER_HEIGHT * 10) / 10 +"x\n" + Math.round(player.jumpTime / 10)*10 + "ms";
